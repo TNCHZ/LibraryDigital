@@ -1,11 +1,24 @@
-<nav class="fixed top-0 left-0 right-0 bg-white shadow flex justify-between px-6 py-4">
-    <span class="font-bold text-lg">Digital Library</span>
-
-    <div class="flex gap-4">
-        <a href="/" class="font-semibold">Home</a>
-        <a href="#">Categories</a>
-        <a href="#">Featured</a>
+<nav
+    class="fixed top-0 left-0 right-0 z-50 bg-stone-50/80 backdrop-blur-md shadow-sm flex justify-between items-center w-full px-6 py-4 max-w-full mx-auto font-['Plus_Jakarta_Sans'] tracking-tight">
+    <div class="flex items-center gap-8">
+        <span class="text-xl font-bold text-stone-900">Digital Library</span>
+        <div class="hidden md:flex gap-6">
+            <a class="text-stone-900 border-b-2 border-stone-800 pb-1 duration-300 ease-in-out" href="#">Home</a>
+            <a class="text-stone-500 hover:text-stone-700 transition-colors duration-300 ease-in-out"
+                href="#">Categories</a>
+            <a class="text-stone-500 hover:text-stone-700 transition-colors duration-300 ease-in-out"
+                href="#">Featured</a>
+        </div>
     </div>
-
-    <button class="bg-black text-white px-4 py-2 rounded">Login</button>
+    <div class="flex items-center gap-4">
+        <div class="relative hidden sm:block">
+            <span
+                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400">search</span>
+            <input
+                class="bg-surface-container-high border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-tertiary transition-all duration-300 w-64"
+                placeholder="Tìm kiếm sách..." type="text" />
+        </div>
+        <button
+            class="px-5 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:scale-[1.03] transition-transform duration-200">Login</button>
+    </div>
 </nav>

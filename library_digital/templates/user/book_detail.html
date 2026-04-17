@@ -1,0 +1,206 @@
+{% extends 'user/layout.html' %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-6 md:px-12">
+    <nav class="flex items-center space-x-2 text-sm text-on-surface-variant mb-12 mt-12 font-label">
+        <a class="hover:text-primary transition-colors" href="#">Home</a>
+        <span class="material-symbols-outlined text-xs">chevron_right</span>
+        <a class="hover:text-primary transition-colors" href="#">Categories</a>
+        <span class="material-symbols-outlined text-xs">chevron_right</span>
+        <a class="hover:text-primary transition-colors" href="#">Classic Literature</a>
+        <span class="material-symbols-outlined text-xs">chevron_right</span>
+        <span class="text-on-surface font-medium">The Ethics of Aesthetics</span>
+    </nav>
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-16">
+        <!-- Left Column: Visuals & Actions -->
+        <div class="md:col-span-4 lg:col-span-4 space-y-8">
+            <!-- Book Cover Container -->
+            <div class="relative group">
+                <div
+                    class="aspect-[3/4] w-full bg-surface-container-low rounded-lg overflow-hidden shadow-sm transition-transform duration-300 group-hover:scale-[1.02]">
+                    <img class="w-full h-full object-cover"
+                        data-alt="Elegant vintage book cover with gold embossed lettering on dark leather texture in a soft archival lighting"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk9Txi56EfJv1XLyL4v4atT8z8Ohcs6cz3zDMpXnfX3iAbEjs1cmGecXg0UB3L8QJ9VKNpkivmBqL1ET7eBLs9ry9paLkE4AVdzx4G1cZC8_Z_Fl2s1yXyOvcd7ixRZ6M6RQa5I5kaCFZM3gSmZHxAb5ujFAOPpQlRTRd8sJF1CNrhbZmqNxCO8-awo8FUFn3rX8_HeXzudFJ8yLEqAW31CQeIDxyBHl_phKk0B3-Gshp787iFES3uh9ar1FLH-0G2HEigWGfM" />
+                </div>
+                <!-- Status Badge -->
+                <div
+                    class="absolute top-4 right-4 bg-surface/90 backdrop-blur px-3 py-1 rounded-full text-xs font-semibold tracking-wider text-tertiary flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    AVAILABLE
+                </div>
+            </div>
+            <!-- Pricing & CTAs -->
+            <div class="bg-surface-container-lowest p-8 rounded-xl space-y-6">
+                <div class="flex items-baseline justify-between">
+                    <span class="text-on-surface-variant font-label text-sm uppercase tracking-widest">Acquisition
+                        Cost</span>
+                    <span class="text-3xl font-headline font-bold text-primary">$42.00</span>
+                </div>
+                <div class="space-y-3">
+                    <button
+                        class="w-full editorial-gradient text-primary py-4 rounded-md font-semibold text-sm tracking-wide transition-all duration-300 hover:scale-[1.03] active:scale-95 shadow-md">
+                        Mượn sách
+                    </button>
+                    <button
+                        class="w-full bg-surface-container border border-outline-variant/30 text-primary py-4 rounded-md font-semibold text-sm tracking-wide transition-all duration-300 hover:bg-surface-container-high active:scale-95 flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-lg"
+                            style="font-variation-settings: 'FILL' 0;">favorite</span>
+                        Thêm vào yêu thích
+                    </button>
+                </div>
+                <div class="pt-4 border-t border-outline-variant/10">
+                    <p class="text-xs text-on-surface-variant leading-relaxed text-center italic">
+                        Part of the Permanent Collection. Digital access included with physical loan.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- Right Column: Information -->
+        <div class="md:col-span-8 lg:col-span-8">
+            <div class="max-w-3xl">
+                <h1
+                    class="text-4xl md:text-5xl font-headline font-extrabold tracking-tight text-on-surface mb-4 leading-tight">
+                    The Ethics of Aesthetics: Modern Perspectives
+                </h1>
+                <div class="mb-10">
+                    <span class="text-on-surface-variant">by</span>
+                    <a class="text-xl font-headline font-semibold text-primary underline underline-offset-4 decoration-primary-container/30 hover:decoration-primary transition-all"
+                        href="#">Dr. Elena Sterling</a>
+                </div>
+                <!-- Metadata Grid -->
+                <div
+                    class="grid grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-4 mb-12 py-8 border-y border-outline-variant/20">
+                    <div>
+                        <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">
+                            Publisher</p>
+                        <p class="font-medium text-on-surface">Oxford Academic Press</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">
+                            Published</p>
+                        <p class="font-medium text-on-surface">2023</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">
+                            Language</p>
+                        <p class="font-medium text-on-surface">English (UK)</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">ISBN-10
+                        </p>
+                        <p class="font-medium text-on-surface">0198812734</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">ISBN-13
+                        </p>
+                        <p class="font-medium text-on-surface">978-0198812739</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">Format
+                        </p>
+                        <p class="font-medium text-on-surface">Hardcover Archive</p>
+                    </div>
+                </div>
+                <!-- Description -->
+                <section class="mb-16">
+                    <h3 class="text-lg font-headline font-bold mb-6 flex items-center gap-2">
+                        <span class="w-8 h-[2px] bg-primary"></span>
+                        Abstract &amp; Summary
+                    </h3>
+                    <div class="space-y-6 text-on-surface-variant leading-relaxed text-lg font-body">
+                        <p>
+                            In "The Ethics of Aesthetics," Dr. Elena Sterling presents a revolutionary
+                            re-examination of our relationship with beauty in the digital age. Drawing from a vast
+                            archive of classical philosophy and contemporary cultural critique, Sterling argues that
+                            aesthetics are not merely a superficial veneer but the very scaffolding upon which our
+                            ethical frameworks are built.
+                        </p>
+                        <p>
+                            The text meticulously navigates the tension between the curated digital self and the raw
+                            reality of the human condition. Through ten expansive chapters, the reader is invited to
+                            explore how our consumption of "perfected" imagery influences our capacity for empathy
+                            and communal responsibility.
+                        </p>
+                        <p>
+                            This volume serves as a cornerstone for any serious student of modern philosophy, art
+                            history, or social science, providing a comprehensive bibliography and previously
+                            unpublished correspondence from the Sterling Archive.
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- Related Books Section -->
+    <section class="mt-24 pt-16 border-t border-outline-variant/20">
+        <div class="flex justify-between items-end mb-10">
+            <div>
+                <h2 class="text-3xl font-headline font-bold text-on-surface">Related from the Archive</h2>
+                <p class="text-on-surface-variant mt-2 font-label">Expanding the discourse on contemporary
+                    aesthetics</p>
+            </div>
+            <a class="text-primary font-semibold text-sm flex items-center gap-2 group" href="#">
+                View Entire Collection
+                <span
+                    class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+            </a>
+        </div>
+        <!-- Bento-style Grid for Related Books -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Related Item 1 -->
+            <div class="group cursor-pointer">
+                <div
+                    class="aspect-[3/4] bg-surface-container-low rounded-md overflow-hidden mb-4 relative transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
+                    <img class="w-full h-full object-cover"
+                        data-alt="Minimalist book design with white cover and thin black typography sitting on a stone pedestal"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOV10EX60D_FnbPugYnXW1H_rSxRJwRDBplj11xVZMxz0qC3_vxnL_Hhx9rSi4BcWwXZfiSnPkwCiotF8JTkjL3FZOCbH_2s3qD8n1e8A8eo2yIyPxww0JTydv2Ph4gohDK9-xFlVw2GKi7msFEA9OMA3lUsMMzAuA8Hz344qJ-CTS5rSjP8-dpYO0EC4CSllOxBweYg-LupZUyVyCS7KUVhEwtu1pXbfXVxHRcfKJPmPhbGLmlI8iens047Epf9H16aRybW6m" />
+                    <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
+                </div>
+                <h4 class="font-headline font-bold text-on-surface group-hover:text-primary transition-colors">The
+                    Digital Sublime</h4>
+                <p class="text-sm text-on-surface-variant">Marcus Thorne</p>
+            </div>
+            <!-- Related Item 2 -->
+            <div class="group cursor-pointer">
+                <div
+                    class="aspect-[3/4] bg-surface-container-low rounded-md overflow-hidden mb-4 relative transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
+                    <img class="w-full h-full object-cover"
+                        data-alt="Collection of old scholarly books with worn spines on a dark oak bookshelf in a library"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTMu2UYsPqNZS6r75Ls5ortRpAPQglA_vQJm088VXhVkRUpdGE7nLyQRfQx6BXunm0Shg_QpVZAa9f1PHWYQCtEx3vrb1ZU3PbRTGbucE-2-eerUp-RsKUCZz4vjGL9W1XcBloPzk-bAHbBtkDjhaxHOgxys2WtuTUI1lqToZf2Tyw9nmT_AFPZZmJbbKE71nSo23PMnKOd5HmoJDO5yHs530zmZGDHpO5N7Ir3DRBbtTDVAXoLbDre9QKGOniorzzUeHDj6aa" />
+                    <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
+                </div>
+                <h4 class="font-headline font-bold text-on-surface group-hover:text-primary transition-colors">
+                    History of the Eye</h4>
+                <p class="text-sm text-on-surface-variant">Sofia Moretti</p>
+            </div>
+            <!-- Related Item 3 -->
+            <div class="group cursor-pointer">
+                <div
+                    class="aspect-[3/4] bg-surface-container-low rounded-md overflow-hidden mb-4 relative transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
+                    <img class="w-full h-full object-cover"
+                        data-alt="Modern art book with bold colorful graphic design on the cover lying on a marble surface"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpdgBiA4YftKGtFGlfCUjC7s_8YASmf1M0NpaIAa4k3YiehKwjZXcgrBhb2p_LwK-Zs2UHBdiGZnQT-W1JeCUxZ6yZZPmbatjeAm3h8RgSD_FX6C2DD6UOdGDWVh7ZmGCmXHjW_la1gbZOf-fB4__gEQbPbYgC8G9gKwt-SJmpZS5sdolewg6lbbqgkNNm4g7z8RjCn0eOTqaFekPI885P6eJXTGRFYioa1xB1dLag8JG2zXaL1IhM0Pnqc2IOT9VzWqqNtofp" />
+                    <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
+                </div>
+                <h4 class="font-headline font-bold text-on-surface group-hover:text-primary transition-colors">
+                    Visual Logic</h4>
+                <p class="text-sm text-on-surface-variant">Julian Vane</p>
+            </div>
+            <!-- Related Item 4 -->
+            <div class="group cursor-pointer">
+                <div
+                    class="aspect-[3/4] bg-surface-container-low rounded-md overflow-hidden mb-4 relative transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
+                    <img class="w-full h-full object-cover"
+                        data-alt="Single book with a deep navy blue cover and silver typography resting on a linen fabric"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBphauW4A_gMiN7n5DjKfFzItKucrYLpAFoUShGYzqh_TWxvKBwUZzW7BwSmKjANFK1UTHr-8W4J7CYFaVdGN_x8ClIV2FTtqSV9C3pxDoRd8Um5Tc45hu7hWsB2ezAxTThATbeckBeiYSCV1kweiRJl4cd-CI-SNjS_ZX-C8UXM54jya4LtmMaG9spwWE_Ps0wSfltkdjes63v4g33tguikVjyGcxEwNGMf_CdZebkQgKOkNqBOgTOL675OZyFb5A92c-WrEtp" />
+                    <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors"></div>
+                </div>
+                <h4 class="font-headline font-bold text-on-surface group-hover:text-primary transition-colors">
+                    Architecture of Thought</h4>
+                <p class="text-sm text-on-surface-variant">L.K. Hamilton</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

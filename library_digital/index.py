@@ -23,5 +23,17 @@ def register():
 def forget_pass():
     return render_template('auth/forget_password.html')
 
+@app.route('/user/<int:user_id>')
+def user_detail(user_id):
+    return render_template('user/user_detail.html', user_id=user_id)
+
+@app.route('/user/<int:user_id>/borrow-history')
+def borrow_history(user_id):
+    return render_template('user/borrow_history.html')
+
+@app.route('/user/<int:user_id>/borrow-status')
+def borrow_status(user_id):
+    return render_template('user/borrow_status.html')
+
 if __name__ == "__main__":
     app.run(debug=True) 

@@ -1,65 +1,45 @@
 {% extends 'user/layout.html' %}
 
 {% block content %}
-<!-- TopNavBar (Updated to match SCREEN_4) -->
-<nav class="fixed top-0 left-0 right-0 z-50 bg-stone-50/80 backdrop-blur-md shadow-sm flex justify-between items-center w-full px-6 py-4 max-w-full mx-auto font-['Plus_Jakarta_Sans'] tracking-tight">
-    <div class="flex items-center gap-8">
-        <span class="text-xl font-bold text-stone-900">Digital Library</span>
-        <div class="hidden md:flex gap-6">
-            <a class="text-stone-500 hover:text-stone-700 transition-colors duration-300 ease-in-out" href="#">Trang
-                chủ</a>
-            <a class="text-stone-500 hover:text-stone-700 transition-colors duration-300 ease-in-out" href="#">Danh
-                mục</a>
-            <a class="text-stone-500 hover:text-stone-700 transition-colors duration-300 ease-in-out" href="#">Sách nổi
-                bật</a>
-        </div>
-    </div>
-    <div class="flex items-center gap-4">
-        <div class="relative hidden sm:block">
-            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400">search</span>
-            <input class="bg-surface-container-high border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-tertiary transition-all duration-300 w-64"
-                   placeholder="Tìm kiếm sách..." type="text"/>
-        </div>
-        <img alt="User profile avatar"
-             class="w-10 h-10 rounded-full bg-secondary-container object-cover cursor-pointer border-2 border-transparent hover:border-primary transition-all"
-             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWCSsx9tDxdrr85xnwkNNG7Nly_Xv1EYzHqxyo5ixLshO5w_g9fw4OIWIHt4sm__QygOMgkGVzeuwMDrI3KTCNlwYSyWvLdLYE6-U8dGs9_lEH2g034XnXdL9OiHUYqRMXKque9WdXjLG2Dh2ro0M7abKJBA632n7mki41AteBb_LhclrlcYcrY2eYX0NfskIw8VGtBxDOSgY9O_4nQkxINOvdPX0adld8aFmSwhxZ6qU2b8ujGEvitnmJZvem0fSbiSf8ggoogdZP"/>
-    </div>
-</nav>
 <div class="flex min-h-screen">
     <!-- Sidebar Navigation -->
     <aside class="w-72 bg-[#f7f3ef] p-6 pt-24">
-        <div class="mb-8 px-2">
-            <div class="flex items-center gap-3 mb-1">
-                <span class="material-symbols-outlined text-[#533528] text-2xl"
-                      data-icon="library_books">library_books</span>
-                <span class="text-lg font-black text-[#533528]">Thư viện số</span>
+        <div class="mb-10 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary">
+                <span class="material-symbols-outlined">library_books</span>
             </div>
-            <p class="text-xs text-stone-500 uppercase tracking-widest pl-9">Private Archive</p>
+            <div>
+                <h2 class="text-lg font-black text-[#533528] dark:text-white leading-tight">Thư viện số</h2>
+                <p class="text-xs text-stone-500 font-medium">Private Archive</p>
+            </div>
         </div>
-        <nav class="space-y-1">
-            <a class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 rounded-lg"
+        <nav class="flex flex-col gap-2 flex-grow">
+            <!-- Inactive: Hồ sơ người dùng -->
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 dark:hover:bg-stone-800 font-['Plus_Jakarta_Sans'] text-sm font-medium"
                href="#">
                 <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
-                <span>Hồ sơ người dùng</span>
+                Hồ sơ người dùng
             </a>
-            <!-- Active Tab: Lịch sử mượn sách -->
-            <a class="flex items-center gap-3 px-4 py-3 bg-[#ffffff] text-[#533528] rounded-lg shadow-sm font-bold scale-[1.02] transition-all duration-200"
+            <!-- Inactive: Lịch sử mượn sách -->
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 dark:hover:bg-stone-800 font-['Plus_Jakarta_Sans'] text-sm font-medium"
                href="#">
                 <span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
-                <span>Lịch sử mượn sách</span>
+                Lịch sử mượn sách
             </a>
-            <a class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 rounded-lg"
+            <!-- Active: Trạng thái yêu cầu mượn -->
+            <a class="flex items-center gap-3 px-4 py-3 bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-white rounded-lg shadow-sm font-['Plus_Jakarta_Sans'] text-sm font-medium"
                href="#">
                 <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
-                <span>Trạng thái yêu cầu mượn</span>
+                Trạng thái yêu cầu mượn
             </a>
         </nav>
         <div class="mt-auto">
-            <button class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold flex items-center justify-center gap-2 hover:scale-[1.03] transition-transform duration-200 shadow-lg shadow-primary/10">
-                <span class="material-symbols-outlined" data-icon="add">add</span>
-                <span>Mượn sách mới</span>
+            <button class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold flex items-center justify-center gap-2 hover:scale-[1.03] transition-transform duration-200 shadow-sm">
+                <span class="material-symbols-outlined">add_circle</span>
+                Mượn sách mới
             </button>
         </div>
+
     </aside>
     <!-- Main Content Area -->
     <div class="flex flex-col flex-1">

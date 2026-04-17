@@ -1,0 +1,184 @@
+{% extends 'user/layout.html' %}
+
+{% block content %}
+<div class="flex min-h-screen">
+    <!-- SideNavBar (Shared Component - Maintained) -->
+    <aside class="w-72 bg-[#f7f3ef] p-6 pt-24">
+        <div class="mb-8 px-2">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-on-primary-container">
+                    <span class="material-symbols-outlined">auto_stories</span>
+                </div>
+                <div>
+                    <h2 class="text-lg font-black text-[#533528] leading-tight">Thư viện số</h2>
+                    <p class="text-xs text-stone-500 font-medium">Private Archive</p>
+                </div>
+            </div>
+        </div>
+        <nav class="space-y-1">
+            <a class="bg-[#ffffff] text-[#533528] rounded-lg shadow-sm flex items-center gap-3 p-3 font-['Plus_Jakarta_Sans'] text-sm font-medium transition-all duration-300"
+               href="#">
+                <span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+                <span>Hồ sơ người dùng</span>
+            </a>
+            <a class="text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] hover:bg-stone-100 transition-all duration-200 flex items-center gap-3 p-3 font-['Plus_Jakarta_Sans'] text-sm font-medium"
+               href="#">
+                <span class="material-symbols-outlined">history_edu</span>
+                <span>Lịch sử mượn sách</span>
+            </a>
+            <a class="text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] hover:bg-stone-100 transition-all duration-200 flex items-center gap-3 p-3 font-['Plus_Jakarta_Sans'] text-sm font-medium"
+               href="#">
+                <span class="material-symbols-outlined">pending_actions</span>
+                <span>Trạng thái yêu cầu mượn</span>
+            </a>
+        </nav>
+        <div class="mt-auto pt-6">
+            <button class="w-full bg-primary text-on-primary py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:scale-[1.03] hover:bg-primary-container transition-all duration-300 shadow-sm">
+                <span class="material-symbols-outlined text-sm">add</span>
+                Mượn sách mới
+            </button>
+        </div>
+    </aside>
+    <!-- Main Content -->
+    <div class="flex flex-col flex-1">
+        <main class="pt-24 px-12 flex-1">
+            <div class="max-w-7xl mx-auto">
+                <!-- Header Section -->
+                <header class="mb-10 relative">
+                    <div class="h-48 w-full rounded-2xl overflow-hidden mb-[-4rem] shadow-sm">
+                        <div class="w-full h-full bg-gradient-to-r from-primary to-primary-container opacity-90 relative">
+                            <img alt="Library Background" class="w-full h-full object-cover mix-blend-overlay"
+                                 data-alt="Cinematic atmospheric shot of old library bookshelves with dust motes dancing in shafts of sunlight through tall windows"
+                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoIQvyLJ429x4xi5iyTI9fBpfF26iCI5eJEx77Uy2ryXLoq5wztmYEzA1Il-fH5QWqTViHHjuqWMeDO6zbJ1HoEEx9ueP5Oe2BjxVEImsxvnO4TDvPrKZmdj7rq1KiT0nQvko0p1CVXHQDNTAPN1ctQxThwOhcFRqHf-nMIeE96iI8J6Tpr5boBoe0eWMMir86DKYcvVE6K15AEgnDwjgspyNJCixTJNQ9xzA5ug10V2VhBnvUTBpw3pMdI2EL4Bg7BlkaGjuHoaWG"/>
+                        </div>
+                    </div>
+                    <div class="flex items-end gap-6 px-8 relative z-10">
+                        <div class="p-1 bg-surface rounded-2xl shadow-xl">
+                            <div class="w-32 h-32 rounded-xl overflow-hidden relative group">
+                                <img alt="User Photo" class="w-full h-full object-cover"
+                                     data-alt="High-quality profile shot of a man with warm skin tones and neutral lighting"
+                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-VX7LuewUEdvd89uHBqldBAI7vSDyI-JLohHAD0JRXzwkzUM2AKbN1xKD2VC3PDCYrTQDR37gvdUVUG6LhJHFRkkJrs9gR4b9Zw0T5mV664yPDB1skucUZ5mJUsU2h13ylDVxjDehHL7pyqdc6AiwBeWbJcL5bTEDU0K6qVQ0V5cgRObzw4xSFab5GQQcWsBfos-mQdDMqpPc6tG-ZF9a_qCm54KkFc9T0Yh3Ljvy5UrYemae_QgfOONSBtIZPRTuTyEmT5Hig7lY"/>
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                                    <span class="material-symbols-outlined text-white">photo_camera</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pb-4">
+                            <h1 class="text-3xl font-extrabold text-[#533528] tracking-tight">Nguyễn Văn An</h1>
+                            <p class="text-on-surface-variant font-medium flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm">school</span>
+                                Chuyên ngành Lưu trữ học &amp; Quản trị văn phòng
+                            </p>
+                        </div>
+                        <div class="ml-auto pb-4">
+                            <button class="bg-surface-container-lowest text-primary px-6 py-2 rounded-lg font-bold text-sm shadow-sm hover:bg-primary-fixed hover:scale-105 transition-all duration-300">
+                                Chỉnh sửa ảnh bìa
+                            </button>
+                        </div>
+                    </div>
+                </header>
+                <!-- Bento Grid Layout -->
+                <div class="grid grid-cols-12 gap-8">
+                    <!-- Profile Info Form (Large Card) -->
+                    <div class="col-span-12 lg:col-span-8 space-y-8">
+                        <section class="bg-surface-container-lowest p-10 rounded-2xl shadow-sm">
+                            <div class="flex items-center justify-between mb-8">
+                                <div>
+                                    <h2 class="text-2xl font-bold text-[#533528]">Thông tin cơ bản</h2>
+                                    <p class="text-stone-500 text-sm">Cập nhật thông tin định danh và chuyên môn của
+                                        bạn.</p>
+                                </div>
+                                <span class="material-symbols-outlined text-tertiary">edit_note</span>
+                            </div>
+                            <form class="space-y-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Họ
+                                            và tên</label>
+                                        <input class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all placeholder-stone-400"
+                                               type="text" value="Nguyễn Văn An"/>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Email</label>
+                                        <input class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all"
+                                               type="email" value="an.nguyen@archive.edu.vn"/>
+                                    </div>
+                                    <!-- Role dropdown replaced Specialization -->
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Vai
+                                            trò</label>
+                                        <select class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all appearance-none">
+                                            <option selected="">Độc giả</option>
+                                            <option>Thủ thư</option>
+                                            <option>Quản trị viên</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Tiểu
+                                        sử (Bio)</label>
+                                    <textarea
+                                            class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all no-scrollbar"
+                                            placeholder="Giới thiệu ngắn về bản thân và niềm đam mê với kho tàng tri thức..."
+                                            rows="4">Sinh viên năm cuối nhiệt huyết với công tác bảo tồn tài liệu cổ và chuyển đổi số trong quản lý thư viện hiện đại. Đã tham gia 2 dự án số hóa di sản tại quốc gia.</textarea>
+                                </div>
+                                <div class="pt-4 flex justify-end gap-4">
+                                    <button class="px-6 py-2.5 rounded-lg text-sm font-bold text-stone-500 hover:bg-stone-100 transition-colors"
+                                            type="button">Hủy bỏ
+                                    </button>
+                                    <button class="px-8 py-2.5 rounded-lg text-sm font-bold bg-primary text-on-primary shadow-sm hover:scale-[1.03] transition-transform"
+                                            type="submit">Lưu thay đổi
+                                    </button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                    <!-- Security Section & Sidebar Widgets -->
+                    <div class="col-span-12 lg:col-span-4 space-y-8">
+                        <!-- Security Card -->
+                        <section class="bg-surface-container-low p-8 rounded-2xl relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-tertiary/5 rounded-full -mr-8 -mt-8"></div>
+                            <div class="flex items-center gap-3 mb-6">
+                                <span class="material-symbols-outlined text-primary">security</span>
+                                <h2 class="text-xl font-bold text-[#533528]">Bảo mật</h2>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="space-y-4">
+                                    <p class="text-sm text-on-surface-variant leading-relaxed">Cập nhật mật khẩu định kỳ
+                                        để
+                                        bảo vệ tài khoản của bạn khỏi các truy cập trái phép.</p>
+                                    <div class="space-y-3">
+                                        <div class="relative">
+                                            <input class="w-full bg-surface border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-tertiary transition-all pr-10"
+                                                   placeholder="Mật khẩu hiện tại" type="password"/>
+                                            <span class="material-symbols-outlined absolute right-3 top-2.5 text-stone-400 cursor-pointer">visibility_off</span>
+                                        </div>
+                                        <div class="relative">
+                                            <input class="w-full bg-surface border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-tertiary transition-all pr-10"
+                                                   placeholder="Mật khẩu mới" type="password"/>
+                                            <span class="material-symbols-outlined absolute right-3 top-2.5 text-stone-400 cursor-pointer">visibility_off</span>
+                                        </div>
+                                        <div class="relative">
+                                            <input class="w-full bg-surface border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-tertiary transition-all pr-10"
+                                                   placeholder="Xác nhận mật khẩu mới" type="password"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-primary-container text-on-primary-container py-3 rounded-lg font-bold text-sm shadow-sm hover:bg-primary transition-all duration-300">
+                                    Cập nhật mật khẩu
+                                </button>
+                                <div class="pt-4 border-t border-outline-variant/20 flex items-center justify-between">
+                                    <span class="text-xs font-medium text-stone-500">Xác thực 2 yếu tố (2FA)</span>
+                                    <div class="w-10 h-5 bg-tertiary rounded-full relative cursor-pointer shadow-inner">
+                                        <div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

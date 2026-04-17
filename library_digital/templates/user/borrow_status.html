@@ -1,0 +1,201 @@
+{% extends 'user/layout.html' %}
+
+{% block content %}
+<!-- TopNavBar (Updated to match SCREEN_4) -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-stone-50/80 backdrop-blur-md shadow-sm flex justify-between items-center w-full px-6 py-4 max-w-full mx-auto font-['Plus_Jakarta_Sans'] tracking-tight">
+    <div class="flex items-center gap-8">
+        <span class="text-xl font-bold text-stone-900">Digital Library</span>
+        <div class="hidden md:flex gap-6">
+            <a class="text-stone-500 hover:text-stone-700 transition-colors duration-300 ease-in-out" href="#">Trang
+                chủ</a>
+            <a class="text-stone-500 hover:text-stone-700 transition-colors duration-300 ease-in-out" href="#">Danh
+                mục</a>
+            <a class="text-stone-500 hover:text-stone-700 transition-colors duration-300 ease-in-out" href="#">Sách nổi
+                bật</a>
+        </div>
+    </div>
+    <div class="flex items-center gap-4">
+        <div class="relative hidden sm:block">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400">search</span>
+            <input class="bg-surface-container-high border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-tertiary transition-all duration-300 w-64"
+                   placeholder="Tìm kiếm sách..." type="text"/>
+        </div>
+        <img alt="User profile avatar"
+             class="w-10 h-10 rounded-full bg-secondary-container object-cover cursor-pointer border-2 border-transparent hover:border-primary transition-all"
+             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWCSsx9tDxdrr85xnwkNNG7Nly_Xv1EYzHqxyo5ixLshO5w_g9fw4OIWIHt4sm__QygOMgkGVzeuwMDrI3KTCNlwYSyWvLdLYE6-U8dGs9_lEH2g034XnXdL9OiHUYqRMXKque9WdXjLG2Dh2ro0M7abKJBA632n7mki41AteBb_LhclrlcYcrY2eYX0NfskIw8VGtBxDOSgY9O_4nQkxINOvdPX0adld8aFmSwhxZ6qU2b8ujGEvitnmJZvem0fSbiSf8ggoogdZP"/>
+    </div>
+</nav>
+<div class="flex min-h-screen">
+    <!-- Sidebar Navigation -->
+    <aside class="w-72 bg-[#f7f3ef] p-6 pt-24">
+        <div class="mb-8 px-2">
+            <div class="flex items-center gap-3 mb-1">
+                <span class="material-symbols-outlined text-[#533528] text-2xl"
+                      data-icon="library_books">library_books</span>
+                <span class="text-lg font-black text-[#533528]">Thư viện số</span>
+            </div>
+            <p class="text-xs text-stone-500 uppercase tracking-widest pl-9">Private Archive</p>
+        </div>
+        <nav class="space-y-1">
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 rounded-lg"
+               href="#">
+                <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+                <span>Hồ sơ người dùng</span>
+            </a>
+            <!-- Active Tab: Lịch sử mượn sách -->
+            <a class="flex items-center gap-3 px-4 py-3 bg-[#ffffff] text-[#533528] rounded-lg shadow-sm font-bold scale-[1.02] transition-all duration-200"
+               href="#">
+                <span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+                <span>Lịch sử mượn sách</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 rounded-lg"
+               href="#">
+                <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+                <span>Trạng thái yêu cầu mượn</span>
+            </a>
+        </nav>
+        <div class="mt-auto">
+            <button class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold flex items-center justify-center gap-2 hover:scale-[1.03] transition-transform duration-200 shadow-lg shadow-primary/10">
+                <span class="material-symbols-outlined" data-icon="add">add</span>
+                <span>Mượn sách mới</span>
+            </button>
+        </div>
+    </aside>
+    <!-- Main Content Area -->
+    <div class="flex flex-col flex-1">
+        <main class="pt-24 px-12 flex-1">
+            <div class="pt-24 px-12 pb-12 flex-grow">
+                <!-- Page Summary Section -->
+                <section class="mb-12 flex items-end justify-between">
+                    <div class="max-w-2xl">
+                        <span class="text-tertiary font-bold tracking-widest text-xs uppercase mb-2 block">Thư viện riêng của bạn</span>
+                        <h2 class="text-4xl font-extrabold text-primary mb-4 leading-tight">Yêu cầu mượn sách đang được
+                            xử lý</h2>
+                        <p class="text-on-surface-variant leading-relaxed">Theo dõi tiến độ các yêu cầu mượn sách của
+                            bạn. Các yêu cầu thường được thủ thư phê duyệt trong vòng 24 giờ làm việc.</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="bg-surface-container-low p-6 rounded-xl flex flex-col items-center">
+                            <span class="text-3xl font-black text-primary">03</span>
+                            <span class="text-xs text-stone-500 font-medium">Đang chờ</span>
+                        </div>
+                        <div class="bg-surface-container-low p-6 rounded-xl flex flex-col items-center">
+                            <span class="text-3xl font-black text-tertiary">12</span>
+                            <span class="text-xs text-stone-500 font-medium">Hoàn tất</span>
+                        </div>
+                    </div>
+                </section>
+                <!-- Bento Grid Status Cards -->
+                <div class="grid grid-cols-12 gap-6">
+                    <!-- Status Card: Pending (Large/Featured) -->
+                    <div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-8 rounded-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-xl hover:shadow-on-surface/5 flex gap-8">
+                        <div class="w-48 h-64 flex-shrink-0 bg-surface-container rounded shadow-lg overflow-hidden">
+                            <img alt="Book cover" class="w-full h-full object-cover"
+                                 data-alt="dark minimalist book cover with gold typography titled 'The Philosophy of Form' on an archival paper background"
+                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzIOrIgAQTCUYEpCT5NpfB0BLl_eoclxwxFerC_bETtN6x9OLs06wnW1Li0fPk4NWFNALnUDdwsc0SwcLJWquc83Wz6IohYAD3E4t5kDQYMVyPIMvOgT1ntEme3vLast8D71LKhaJtnqpVRj7cqnFWpOIFGkGfUT9INoz8ZKV2lJ0Hcsvpa29PvBH-ng9296-SCA4dBzulVioTc9W2oMugCpXYTsbRqtAMl4NmiK9Pix5XMpO0rxoROJhayy_vTF6DmslkpsyBcyUS"/>
+                        </div>
+                        <div class="flex flex-col justify-between py-2">
+                            <div>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold rounded-full uppercase tracking-wider">Đang chờ xử lý</span>
+                                    <span class="text-xs text-stone-400">Yêu cầu: 14/10/2023 09:45</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-primary mb-1">Triết Học Về Hình Thức</h3>
+                                <p class="text-on-surface-variant font-medium mb-4">Tác giả: Marcus Aurelius (Dịch giả:
+                                    Nhóm Nghiên Cứu)</p>
+                                <p class="text-sm text-stone-500 line-clamp-3">Cuốn sách khám phá mối quan hệ giữa cấu
+                                    trúc vật lý và ý nghĩa siêu hình trong kiến trúc cổ điển. Một tài liệu lưu trữ hiếm
+                                    có trong bộ sưu tập Private Archive.</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <button class="px-6 py-2 bg-surface-container-high text-primary font-bold rounded-lg hover:bg-surface-container-highest transition-colors">
+                                    Hủy yêu cầu
+                                </button>
+                                <button class="flex items-center gap-2 text-tertiary font-bold group">
+                                    Xem chi tiết tài liệu
+                                    <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Status Card: Approved (Medium) -->
+                    <div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-6 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-on-surface/5 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-20 h-28 bg-surface-container rounded-md overflow-hidden shadow-sm">
+                                    <img alt="Book cover" class="w-full h-full object-cover"
+                                         data-alt="classic leather bound book cover with silver embossed letters on a mahogany wooden surface"
+                                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFrvAUU_rx1fOTkHpS8lfNjVF6nDId5OKMRbepdiOPTEFGQJKTLtN1hcISh4EDv9L3B88zs2yvaZgpZ0mJYvbJDHHg2O8AjAbpXfZ_msTb1oUWR3AfkKLzYR_oWtSiD2KvaMm5H1N8URW-ewQtmGJLMjubbC8RkYesOIV43b7Gij7cuIeA_ylWYNk_tIbHuI2BswNzJhF9UdYaEivkpuP-ahfYmTeeEk89QPBrTpiCjXLMbgpIYZZh31EWS-d-c4tb_XlRRXsTIKr4"/>
+                                </div>
+                                <span class="px-3 py-1 bg-green-100 text-green-800 text-[10px] font-bold rounded-full uppercase tracking-wider">Đã phê duyệt</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-primary">Biên Niên Sử Nghệ Thuật</h4>
+                            <p class="text-xs text-stone-500 mb-4">Ngày nhận sách: 16/10/2023</p>
+                            <p class="text-xs text-on-surface-variant leading-relaxed">Vui lòng mang theo thẻ thư viện
+                                số tại quầy lễ tân tầng 3 để nhận bản in giới hạn.</p>
+                        </div>
+                        <button class="mt-6 w-full py-2 bg-primary text-on-primary font-bold rounded-lg text-sm">Xem mã
+                            nhận sách
+                        </button>
+                    </div>
+                    <!-- Status Card: Rejected (Small) -->
+                    <div class="col-span-12 lg:col-span-4 bg-surface-container-low p-6 rounded-xl">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-3 py-1 bg-error-container text-on-error-container text-[10px] font-bold rounded-full uppercase tracking-wider">Từ chối</span>
+                            <span class="text-[10px] text-stone-400">12/10/2023</span>
+                        </div>
+                        <h4 class="font-bold text-primary truncate">Giải Mã Ký Hiệu Học</h4>
+                        <p class="text-xs text-stone-500 mb-3">Tác giả: Umberto Eco</p>
+                        <div class="bg-surface p-3 rounded border-l-4 border-error mt-2">
+                            <p class="text-[11px] text-on-surface italic">Lý do: Tài liệu này hiện đang trong quá trình
+                                phục chế định kỳ, không thể mượn trực tiếp.</p>
+                        </div>
+                    </div>
+                    <!-- Status Card: Pending (Small) -->
+                    <div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-6 rounded-xl hover:shadow-lg transition-shadow">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold rounded-full uppercase tracking-wider">Đang chờ</span>
+                            <span class="text-[10px] text-stone-400">15/10/2023</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-12 h-16 bg-surface-container rounded overflow-hidden">
+                                <img alt="Book cover" class="w-full h-full object-cover"
+                                     data-alt="old vintage book spine with faded gold letters on a textured paper background"
+                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCU9WFP4VM1_iF1IUYHXTpu67gcATPrk9jEP7BMEsm7qootJSk6PNELf25DPM0AIoqOfYmfiXol3cysE2mp_31AA4BJT5gdPLVQXxWqJqCgJt6AuYMS4XcnD2YBZC_UVZELSruQSgYlxpIUpvcZp0OxQKZ_BXw8dcu73kWbFx9Q2R8U92Kx4r76qgMs8OVpT7hesVdsKplTP7mpcxBDgnwdxtElf4JXc-dx5-Uzvgy4kQpTknq9lqEFCeSeJYemC7AbtxSJrDuDbIX"/>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-primary text-sm">Lịch Sử Của Sự Im Lặng</h4>
+                                <p class="text-[11px] text-stone-500">Người thẩm định: Nguyễn Văn A</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CTA Card -->
+                    <div class="col-span-12 lg:col-span-4 bg-tertiary p-6 rounded-xl flex flex-col justify-center items-center text-center text-on-tertiary">
+                        <span class="material-symbols-outlined text-4xl mb-4"
+                              style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+                        <h4 class="text-lg font-bold mb-2">Bạn cần thêm tài liệu?</h4>
+                        <p class="text-xs opacity-80 mb-6">Khám phá kho lưu trữ hơn 50.000 đầu sách hiếm và bản thảo
+                            tay.</p>
+                        <button class="px-6 py-2 bg-[#ffffff] text-tertiary font-bold rounded-lg text-sm hover:scale-105 transition-transform">
+                            Khám phá ngay
+                        </button>
+                    </div>
+                </div>
+                <!-- Empty Space/Visual Texture -->
+                <div class="mt-16 flex items-center gap-8 opacity-20 grayscale pointer-events-none">
+                    <img alt="Library shelf" class="w-64 h-32 object-cover rounded-xl"
+                         data-alt="long perspective of antique wooden library bookshelves filled with leather bound books under soft moody lighting"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuArmJAdsFkG1MuwARCOhHDVU9ruoEF6JcPlZfW6-fzNP0b6dvMahYEXC0lx_UoITsmk_ydRoQ1fNl05Q2ZL5zoAVuQ-zmowSgtZ-k2ZHHG_xwszogO3Obbfig4EFKa3mM8oO4l5onp2ro4q7jpeFTHnB1kHcPVwUTfuSvW3fY42OuF40vwfoaQRfgecTFf0N5rfO-NPD8Y_iuGZ2CrsFTyibp7I11zs0ulr_9YLId3kO-qaDk2jk3JwpbzQH2wNbCPbqbde4oSXChNq"/>
+                    <img alt="Library shelf" class="w-64 h-32 object-cover rounded-xl"
+                         data-alt="close up of old parchment paper manuscripts stacked on a rustic library table with warm candle lighting"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBJJkLC7Q-jTgxJSDQSlYCJ9bHRnGMcgHh9AxSxjM-aoudM9GKaEglwHs8IAWDh6bQW039xeEdKkJGr6ocibzyzXCI-kmf53o36f1-64SRmVvW--OGxFHAV1G6YDIRviFnykpuLO1pK56p-AP2u85rR0klJaWBRv5vH2aVV7jdNgq_6RAZwjGmmP3aT7B2DcEdQ2x3I90pg4w6SUfZ-_nkvambm5xc3CRmlxSQUdurGDYxh5P6xAULkCGWAg4L2DnFvgbfnRiPRrWm"/>
+                    <img alt="Library shelf" class="w-64 h-32 object-cover rounded-xl"
+                         data-alt="stack of classical literature books on a desk with a pair of reading glasses in a quiet atmospheric library"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHuOfLeyNArfXF4FVe34GtRU8F95R70gm0UEhIfjIHy2A3SlvMG_fktsbhOQly1TjwCAK2Rgy-tjy35VgIXw7VtXlxM8FZQTzLK5pw6lGVDzrD3wjXxro_Fgsu7o0uK6n1-36IN3znIF_BUL3Oi5gv2ta4W7yeZP5Z9pYHWcpV7VC89l0CQ-EIkLQhCsX-Xt3JxJyntA3ca-70XH_uvq83m29wi9-4hRBcAJGcQJ2nKJ_yPNqfvm-VPrSsCnLyF4VatsWxPZblQd00"/>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+{% endblock %}

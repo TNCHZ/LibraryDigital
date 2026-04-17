@@ -36,7 +36,26 @@ def librarian_borrow_slip_management():
     return render_template('librarian/borrow_slip_management.html')
 
 
+@app.route('/admin/borrow_slip_management/')
+def admin_borrow_slip_management():
+    return render_template('admin/borrow_slip_management.html')
 
+@app.route('/admin/user_management/')
+def admin_user_management():
+    return render_template('admin/user_management.html')
+
+
+@app.route('/admin/dashboard/')
+def admin_dashboard():
+    return render_template('admin/dashboard.html')
+
+@app.route('/admin/book_management/')
+def admin_book_management():
+    return render_template('admin/book_management.html')
+
+@app.route('/admin/report/')
+def admin_report():
+    return render_template('admin/report.html')
 
 if __name__ == "__main__":
     app.run(debug=True) 

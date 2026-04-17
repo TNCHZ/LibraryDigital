@@ -16,6 +16,27 @@ def book_detail(book_id):
 def book_searching():
     return render_template('user/searching_book.html')
 
+@app.route('/librarian/book_management/')
+def librarian_book_management():
+    return render_template('librarian/book_management.html')
+
+
+@app.route('/librarian/dashboard/')
+def librarian_dashboard():
+    return render_template('librarian/dashboard.html')
+
+
+@app.route('/librarian/reader_management/')
+def librarian_reader_management():
+    return render_template('librarian/reader_management.html')
+
+
+@app.route('/librarian/borrow_slip_management/')
+def librarian_borrow_slip_management():
+    return render_template('librarian/borrow_slip_management.html')
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True) 

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Đăng nhập | Digital Library</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#2c1600",
+                    "on-primary-fixed-variant": "#5f3f31",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#f1ede9",
+                    "outline-variant": "#d4c3bc",
+                    "on-secondary-fixed-variant": "#484744",
+                    "primary-container": "#6d4c3d",
+                    "tertiary": "#5a3302",
+                    "surface-container-low": "#f7f3ef",
+                    "on-primary-container": "#ebbeab",
+                    "on-background": "#1c1c19",
+                    "secondary-fixed-dim": "#c9c6c2",
+                    "outline": "#82746f",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#f4f0ec",
+                    "tertiary-fixed": "#ffdcbd",
+                    "surface-bright": "#fdf9f5",
+                    "primary": "#533528",
+                    "surface-tint": "#795747",
+                    "on-tertiary": "#ffffff",
+                    "surface-variant": "#e6e2de",
+                    "on-surface-variant": "#50443f",
+                    "secondary-fixed": "#e6e2de",
+                    "on-secondary-fixed": "#1c1c19",
+                    "on-secondary": "#ffffff",
+                    "tertiary-container": "#754a18",
+                    "on-tertiary-container": "#f9bc7f",
+                    "inverse-surface": "#31302e",
+                    "on-surface": "#1c1c19",
+                    "on-secondary-container": "#666461",
+                    "tertiary-fixed-dim": "#f7bb7e",
+                    "on-tertiary-fixed-variant": "#663d0b",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#e6e2de",
+                    "surface": "#fdf9f5",
+                    "on-primary-fixed": "#2d1509",
+                    "primary-fixed": "#ffdbcc",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#eabdaa",
+                    "surface-container-high": "#ebe7e4",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#eabdaa",
+                    "background": "#fdf9f5",
+                    "surface-dim": "#ddd9d6",
+                    "secondary-container": "#e6e2de",
+                    "secondary": "#605e5b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-bg {
+        backdrop-filter: blur(20px);
+        background: rgba(253, 249, 245, 0.8);
+      }
+      .knowledge-gradient {
+        background: linear-gradient(135deg, #533528 0%, #6d4c3d 100%);
+      }
+      .subtle-grid {
+        background-image: radial-gradient(#d4c3bc 0.5px, transparent 0.5px);
+        background-size: 24px 24px;
+      }
+    </style>
+</head>
+
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col">
+
+    <main class="pt-16">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include "components/footer.html" %}
+
+</body>
+</html>

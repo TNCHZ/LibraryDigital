@@ -1,0 +1,91 @@
+{% extends 'auth/layout.html' %}
+
+{% block content %}
+<!-- Main Content Area -->
+<main class="flex-grow flex items-center justify-center p-6 md:p-12">
+<div class="w-full max-w-5xl flex flex-col md:flex-row shadow-xl rounded-xl overflow-hidden bg-surface-container-lowest">
+<!-- Visual Side (Asymmetric Brand Identity) -->
+<div class="hidden md:flex md:w-1/2 knowledge-gradient p-12 flex-col justify-between relative overflow-hidden">
+<!-- Abstract Decoration -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-on-primary-container/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+<div class="absolute bottom-0 left-0 w-80 h-80 bg-tertiary-container/20 rounded-full -ml-32 -mb-32 blur-3xl"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-8">
+<span class="material-symbols-outlined text-on-primary-container text-4xl" data-icon="auto_stories">auto_stories</span>
+<h1 class="font-headline font-extrabold text-2xl tracking-tight text-white">Digital Library</h1>
+</div>
+<h2 class="font-headline font-bold text-4xl lg:text-5xl text-white leading-tight mb-6">
+            Khai phá <br/> tri thức nhân loại.
+          </h2>
+<p class="text-on-primary-container/80 text-lg max-w-sm font-light leading-relaxed">
+            Chào mừng bạn quay trở lại với kho lưu trữ kỹ thuật số cao cấp. Nơi tinh hoa kiến thức được bảo tồn và chia sẻ.
+          </p>
+</div>
+<div class="relative z-10">
+<div class="bg-white/5 backdrop-blur-md p-6 rounded-lg border border-white/10">
+<p class="text-white/70 italic text-sm mb-2">"Sách là ngọn hải đăng soi sáng con đường tri thức."</p>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high">
+<img alt="Avatar" data-alt="close-up portrait of an elderly distinguished scholar with spectacles in a library setting with warm ambient light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARWjyVN6DpNGNAErkPRleV0zACTbfOlnIssTV4eR7OAFFJnWGXtp5KkjIAkiOSL4po1BtRurSJeuiZeYUAsNpMgl3OcsEWBXKFBXzuN9BDWmtOC2_-B1Tp62SGWkiBJkp80pys5AA9fiDbzGzOGjm3LtweLDqoovpHIASamRrJr5350WhJopTqLqzSQ-oyQ8_xEnmzsUnkLAJgBSLO5oi-FXI6hygdXZT9t2KPYKkXb3xBh9RlyDNF0auW4b-pCLj8hYkKlVgje2q4"/>
+</div>
+<span class="text-white text-xs font-semibold">Cố vấn chuyên môn</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Form Side -->
+<div class="w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center">
+<div class="md:hidden flex items-center gap-2 mb-10">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="auto_stories">auto_stories</span>
+<span class="font-headline font-bold text-xl tracking-tight text-primary">Digital Library</span>
+</div>
+<header class="mb-10">
+<h3 class="font-headline font-bold text-3xl text-primary mb-2">Đăng nhập</h3>
+<p class="text-on-surface-variant font-light">Vui lòng nhập thông tin tài khoản của bạn</p>
+</header>
+<form action="#" class="space-y-6">
+<!-- Username -->
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant" for="username">Tên đăng nhập</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-tertiary transition-colors" data-icon="person">person</span>
+<input class="w-full pl-11 pr-4 py-3 bg-surface-container-high border-none rounded-lg focus:ring-2 focus:ring-tertiary/20 text-on-surface placeholder:text-outline transition-all duration-300" id="username" name="username" placeholder="nguyenvan_a" type="text"/>
+</div>
+</div>
+<!-- Password -->
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="block text-sm font-semibold text-on-surface-variant" for="password">Mật khẩu</label>
+<a class="text-xs font-medium text-tertiary hover:underline transition-all" href="#">Quên mật khẩu?</a>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-tertiary transition-colors" data-icon="lock">lock</span>
+<input class="w-full pl-11 pr-12 py-3 bg-surface-container-high border-none rounded-lg focus:ring-2 focus:ring-tertiary/20 text-on-surface placeholder:text-outline transition-all duration-300" id="password" name="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Role Select -->
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant" for="role">Vai trò</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-tertiary transition-colors" data-icon="badge">badge</span>
+<select class="w-full pl-11 pr-4 py-3 bg-surface-container-high border-none rounded-lg focus:ring-2 focus:ring-tertiary/20 text-on-surface appearance-none transition-all duration-300" id="role" name="role">
+<option value="reader">Độc giả</option>
+<option value="librarian">Thủ thư</option>
+<option value="admin">Quản trị viên</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- Login Button -->
+<button class="w-full py-4 bg-primary text-white font-headline font-bold rounded-lg shadow-lg hover:bg-primary-container hover:scale-[1.02] transition-all duration-300 active:scale-[0.98] mt-4" type="submit">
+            Đăng nhập
+          </button>
+</form>
+</div>
+</div>
+</main>
+
+{% endblock %}

@@ -11,6 +11,17 @@ def home():
 def book_detail(book_id):
     return render_template('user/book_detail.html', book_id=book_id)
 
+@app.route('/auth/login')
+def login():
+    return render_template('auth/login.html')
+
+@app.route('/auth/register')
+def register():
+    return render_template('auth/register.html')
+
+@app.route('/auth/forget-password')
+def forget_pass():
+    return render_template('auth/forget_password.html')
 
 @app.route('/book/searching_book/')
 def book_searching():

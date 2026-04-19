@@ -1,0 +1,330 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+
+<!-- SideNavBar -->
+<aside class="h-screen w-72 flex flex-col fixed left-0 top-0 bg-[#f7f3ef] dark:bg-stone-900 shadow-[4px_0_24px_rgba(28,28,25,0.04)] z-50">
+<div class="flex flex-col h-full py-8 px-6 space-y-6">
+<!-- Header Brand -->
+<div class="flex items-center space-x-3 mb-8">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-surface" data-icon="auto_stories">auto_stories</span>
+</div>
+<div>
+<h1 class="text-lg font-black tracking-tighter text-[#533528] dark:text-[#f7f3ef] font-headline uppercase leading-none">Library Admin</h1>
+<p class="text-[10px] text-[#6d4c3d]/60 font-medium uppercase tracking-widest">Management Portal</p>
+</div>
+</div>
+<!-- Primary Navigation -->
+<nav class="flex-grow space-y-1">
+<a class="group flex items-center px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-[#fdf9f5] dark:hover:bg-stone-800 transition-all duration-200 hover:translate-x-1 font-['Plus_Jakarta_Sans'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+<a class="group flex items-center px-4 py-3 text-[#533528] dark:text-[#fdf9f5] font-bold border-r-4 border-[#6d4c3d] bg-[#fdf9f5]/50 dark:bg-stone-800 transition-all duration-200 font-['Plus_Jakarta_Sans'] text-sm" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="menu_book">menu_book</span>
+                    Quản lý sách
+                </a>
+<a class="group flex items-center px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-[#fdf9f5] dark:hover:bg-stone-800 transition-all duration-200 hover:translate-x-1 font-['Plus_Jakarta_Sans'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="auto_stories">auto_stories</span>
+                    Quản lý đơn mượn
+                </a>
+<a class="group flex items-center px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-[#fdf9f5] dark:hover:bg-stone-800 transition-all duration-200 hover:translate-x-1 font-['Plus_Jakarta_Sans'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="group">group</span>
+                    Quản lý người dùng
+                </a>
+<a class="group flex items-center px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-[#fdf9f5] dark:hover:bg-stone-800 transition-all duration-200 hover:translate-x-1 font-['Plus_Jakarta_Sans'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="analytics">analytics</span>
+                    Báo cáo thống kê
+                </a>
+</nav>
+<!-- CTA -->
+<div class="mt-auto px-2 pb-4">
+<button class="w-full py-3 px-4 bg-primary text-on-primary text-sm font-bold flex items-center justify-center rounded-lg hover:scale-[1.03] transition-transform duration-300 shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined mr-2 text-sm" data-icon="add">add</span>
+                    Thêm mục mới
+                </button>
+</div>
+<!-- Footer Navigation -->
+<div class="border-t border-outline-variant/10 pt-4">
+<a class="flex items-center px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-error-container/20 transition-all duration-200 font-['Plus_Jakarta_Sans'] text-sm font-medium" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="logout">logout</span>
+                    Đăng xuất
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-grow ml-72 min-h-screen bg-surface flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-[#fdf9f5]/80 dark:bg-stone-950/80 backdrop-blur-xl sticky top-0 z-40 w-full px-8 py-4 flex justify-between items-center no-line-rule">
+<div class="flex items-center flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50" data-icon="search">search</span>
+<input class="w-full bg-surface-container-high border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-tertiary transition-all outline-none text-primary" placeholder="Tìm kiếm trong kho lưu trữ..." type="text"/>
+</div>
+</div>
+<div class="flex items-center space-x-6 ml-8">
+<div class="flex space-x-4">
+<button class="text-[#6d4c3d] dark:text-[#d9a066] hover:text-[#533528] transition-colors duration-200 relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button class="text-[#6d4c3d] dark:text-[#d9a066] hover:text-[#533528] transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+<div class="flex items-center space-x-3 border-l border-outline-variant/20 pl-6">
+<div class="text-right">
+<p class="text-sm font-bold text-primary font-headline">Admin Archive</p>
+<p class="text-[10px] text-on-surface-variant font-medium tracking-wider uppercase">Cấp cao</p>
+</div>
+<img alt="Admin Profile" class="w-10 h-10 rounded-full object-cover border-2 border-surface-container-highest shadow-sm scale-105 transition-transform duration-300" data-alt="Close-up professional portrait of a man in his 40s wearing a dark sweater with warm library lighting background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNQxA15RcQXiamBqarHWp3FQ-N12tcQoz6w-97HaFSU3ZhrxCkM72CXrNNCuUc4DUpa-5d52KS0ExwiBpNVXCBauNlD9ysE99Qj4-er2oZU-ro3x626l0-fEEpT5QQSzYvRGDBzaLTtz1zTEiC_j_e2DjoPs2_TVUeBr04L4WZxj-GneqcsR401A2cRzm_dqngCrE-HOLkY74RImxujlGeYWjOEGS8cvN6RwosspTlXIw4ZSeeYuuMem-6TVDxQKf959XZIacY_X-j"/>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-8 max-w-7xl w-full mx-auto space-y-8">
+<!-- Page Header -->
+<div class="flex items-end justify-between">
+<div class="space-y-1">
+<h2 class="text-4xl font-extrabold tracking-tight text-primary font-headline">Quản lý sách</h2>
+<p class="text-on-surface-variant font-medium">Thư mục lưu trữ: 1,248 đầu sách đang hoạt động</p>
+</div>
+<button class="flex items-center px-6 py-3 bg-primary text-on-primary font-bold rounded-lg hover:scale-[1.03] transition-all shadow-xl shadow-primary/20">
+<span class="material-symbols-outlined mr-2" data-icon="add_circle">add_circle</span>
+                    + Thêm sách mới
+                </button>
+</div>
+<!-- Bento Statistics (Subtle) -->
+<div class="grid grid-cols-4 gap-6">
+<div class="col-span-1 p-6 bg-surface-container-low rounded-xl space-y-2">
+<p class="text-xs font-bold text-primary-container tracking-widest uppercase">Phát hành mới</p>
+<p class="text-3xl font-black text-primary font-headline">24</p>
+<div class="flex items-center text-xs text-tertiary-container font-semibold">
+<span class="material-symbols-outlined text-sm mr-1" data-icon="trending_up">trending_up</span>
+                        +12% so với tháng trước
+                    </div>
+</div>
+<div class="col-span-1 p-6 bg-surface-container-low rounded-xl space-y-2">
+<p class="text-xs font-bold text-primary-container tracking-widest uppercase">Đang cho mượn</p>
+<p class="text-3xl font-black text-primary font-headline">412</p>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden mt-4">
+<div class="bg-primary-container h-full w-[65%]"></div>
+</div>
+</div>
+<div class="col-span-2 p-6 bg-primary-container rounded-xl flex items-center justify-between text-on-primary-container">
+<div class="space-y-1">
+<h3 class="text-xl font-bold font-headline text-surface">Bản ghi lưu trữ 2024</h3>
+<p class="text-sm opacity-80 max-w-[200px]">Cập nhật báo cáo tồn kho hàng quý cho ban quản trị.</p>
+</div>
+<button class="px-4 py-2 bg-surface text-primary font-bold text-sm rounded hover:bg-surface-bright transition-colors">
+                        Xem báo cáo
+                    </button>
+</div>
+</div>
+<!-- Editorial Table Container -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_40px_rgba(28,28,25,0.02)] transition-all hover:shadow-[0_4px_60px_rgba(28,28,25,0.05)]">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/60">Tác phẩm</th>
+<th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/60">Tác giả</th>
+<th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/60">Thể loại</th>
+<th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/60">Trạng thái</th>
+<th class="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/60">Tồn kho</th>
+<th class="px-8 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/60">Hành động</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<!-- Table Row 1 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-4">
+<img alt="Book Cover" class="w-12 h-16 rounded object-cover shadow-sm group-hover:scale-105 transition-transform" data-alt="Vintage book cover design with gold embossed text and intricate floral patterns on deep blue leather" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-qJZCa8gH49O2xJ1IJhaE5zGlvzA3iN5NzczqgsxgIYJvHwp7JCPgiHlko4Bd6NIdAVF3Hll-7Awof8T6n6lUH97BmbraPj3S7QShdPe57YxZzspiqvTbsXUB9XhjS8UtIHFxpc1VOAHthrc__5XivKIIjSCkGmay3JnxhNf9f3ub_2FeUEYvLwAVNyLd9YVIwNiIdkUo6-w5CXO_PksD_L7ZXZi6B_njcGOd1ZS1hrs5oLHk4M1kaX7UfBazpmHLPAx162iNO4mx"/>
+<div>
+<p class="font-headline font-bold text-primary group-hover:text-tertiary transition-colors">Kiêu Hãnh Và Định Kiến</p>
+<p class="text-xs text-on-surface-variant font-medium">ISBN: 978-0141439518</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-sm font-medium text-on-surface">Jane Austen</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[11px] font-bold text-primary-container">Kinh điển</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center">
+<span class="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span>
+<span class="text-xs font-bold text-emerald-700">Sẵn có</span>
+</div>
+</td>
+<td class="px-8 py-6 text-sm font-bold text-primary">12</td>
+<td class="px-8 py-6 text-right">
+<div class="flex items-center justify-end space-x-2">
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-primary transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-lg text-error transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Table Row 2 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-4">
+<img alt="Book Cover" class="w-12 h-16 rounded object-cover shadow-sm group-hover:scale-105 transition-transform" data-alt="Abstract modern book cover with orange and black geometric shapes and minimalist typography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6_OA36A5mz1vJCR4Sn3fhEZaf1Rc9DzKW18gPHitFpBHewUXGfiECukVFQ0FUYKfS8_3orfXREtEAyl8PgyxymJcKT77RPOhIE6ZrueWjqvIo7l8wVc3hSIN94t1UMSLNJYhfWAz58Fek1NAG8Oudf4ne1M6GLa53hyeCFnkEmENZ8TIScc2oOS1JdX2DLJwCYEhL0M4PUr9_sSM48WnRzQHbSa0tfuxWZeHOu99c_rRuLLzZS6FHRyzQDRBOqlCDDRU1FNl33D6P"/>
+<div>
+<p class="font-headline font-bold text-primary group-hover:text-tertiary transition-colors">1984</p>
+<p class="text-xs text-on-surface-variant font-medium">ISBN: 978-0451524935</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-sm font-medium text-on-surface">George Orwell</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[11px] font-bold text-primary-container">Viễn tưởng</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center">
+<span class="w-2 h-2 rounded-full bg-amber-500 mr-2"></span>
+<span class="text-xs font-bold text-amber-700">Hết hàng</span>
+</div>
+</td>
+<td class="px-8 py-6 text-sm font-bold text-primary">0</td>
+<td class="px-8 py-6 text-right">
+<div class="flex items-center justify-end space-x-2">
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-primary transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-lg text-error transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Table Row 3 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-4">
+<img alt="Book Cover" class="w-12 h-16 rounded object-cover shadow-sm group-hover:scale-105 transition-transform" data-alt="Cozy book collection on a wooden shelf with warm candle light and golden sparkles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7z3AYCaRt7V2dxhvrWef2OmiTt70GThrMGckjevWTvjyI4EXToXyKMKiT_xQywFvrR-yj2DmAclPXNqZHQR1KgdUYNBvDlgYZKfcpngajD2v_uybAR3RPhT5mBrJjWrhMsk14fDR38Pze5Wf9aMviRgsAvnfx7k9U7iYcCFKQ1K48rfOb4PEo9uqIJu5oIPjQEwv180Y-I2GOPZ3tMW8tH9OKL3l3jD0iVK-gBXgCUM93mYNr-hTPUiPuY7GN3zRdO9TT0nQoks68"/>
+<div>
+<p class="font-headline font-bold text-primary group-hover:text-tertiary transition-colors">Nhà Giả Kim</p>
+<p class="text-xs text-on-surface-variant font-medium">ISBN: 978-0062315007</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-sm font-medium text-on-surface">Paulo Coelho</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[11px] font-bold text-primary-container">Triết học</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center">
+<span class="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span>
+<span class="text-xs font-bold text-emerald-700">Sẵn có</span>
+</div>
+</td>
+<td class="px-8 py-6 text-sm font-bold text-primary">45</td>
+<td class="px-8 py-6 text-right">
+<div class="flex items-center justify-end space-x-2">
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-primary transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-lg text-error transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Table Row 4 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-4">
+<img alt="Book Cover" class="w-12 h-16 rounded object-cover shadow-sm group-hover:scale-105 transition-transform" data-alt="Artistic book cover with watercolor stains in autumn colors and elegant script typography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6IwG8_H-oRo8d_D-fxIshAXNfO6_YfYyH0jvucykiydZIUOSoj37wFp9YQN_RjYLyiTKx_A4bp31TXyl8-jR5CDBOu9Ljrw8qeOwLxJJccev0qAYKU0x6Z4oanguYDmQ-tfc3ehTxVAgFYRiVGbJj2Mxox4_dsF8ZQJyoY1xAQxwATL3XHCUWvUJIxgP6npVm9YWRSCgm4Zi9Y6-4PoVItRZRnmwjp5lUKa3f9Ln--TGF0Rwax5bXxv-Ya85YI6MnPQ_5V0eokD15"/>
+<div>
+<p class="font-headline font-bold text-primary group-hover:text-tertiary transition-colors">Rừng Na Uy</p>
+<p class="text-xs text-on-surface-variant font-medium">ISBN: 978-0375701504</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-sm font-medium text-on-surface">Haruki Murakami</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[11px] font-bold text-primary-container">Văn học</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center">
+<span class="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span>
+<span class="text-xs font-bold text-emerald-700">Sẵn có</span>
+</div>
+</td>
+<td class="px-8 py-6 text-sm font-bold text-primary">8</td>
+<td class="px-8 py-6 text-right">
+<div class="flex items-center justify-end space-x-2">
+<button class="p-2 hover:bg-surface-container-high rounded-lg text-primary transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-lg text-error transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-8 py-5 bg-surface-container-low/30 flex items-center justify-between no-line-rule">
+<p class="text-xs text-on-surface-variant font-medium">Hiển thị 1 - 4 của 1,248 đầu sách</p>
+<div class="flex space-x-1">
+<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container-high text-primary transition-colors disabled:opacity-30">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary text-xs font-bold">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container-high text-xs font-bold text-primary">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container-high text-xs font-bold text-primary">3</button>
+<span class="w-8 h-8 flex items-center justify-center text-xs text-on-surface-variant">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container-high text-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Focus Feature: Curated Selection Bento -->
+<div class="grid grid-cols-3 gap-6 pt-4">
+<div class="col-span-2 bg-surface-container-low rounded-xl p-8 flex space-x-8 items-center border border-outline-variant/10">
+<div class="flex-grow space-y-4">
+<span class="inline-block px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-black uppercase tracking-widest rounded">Mục nổi bật</span>
+<h3 class="text-2xl font-bold font-headline text-primary">Tác phẩm cổ điển quý hiếm</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Bộ sưu tập ấn bản giới hạn thế kỷ 19 vừa được cập nhật vào kho lưu trữ số. Yêu cầu kiểm kê vật lý cho các mục này.</p>
+<div class="flex space-x-4 pt-2">
+<div class="flex -space-x-3">
+<img alt="Curator" class="w-8 h-8 rounded-full border-2 border-surface" data-alt="Portrait of a male library curator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3N0IvoTStTExp4a_QB0i-CNQSpaY0CVOVd8Dd-G9gLeMwhC-9H3a83eB9IRYKJbgKqhXnCmzuT4K78k1Gt2LR8noV5bYgwBvP1pR0hbcwaX4oJtJixgEZy20TPN7Lxnfm4C7ACGFqqGTGQ8gg-Kk5oi6mtAw4mdvdBxrAmd_2Kc3M8oJHPSZi_eHEulKHAdUq55VfeSS966grG9i-ix89DOb4FFoWUDqYzAw4C3LKeYJ3EXuwL_4e8Z8CHUgYYJDZ_xwp1lSmWQ9k"/>
+<img alt="Curator" class="w-8 h-8 rounded-full border-2 border-surface" data-alt="Portrait of a female library curator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqda0LH6TrqS93LFhBoOMUH08pzdRZBYHQ91EVFVtsQjkY0xlEidGWZss7aRsWFT7B9oKDRxfwcxxzR26jfLoY8dAHACh5Om6xZLysOOtIpkuV-PQ4ZoA4IOdei8IUpd8uy0Bkqr6gxXNtgEBYufJEJr8cAwjd7Q7J4x0RQ4Xs5YKmZvcfNAnXG1bVs8hU2c4kLX20OYMqOt2Z8UHXx0-7QJo8Py8ZR6sCT-T_aKqDvblNIB_WkkM7enUzydB3DTmLUxvMhKMrurnd"/>
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-primary-container text-[10px] text-on-primary-container flex items-center justify-center font-bold">+5</div>
+</div>
+<button class="text-xs font-bold text-primary underline underline-offset-4">Xác minh toàn bộ</button>
+</div>
+</div>
+<div class="flex-shrink-0 w-32 h-32 bg-white rounded-lg rotate-3 shadow-md flex items-center justify-center overflow-hidden">
+<img alt="Old Book" class="w-full h-full object-cover grayscale-[0.2]" data-alt="Close up of an old leather bound book with aged yellowed pages and dust" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKM35Z_XQwb93xsnEX8pfL9rIUz5dQXH7VWg8-IPnLtyIIFmDPOufi71geIeaaStImCJ-722053Y5QJ3OR_z5IRVKhTxRPrvoq6rQ9vhzlqrArVn38xZqllVbm6V0_EPW3CtHjQigrPmmLhEESnFnBih2JHwqtRgTlREPSMM4D2H3R5Q6M8G5XabDUGc4w0PXstLny7QqsTwZbj2-ZfPOLokTRxNQi-44LT9OioqNsnT8wZ3Xvs6rHSljgUcchETa1nZS3upwr1_jZ"/>
+</div>
+</div>
+<div class="col-span-1 bg-tertiary-container text-on-tertiary-container rounded-xl p-8 flex flex-col justify-between overflow-hidden relative">
+<span class="material-symbols-outlined text-6xl opacity-10 absolute -bottom-4 -right-4" data-icon="inventory_2" style="font-size: 120px;">inventory_2</span>
+<div class="space-y-2">
+<p class="text-xs font-black uppercase tracking-widest opacity-80">Thông báo kho</p>
+<h4 class="text-xl font-bold font-headline">Hết hàng sắp tới</h4>
+</div>
+<div class="space-y-3 relative z-10">
+<p class="text-3xl font-black font-headline">12</p>
+<p class="text-xs opacity-90 font-medium">Đầu sách có số lượng &lt; 5 bản. Cần bổ sung ngay.</p>
+<button class="w-full py-2 bg-on-tertiary-container text-tertiary-container font-bold text-xs rounded hover:opacity-90 transition-opacity">
+                            Xem danh sách
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+{% endblock %}

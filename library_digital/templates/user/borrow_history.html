@@ -1,0 +1,283 @@
+{% extends 'user/layout.html' %}
+
+{% block content %}
+<div class="flex min-h-screen">
+    <!-- Sidebar Navigation -->
+    <aside class="w-72 bg-[#f7f3ef] p-6 pt-24">
+        <div class="mb-8 px-2">
+            <div class="flex items-center gap-3 mb-1">
+                <span class="material-symbols-outlined text-[#533528] text-2xl"
+                      data-icon="library_books">library_books</span>
+                <span class="text-lg font-black text-[#533528]">Thư viện số</span>
+            </div>
+            <p class="text-xs text-stone-500 uppercase tracking-widest pl-9">Private Archive</p>
+        </div>
+        <nav class="space-y-1">
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 rounded-lg"
+               href="#">
+                <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+                <span>Hồ sơ người dùng</span>
+            </a>
+            <!-- Active Tab: Lịch sử mượn sách -->
+            <a class="flex items-center gap-3 px-4 py-3 bg-[#ffffff] text-[#533528] rounded-lg shadow-sm font-bold scale-[1.02] transition-all duration-200"
+               href="#">
+                <span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+                <span>Lịch sử mượn sách</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 rounded-lg"
+               href="#">
+                <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+                <span>Trạng thái yêu cầu mượn</span>
+            </a>
+        </nav>
+        <div class="mt-auto">
+            <button class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold flex items-center justify-center gap-2 hover:scale-[1.03] transition-transform duration-200 shadow-lg shadow-primary/10">
+                <span class="material-symbols-outlined" data-icon="add">add</span>
+                <span>Mượn sách mới</span>
+            </button>
+        </div>
+    </aside>
+    <!-- Main Content Area -->
+    <div class="flex flex-col flex-1">
+        <main class="pt-24 px-12 flex-1">
+            <header class="mb-10">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <nav class="flex gap-2 text-xs text-stone-500 mb-2 items-center">
+                            <span>Trang chủ</span>
+                            <span class="material-symbols-outlined text-[10px]"
+                                  data-icon="chevron_right">chevron_right</span>
+                            <span class="text-[#533528] font-semibold">Lịch sử mượn sách</span>
+                        </nav>
+                        <h1 class="text-4xl font-extrabold text-[#533528] tracking-tight mb-2">Lịch sử mượn sách</h1>
+                        <p class="text-on-surface-variant max-w-md">Theo dõi và quản lý tất cả các tài liệu bạn đã mượn
+                            từ
+                            kho lưu trữ cá nhân của chúng tôi.</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button class="px-4 py-2 bg-surface-container-high text-on-surface rounded-lg text-sm font-semibold hover:bg-surface-container-highest transition-colors">
+                            <span class="material-symbols-outlined text-sm align-middle mr-1" data-icon="filter_list">filter_list</span>
+                            Lọc kết quả
+                        </button>
+                        <button class="px-4 py-2 bg-surface-container-high text-on-surface rounded-lg text-sm font-semibold hover:bg-surface-container-highest transition-colors">
+                        <span class="material-symbols-outlined text-sm align-middle mr-1"
+                              data-icon="download">download</span>
+                            Xuất báo cáo
+                        </button>
+                    </div>
+                </div>
+            </header>
+            <!-- Stats Grid (Bento Style) -->
+            <div class="grid grid-cols-4 gap-6 mb-10">
+                <div class="col-span-1 bg-surface-container-low p-6 rounded-xl hover:scale-[1.02] transition-all duration-300">
+                    <p class="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Tổng số sách</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-3xl font-black text-[#533528]">24</span>
+                        <span class="material-symbols-outlined text-primary/30 text-3xl" data-icon="auto_stories">auto_stories</span>
+                    </div>
+                </div>
+                <div class="col-span-1 bg-surface-container-low p-6 rounded-xl hover:scale-[1.02] transition-all duration-300">
+                    <p class="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Đang mượn</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-3xl font-black text-[#533528]">03</span>
+                        <span class="material-symbols-outlined text-[#D9A066] text-3xl" data-icon="bookmark_manager">bookmark_manager</span>
+                    </div>
+                </div>
+                <div class="col-span-1 bg-surface-container-low p-6 rounded-xl border-l-4 border-error/20 hover:scale-[1.02] transition-all duration-300">
+                    <p class="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Quá hạn</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-3xl font-black text-error">01</span>
+                        <span class="material-symbols-outlined text-error/30 text-3xl"
+                              data-icon="alarm_on">alarm_on</span>
+                    </div>
+                </div>
+                <div class="col-span-1 bg-primary text-on-primary p-6 rounded-xl shadow-lg shadow-primary/10 hover:scale-[1.02] transition-all duration-300">
+                    <p class="text-xs font-bold text-on-primary/60 uppercase tracking-widest mb-1">Hạng thành viên</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-black italic">Platinum</span>
+                        <span class="material-symbols-outlined text-on-primary/40 text-3xl" data-icon="verified"
+                              data-weight="fill">verified</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Archival Table Section -->
+            <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                        <tr class="bg-surface-container-high/50 text-stone-500 text-xs uppercase tracking-widest font-bold">
+                            <th class="px-8 py-5">Tên đầu sách</th>
+                            <th class="px-6 py-5">Ngày mượn</th>
+                            <th class="px-6 py-5">Hạn trả</th>
+                            <th class="px-6 py-5">Trạng thái</th>
+                            <th class="px-8 py-5 text-right">Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y divide-surface-container-low">
+                        <!-- Overdue Item -->
+                        <tr class="hover:bg-surface-container-low transition-colors duration-200">
+                            <td class="px-8 py-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-16 bg-surface-container-high rounded shadow-sm overflow-hidden flex-shrink-0">
+                                        <img class="w-full h-full object-cover"
+                                             data-alt="classic vintage book cover with gold foil lettering on a deep red leather spine and cover"
+                                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXftip0OWp098Sgorkn1n_9GlNivuvj1zP_n6lmrizpB4x-i3HXOEuDF_356r0kNou1naGgX2DjqVjxUrSAvFVCWASwBdEfCLnFiXzIQG3RNVakoLt9oKmeGKLRa8YxvFULiOFUASMJftBOWmEQaBkFqWnS-9i_z25OaTl-9WFrDHdJE-ECqnkYWMHbXaeW-XMh2hABKtl5OVLcvAqhr1DDlOVObHHyPPLcaGunsQjG_Orjpe2HA9QmWBUPD2FGTXB64IWMBgKNuXD"/>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-[#533528]">Kiến Trúc Đương Đại</p>
+                                        <p class="text-xs text-stone-400">ID: ARCH-2024-001</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">12/03/2024</td>
+                            <td class="px-6 py-6 text-sm font-bold text-error tracking-tight">26/03/2024</td>
+                            <td class="px-6 py-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-error-container text-on-error-container">
+                                        Quá hạn
+                                    </span>
+                            </td>
+                            <td class="px-8 py-6 text-right">
+                                <button class="text-[#6D4C3D] hover:text-[#533528] font-bold text-sm">Gia hạn</button>
+                            </td>
+                        </tr>
+                        <!-- Completed Item -->
+                        <tr class="hover:bg-surface-container-low transition-colors duration-200">
+                            <td class="px-8 py-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-16 bg-surface-container-high rounded shadow-sm overflow-hidden flex-shrink-0">
+                                        <img class="w-full h-full object-cover"
+                                             data-alt="minimalist modern book cover with abstract geometric shapes in muted earth tones of beige and brown"
+                                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWMKTcn0ldm0UCgY8_LTa0QNydZp-9aOoe690X_cu9x7Er3GEPZ0DZjEiTWqcGonVGHnx6WbnlYCY49cEs48yjN5u6-lIPHNHGfeIQ52Q8VEv0Qk6Bx9gbQkXBh6ND-4wNvO2lNWjuKUbW2NeK6TLWwdz54amChr3d35OlutUgXWFMLOg3P75BVoBHboRNU-AgXSyvcGbfS-yCf5nigLlo_IlIAlNYp-ybtlAj7af9nNgJhKW4iNEP3SPQ8L5YWf4bzD8teLBTi0G5"/>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-[#533528]">Triết Học Đông Phương</p>
+                                        <p class="text-xs text-stone-400">ID: PHILO-2023-089</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">01/02/2024</td>
+                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">15/02/2024</td>
+                            <td class="px-6 py-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
+                                        Hoàn thành
+                                    </span>
+                            </td>
+                            <td class="px-8 py-6 text-right">
+                                <button class="text-stone-400 hover:text-primary font-bold text-sm">Chi tiết</button>
+                            </td>
+                        </tr>
+                        <!-- Completed Item -->
+                        <tr class="hover:bg-surface-container-low transition-colors duration-200">
+                            <td class="px-8 py-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-16 bg-surface-container-high rounded shadow-sm overflow-hidden flex-shrink-0">
+                                        <img class="w-full h-full object-cover"
+                                             data-alt="ancient manuscript book with worn parchment pages and heavy ornate wooden binding in a dark library setting"
+                                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNu4Ak8A6oPJ1ldOdMfDvFZkN-lAM3u03EsY3WgEgH2t4-7co6geL8QDKLt6dlhIoMt0b9aKLH3owqtzHus_iBnrhI9Qgrr1VQPKQSjvn6y8cxDBIXl7jjljBPFPnJZNcgQCWqGXnn2rNbm8dQjoYIFL-QlG62_iFivdKm8Kse-WBFcBzbcbUmrTZ-99_1B8pIvKvVjlO4bt3JX5xsnJkVMfGNT4ke4s7kk-wfxbA-NI2TWarj7ymNtyYHU94cGxJ5gR75lm5zvkUq"/>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-[#533528]">Lịch Sử Mỹ Thuật Thế Giới</p>
+                                        <p class="text-xs text-stone-400">ID: ARTS-2023-442</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">15/12/2023</td>
+                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">29/12/2023</td>
+                            <td class="px-6 py-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
+                                        Hoàn thành
+                                    </span>
+                            </td>
+                            <td class="px-8 py-6 text-right">
+                                <button class="text-stone-400 hover:text-primary font-bold text-sm">Chi tiết</button>
+                            </td>
+                        </tr>
+                        <!-- Completed Item -->
+                        <tr class="hover:bg-surface-container-low transition-colors duration-200">
+                            <td class="px-8 py-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-16 bg-surface-container-high rounded shadow-sm overflow-hidden flex-shrink-0">
+                                        <img class="w-full h-full object-cover"
+                                             data-alt="a stack of old books with tea stained edges on a rustic wooden table with soft warm light coming from a window"
+                                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-71eA02HtQY8Jy7bd82OjmTU0S1CCebo0U29nBPZxd7Qf_6oJVbSs0Bg0MvEgvrEgAGfzXwg9DrodKlBW8pTyF03W55uHhIKlBg6W8Z74Ls1jUjfJl_ctQQgiKsrqWKicJ6qKphr5WOlGLolznWqpGQW4UXxfz9pd7Cl5kGaLF0tcAXpBucLBpos7gcNvcmhXbltIk4qG4Ad2yqigakwpI16tuRL88Mt1eCCzL-AFwyaYfSCM62yIA-OO2L7XCSJ9KLtVp4F4i12o"/>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-[#533528]">Văn Học Việt Nam Cổ Điển</p>
+                                        <p class="text-xs text-stone-400">ID: LIT-2023-012</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">10/11/2023</td>
+                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">24/11/2023</td>
+                            <td class="px-6 py-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
+                                        Hoàn thành
+                                    </span>
+                            </td>
+                            <td class="px-8 py-6 text-right">
+                                <button class="text-stone-400 hover:text-primary font-bold text-sm">Chi tiết</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Pagination -->
+                <footer class="px-8 py-6 bg-surface-container-low/30 border-t border-surface-container-low flex justify-between items-center">
+                    <span class="text-xs text-stone-500 font-medium">Hiển thị 1 - 4 trên tổng số 24 bản ghi</span>
+                    <div class="flex gap-2">
+                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-container-high text-stone-400 cursor-not-allowed">
+                            <span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+                        </button>
+                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold text-xs">
+                            1
+                        </button>
+                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-container-high text-[#533528] font-bold text-xs hover:bg-surface-container-highest transition-colors">
+                            2
+                        </button>
+                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-container-high text-[#533528] font-bold text-xs hover:bg-surface-container-highest transition-colors">
+                            3
+                        </button>
+                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-container-high text-[#533528] hover:bg-surface-container-highest transition-colors">
+                            <span class="material-symbols-outlined text-sm"
+                                  data-icon="chevron_right">chevron_right</span>
+                        </button>
+                    </div>
+                </footer>
+            </div>
+            <!-- Secondary Content: Reading Tips / Archival Policy -->
+            <section class="mt-12 grid grid-cols-3 gap-8">
+                <div class="col-span-2 bg-[#533528] text-on-primary p-10 rounded-2xl relative overflow-hidden">
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold mb-4">Gia hạn sách dễ dàng hơn</h3>
+                        <p class="text-on-primary/70 mb-6 max-w-md">Bạn có thể gia hạn thời gian mượn trực tuyến tối đa
+                            2
+                            lần cho mỗi đầu sách nếu không có người khác đang chờ.</p>
+                        <button class="px-6 py-2.5 bg-[#D9A066] text-primary font-bold rounded-lg hover:bg-[#eabdaa] transition-colors">
+                            Tìm hiểu quy định
+                        </button>
+                    </div>
+                    <!-- Abstract Decorative Element -->
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-[#6d4c3d] rounded-full translate-x-20 -translate-y-20 opacity-30 blur-3xl"></div>
+                    <div class="absolute bottom-0 right-0 w-32 h-32 bg-[#D9A066] rounded-full translate-x-10 translate-y-10 opacity-10 blur-2xl"></div>
+                </div>
+                <div class="col-span-1 bg-tertiary-fixed text-on-tertiary-fixed p-8 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <span class="material-symbols-outlined text-3xl mb-4"
+                              data-icon="auto_awesome">auto_awesome</span>
+                        <h3 class="text-xl font-bold mb-2">Gợi ý dành riêng cho bạn</h3>
+                        <p class="text-sm opacity-80">Dựa trên lịch sử mượn sác của bạn, chúng tôi đã tuyển chọn danh
+                            sách
+                            tài liệu mới...</p>
+                    </div>
+                    <a class="text-sm font-bold flex items-center gap-1 group" href="#">
+                        Xem danh sách
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform"
+                              data-icon="arrow_forward">arrow_forward</span>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+
+{% endblock %}

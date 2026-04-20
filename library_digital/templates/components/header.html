@@ -1,5 +1,5 @@
 <nav
-        class="fixed top-0 left-0 right-0 z-50 bg-stone-50/80 backdrop-blur-md shadow-sm flex justify-between items-center w-full px-6 py-4 max-w-full mx-auto font-['Plus_Jakarta_Sans'] tracking-tight">
+    class="fixed top-0 left-0 right-0 z-50 bg-stone-50/80 backdrop-blur-md shadow-sm flex justify-between items-center w-full px-6 py-4 max-w-full mx-auto font-['Plus_Jakarta_Sans'] tracking-tight">
     <div class="flex items-center gap-8">
         <span class="text-xl font-bold text-stone-900">Digital Library</span>
         <div class="hidden md:flex gap-6">
@@ -31,33 +31,31 @@
     </div>
     <div class="flex items-center gap-4">
         <div class="relative hidden sm:block">
-            <span
-                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400">search</span>
-            <input
-                    class="bg-surface-container-high border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-tertiary transition-all duration-300 w-64"
-                    placeholder="Tìm kiếm sách..." type="text"/>
+            <a href="{{ url_for('book_searching') }}"
+                class="bg-surface-container-high rounded-lg px-4 py-2 text-sm flex items-center gap-2 hover:bg-stone-200 transition-all duration-300">
+                <span class="material-symbols-outlined text-stone-400">search</span>
+            </a>
         </div>
-
         {% if current_user.is_authenticated %}
         <div class="flex items-center gap-3">
             <a href="{{ url_for('user_detail', user_id=current_user.id) }}">
                 <img src="{{ current_user.avatar }}"
-                     class="w-9 h-9 rounded-full object-cover border border-gray-300 shadow-sm"
-                     alt="{{ current_user.last_name }}"/>
+                    class="w-9 h-9 rounded-full object-cover border border-gray-300 shadow-sm"
+                    alt="{{ current_user.last_name }}" />
             </a>
             <div class="flex flex-col leading-tight">
-        <span class="text-sm font-semibold text-gray-800">
-            {{ current_user.first_name }} {{ current_user.last_name }}
-        </span>
+                <span class="text-sm font-semibold text-gray-800">
+                    {{ current_user.first_name }} {{ current_user.last_name }}
+                </span>
             </div>
             <a href="{{ url_for('user_logout') }}"
-               class="ml-3 px-4 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:scale-[1.03] transition-transform duration-200">
+                class="ml-3 px-4 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:scale-[1.03] transition-transform duration-200">
                 Đăng xuất
             </a>
         </div>
         {% else %}
         <a href="{{ url_for('user_login') }}"
-           class="px-5 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:scale-[1.03] transition-transform duration-200 inline-block text-center">
+            class="px-5 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:scale-[1.03] transition-transform duration-200 inline-block text-center">
             Đăng nhập
         </a>
         {% endif %}

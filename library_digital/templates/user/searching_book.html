@@ -1,259 +1,148 @@
 {% extends 'user/layout.html' %}
 {% block content %}
+<main class="flex-grow w-full max-w-screen-2xl mx-auto px-6 py-12 md:py-20 flex flex-col gap-12">
+    <!-- Header & Filters -->
+    <section class="flex flex-col gap-8 w-full max-w-4xl mx-auto text-center">
+        <div class="flex flex-col gap-4">
+            <h1 class="text-4xl md:text-5xl font-headline font-bold text-on-surface">Khám phá Kho lưu trữ</h1>
+            <p class="text-lg text-on-surface-variant font-body">Tìm kiếm trong bộ sưu tập tri thức và văn học được
+                tuyển chọn cẩn thận của chúng tôi.</p>
+        </div>
+        <!-- Filter Panel -->
+        <form method="GET" action="{{ url_for('book_searching') }}" class="bg-surface-container-low rounded-xl p-6 md:p-8 ambient-shadow flex flex-col gap-6 text-left">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface font-body" for="book-title">Tên sách</label>
+                    <div class="ghost-border bg-surface-container-high rounded flex items-center px-4 py-3">
+                        <span class="material-symbols-outlined text-on-surface-variant mr-3">search</span>
+                        <input
+                            class="bg-transparent border-none focus:ring-0 w-full text-on-surface placeholder:text-on-surface-variant/50 font-body"
+                            id="book-title" name="title" placeholder="Nhập tên sách..." type="text" value="{{ search_title }}" />
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface font-body" for="author-name">Tác giả</label>
+                    <div class="ghost-border bg-surface-container-high rounded flex items-center px-4 py-3">
+                        <span class="material-symbols-outlined text-on-surface-variant mr-3">person</span>
+                        <input
+                            class="bg-transparent border-none focus:ring-0 w-full text-on-surface placeholder:text-on-surface-variant/50 font-body"
+                            id="author-name" name="author" placeholder="Tên tác giả..." type="text" value="{{ search_author }}" />
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface font-body" for="isbn-10">ISBN-10</label>
+                    <div class="ghost-border bg-surface-container-high rounded flex items-center px-4 py-3">
+                        <span class="material-symbols-outlined text-on-surface-variant mr-3">numbers</span>
+                        <input
+                            class="bg-transparent border-none focus:ring-0 w-full text-on-surface placeholder:text-on-surface-variant/50 font-body"
+                            id="isbn-10" name="isbn_10" placeholder="Nhập ISBN-10..." type="text" value="{{ search_isbn_10 }}" />
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface font-body" for="isbn-13">ISBN-13</label>
+                    <div class="ghost-border bg-surface-container-high rounded flex items-center px-4 py-3">
+                        <span class="material-symbols-outlined text-on-surface-variant mr-3">tag</span>
+                        <input
+                            class="bg-transparent border-none focus:ring-0 w-full text-on-surface placeholder:text-on-surface-variant/50 font-body"
+                            id="isbn-13" name="isbn_13" placeholder="Nhập ISBN-13..." type="text" value="{{ search_isbn_13 }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col gap-3">
+                <span class="text-sm font-semibold text-on-surface font-body">Thể loại</span>
+                <div class="flex flex-wrap gap-3">
+                    {% for category in categories %}
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input
+                            class="form-checkbox text-tertiary border-outline-variant rounded bg-surface-container-high focus:ring-tertiary focus:ring-offset-surface"
+                            type="checkbox" name="category_ids" value="{{ category.id }}"
+                            {% if category.id in selected_category_ids %}checked{% endif %} />
+                        <span class="ml-2 text-sm text-on-surface-variant font-body">{{ category.name }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="flex justify-end pt-2">
+                <button type="submit"
+                    class="bg-[#D9A066] text-[#2c1600] px-8 py-3 rounded font-semibold font-body hover:bg-tertiary-fixed-dim transition-colors duration-200 flex items-center gap-2">
+                    <span class="material-symbols-outlined">search</span>
+                    Tìm kiếm
+                </button>
+            </div>
+        </form>
+    </section>
+    <!-- Results Grid -->
+    <section class="flex flex-col gap-8 w-full mt-8">
+        <div class="flex justify-between items-end border-b border-surface-container-low pb-4">
+            <h2 class="text-2xl font-headline font-semibold text-on-surface">Kết quả tìm kiếm</h2>
+            <span class="text-sm text-on-surface-variant font-body">Trang {{ pagination.page }} / {{ pagination.pages }} ({{ pagination.total }} kết quả)</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {% for book in books %}
+            <article
+                class="bg-surface-container-lowest rounded-xl overflow-hidden ambient-shadow-hover flex flex-col group cursor-pointer">
+                <div class="aspect-[3/4] relative bg-surface-container-low overflow-hidden">
+                    <img alt="{{ book.title }}"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                        src="{{ book.image }}" />
+                </div>
+                <div class="p-5 flex flex-col gap-3 flex-grow bg-surface-container-lowest">
+                    <span class="text-xs font-semibold text-tertiary tracking-wider uppercase font-body">
+                        {{ book.categories[0].name if book.categories else 'Chưa phân loại' }}
+                    </span>
+                    <h3 class="text-lg font-headline font-bold text-on-surface leading-tight">{{ book.title }}</h3>
+                    <p class="text-sm text-on-surface-variant font-body flex-grow">{{ book.author }}</p>
+                    <a href="{{ url_for('book_detail', book_id=book.id) }}"
+                        class="mt-4 w-full py-2 bg-surface-container-low text-on-surface font-medium rounded hover:bg-surface-container-high transition-colors font-body text-sm border border-outline-variant/30 text-center">
+                        Chi tiết
+                    </a>
+                </div>
+            </article>
+            {% else %}
+            <div class="col-span-full text-center py-12">
+                <span class="material-symbols-outlined text-6xl text-on-surface-variant mb-4">search_off</span>
+                <p class="text-on-surface-variant font-body">Không tìm thấy sách nào phù hợp.</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% if pagination.pages > 1 %}
+        <nav class="flex justify-center items-center gap-2 mt-8">
+            {% if pagination.has_prev %}
+            <a href="{{ url_for('book_searching', page=pagination.prev_num, title=search_title, author=search_author, category_ids=selected_category_ids, isbn_10=search_isbn_10, isbn_13=search_isbn_13) }}"
+               class="w-10 h-10 flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors rounded-lg">
+                <span class="material-symbols-outlined">chevron_left</span>
+            </a>
+            {% else %}
+            <span class="w-10 h-10 flex items-center justify-center text-on-surface-variant cursor-not-allowed rounded-lg">
+                <span class="material-symbols-outlined">chevron_left</span>
+            </span>
+            {% endif %}
 
-<nav class="fixed top-0 w-full z-50 bg-[#fdf9f5] dark:bg-[#1c1c19] backdrop-blur-md opacity-95 shadow-sm dark:shadow-none font-['Plus_Jakarta_Sans'] tracking-tight">
-<div class="flex justify-between items-center px-8 py-4 max-w-full mx-auto">
-<div class="text-2xl font-bold tracking-tighter text-[#533528] dark:text-[#f7f3ef]">Digital Library</div>
-<div class="hidden md:flex items-center gap-8">
-<a class="text-[#6d4c3d] dark:text-[#a1a19a] hover:text-[#533528] transition-colors hover:scale-105 transition-transform duration-200" href="#">Home</a>
-<a class="text-[#6d4c3d] dark:text-[#a1a19a] hover:text-[#533528] transition-colors hover:scale-105 transition-transform duration-200" href="#">Categories</a>
-<a class="text-[#6d4c3d] dark:text-[#a1a19a] hover:text-[#533528] transition-colors hover:scale-105 transition-transform duration-200" href="#">Featured</a>
-</div>
-<div class="flex items-center gap-4">
-<div class="relative group">
-<span class="material-symbols-outlined text-[#533528] absolute left-3 top-1/2 -translate-y-1/2">search</span>
-<input class="bg-surface-container-high border-none rounded-lg pl-10 pr-4 py-2 w-64 focus:ring-1 focus:ring-tertiary transition-all outline-none text-sm" placeholder="Search the archive..." type="text"/>
-</div>
-<button class="hover:scale-105 transition-transform duration-200">
-<span class="material-symbols-outlined text-[#533528] dark:text-[#f7f3ef] text-3xl">account_circle</span>
-</button>
-</div>
-</div>
-</nav>
-<main class="mt-24 px-8 max-w-full mx-auto w-full flex-grow">
-<!-- Search Header -->
-<header class="mb-12">
-<h1 class="font-headline text-4xl font-extrabold tracking-tighter text-primary mb-2">Showing results for <span class="italic text-tertiary">"Art of Thinking"</span></h1>
-<p class="text-on-surface-variant font-medium">128 items found in the sanctuary</p>
-</header>
-<div class="flex flex-col md:flex-row gap-12">
-<!-- Sidebar Filters -->
-<aside class="w-full md:w-64 flex-shrink-0 space-y-10">
-<section>
-<h3 class="font-headline text-sm font-bold uppercase tracking-widest text-primary mb-6">Categories</h3>
-<div class="flex flex-col gap-3">
-<label class="flex items-center gap-3 group cursor-pointer">
-<input checked="" class="rounded-sm border-outline-variant text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
-<span class="text-on-surface-variant group-hover:text-primary transition-colors">Business</span>
-</label>
-<label class="flex items-center gap-3 group cursor-pointer">
-<input class="rounded-sm border-outline-variant text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
-<span class="text-on-surface-variant group-hover:text-primary transition-colors">Tech</span>
-</label>
-<label class="flex items-center gap-3 group cursor-pointer">
-<input class="rounded-sm border-outline-variant text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
-<span class="text-on-surface-variant group-hover:text-primary transition-colors">Literature</span>
-</label>
-<label class="flex items-center gap-3 group cursor-pointer">
-<input class="rounded-sm border-outline-variant text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
-<span class="text-on-surface-variant group-hover:text-primary transition-colors">Skills</span>
-</label>
-</div>
-</section>
-<section>
-<h3 class="font-headline text-sm font-bold uppercase tracking-widest text-primary mb-6">Availability</h3>
-<div class="flex flex-col gap-3">
-<label class="flex items-center gap-3 group cursor-pointer">
-<input checked="" class="border-outline-variant text-primary focus:ring-primary h-4 w-4" name="availability" type="radio"/>
-<span class="text-on-surface-variant group-hover:text-primary transition-colors">Available Now</span>
-</label>
-<label class="flex items-center gap-3 group cursor-pointer">
-<input class="border-outline-variant text-primary focus:ring-primary h-4 w-4" name="availability" type="radio"/>
-<span class="text-on-surface-variant group-hover:text-primary transition-colors">Borrowed</span>
-</label>
-</div>
-</section>
-<section>
-<h3 class="font-headline text-sm font-bold uppercase tracking-widest text-primary mb-6">Ratings</h3>
-<div class="flex flex-col gap-3">
-<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors">
-<div class="flex text-tertiary">
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm">star</span>
-</div>
-<span class="text-sm font-medium">&amp; Up</span>
-</button>
-</div>
-</section>
-</aside>
-<!-- Results Grid -->
-<div class="flex-grow">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-<!-- Book Card 1 -->
-<article class="bg-surface-container-low p-6 transition-all duration-300 hover:scale-[1.02] hover:bg-surface-container-highest hover:editorial-shadow group flex flex-col h-full">
-<div class="aspect-[3/4] mb-6 overflow-hidden relative">
-<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="thick vintage hardcover book resting on a dark walnut table with dramatic golden sunlight from a window" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBkSWLkOYlnEs8kvii0E3ZcdXT958M91OdfhiJf89riSwSCtdtrGswFGdkAiaEf08UyTKLodZsecoJZqUJl2F5r6U2byRqJgn8rYkhMLCp6UHvHjaw1YdUJ-WB9brrMCrIIbE649TbPNQH29HFVlXgmizWY3DM5WAJ87cvp7FzC9iF7wL13BSzKpK_7F_Usu4GBcZy7yK6_zvsJV2MJVB8K7pjDFxmhWH0U-gMDUaRqmQQSmlZo_aav0Xue-zbnn0nb97Zxn20mnyi"/>
-<span class="absolute top-4 right-4 bg-surface text-primary text-[10px] font-bold uppercase tracking-widest px-3 py-1">Business</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-2">
-<h2 class="font-headline text-xl font-bold leading-tight text-primary">The Art of Thinking Clearly</h2>
-<span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings: 'FILL' 1;">bookmark</span>
-</div>
-<p class="text-on-surface-variant text-sm mb-4 font-medium italic">by Rolf Dobelli</p>
-<div class="flex items-center gap-1 text-tertiary mb-6">
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0.5;">star_half</span>
-<span class="text-xs text-on-surface-variant ml-2 font-body">4.8</span>
-</div>
-</div>
-<div class="flex gap-2">
-<button class="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-primary border border-primary/20 hover:bg-primary hover:text-on-primary transition-all duration-200">View Details</button>
-<button class="flex-1 py-3 text-xs font-bold uppercase tracking-widest bg-primary text-on-primary hover:bg-primary-container transition-all duration-200">Borrow</button>
-</div>
-</article>
-<!-- Book Card 2 -->
-<article class="bg-surface-container-low p-6 transition-all duration-300 hover:scale-[1.02] hover:bg-surface-container-highest hover:editorial-shadow group flex flex-col h-full">
-<div class="aspect-[3/4] mb-6 overflow-hidden relative">
-<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="stack of diverse books with textured covers in a dimly lit library aisle with dust motes in the air" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXREqba1nMlzOFYj09AZvo1abir42FI1eEp8-S-JRbBimHpqNT9Rz0xklVB0gnpXM-X3ha3PT4RPPm_v2glKvhRcIklvRBh8CPA37_WXYTihE2MVB80UyuwReAs2qXHFLGsbtUxlpoa7vd2_V8jmQk0DTfhpgA_t9sKFWHRh0VB18fYgbirz026BdtWnHVMwH07uXX37UFxNqErJTYTaYiC727vs8jpfVS7BTyBRaZgrJ8MivREqNCTrnLrZDOxusac2SCvBiG8_Kp"/>
-<span class="absolute top-4 right-4 bg-on-surface-variant text-surface text-[10px] font-bold uppercase tracking-widest px-3 py-1">Borrowed</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-2">
-<h2 class="font-headline text-xl font-bold leading-tight text-primary">Thinking, Fast and Slow</h2>
-<span class="material-symbols-outlined text-outline-variant text-lg">bookmark</span>
-</div>
-<p class="text-on-surface-variant text-sm mb-4 font-medium italic">by Daniel Kahneman</p>
-<div class="flex items-center gap-1 text-tertiary mb-6">
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="text-xs text-on-surface-variant ml-2 font-body">5.0</span>
-</div>
-</div>
-<div class="flex gap-2">
-<button class="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-primary border border-primary/20 hover:bg-primary hover:text-on-primary transition-all duration-200">View Details</button>
-<button class="flex-1 py-3 text-xs font-bold uppercase tracking-widest bg-surface-container-high text-outline-variant cursor-not-allowed" disabled="">Waitlist</button>
-</div>
-</article>
-<!-- Book Card 3 -->
-<article class="bg-surface-container-low p-6 transition-all duration-300 hover:scale-[1.02] hover:bg-surface-container-highest hover:editorial-shadow group flex flex-col h-full">
-<div class="aspect-[3/4] mb-6 overflow-hidden relative">
-<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="open book with yellowed pages lying on a linen sheet under warm candle light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBw40XGpaW3SaX3knw5ZzO8L-7knQV7L2KppDjIICYoXsvfy20S0Cel39HCjaCq3d0qOVOCdaLWRs5Qfg_cwD6gqY1jy9OBPUR-sqBuuvEjScus1xlV_2k6sr_zBi4XJhK9LlSqb0aBjcEMYKBwiParjeSwdR1PvNrCU18RZiwTJqouAH6Z_peeDuN9VUMgEigGShaQCjVakU48PZTC58U83IN3MzPL5nWWdNGI1bDWFkskLm2oFvcDbWfS6-LQBUKJF35IXzmNgJqB"/>
-<span class="absolute top-4 right-4 bg-surface text-primary text-[10px] font-bold uppercase tracking-widest px-3 py-1">Literature</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-2">
-<h2 class="font-headline text-xl font-bold leading-tight text-primary">The Art of Creative Thinking</h2>
-<span class="material-symbols-outlined text-outline-variant text-lg">bookmark</span>
-</div>
-<p class="text-on-surface-variant text-sm mb-4 font-medium italic">by Rod Judkins</p>
-<div class="flex items-center gap-1 text-tertiary mb-6">
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm">star</span>
-<span class="text-xs text-on-surface-variant ml-2 font-body">4.2</span>
-</div>
-</div>
-<div class="flex gap-2">
-<button class="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-primary border border-primary/20 hover:bg-primary hover:text-on-primary transition-all duration-200">View Details</button>
-<button class="flex-1 py-3 text-xs font-bold uppercase tracking-widest bg-primary text-on-primary hover:bg-primary-container transition-all duration-200">Borrow</button>
-</div>
-</article>
-<!-- Book Card 4 -->
-<article class="bg-surface-container-low p-6 transition-all duration-300 hover:scale-[1.02] hover:bg-surface-container-highest hover:editorial-shadow group flex flex-col h-full">
-<div class="aspect-[3/4] mb-6 overflow-hidden relative">
-<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="macro close-up of a book spine with gold embossed lettering on aged leather" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvAnoavKHzzBcH_rNiMaRpYTj5uETjQeWtrdivaRX8qxvvVwrYyKPfBUHqRgQycbA_cBR_4eI6ZTzMIN1db3rJkidi_rR1RrSs2ZTX8OfvIIC6SeforEjjknZyAFqzru0KkC_RteFH8LcpXIyW0Ir-NqyyRENiF4qVnT1O25hp5PC8XKcmYxaHtj0ObBbF8oHOuUWfuOkvnMbZ7Ru-LKm2QM7nlAyGi8Nx0n7Na7oIXaX5RJkVFXwu3CviHZh4P7UlEE0jngvv764e"/>
-<span class="absolute top-4 right-4 bg-surface text-primary text-[10px] font-bold uppercase tracking-widest px-3 py-1">Philosophy</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-2">
-<h2 class="font-headline text-xl font-bold leading-tight text-primary">Meditations: Modern Art of Living</h2>
-<span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings: 'FILL' 1;">bookmark</span>
-</div>
-<p class="text-on-surface-variant text-sm mb-4 font-medium italic">by Marcus Aurelius</p>
-<div class="flex items-center gap-1 text-tertiary mb-6">
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="text-xs text-on-surface-variant ml-2 font-body">4.9</span>
-</div>
-</div>
-<div class="flex gap-2">
-<button class="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-primary border border-primary/20 hover:bg-primary hover:text-on-primary transition-all duration-200">View Details</button>
-<button class="flex-1 py-3 text-xs font-bold uppercase tracking-widest bg-primary text-on-primary hover:bg-primary-container transition-all duration-200">Borrow</button>
-</div>
-</article>
-<!-- Book Card 5 -->
-<article class="bg-surface-container-low p-6 transition-all duration-300 hover:scale-[1.02] hover:bg-surface-container-highest hover:editorial-shadow group flex flex-col h-full">
-<div class="aspect-[3/4] mb-6 overflow-hidden relative">
-<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="stack of hardcover books in warm library light with shadows of leaves cast on them" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHGxKDZsvZYvScrddrRw3LOZ7Z4_2e2V8iNmuTPKbVDYLzD4hKDDq6pGVsHr3wOp8EKkde3g3xLe5aXfyw8NGrsm-Ez_7KGfHtCOIs_nMEAVx68WKtabPOvqdQZt83C-BVJcpkMNsD-GygtXkfk8LWQGX1WzFAGNf2u-yyuoKnNGz4FgOTSPt4Xkoa7Z6N06YAO9drF6xdjXpcKrIaksrN_FgsqxqNGMQ2EVq4RFcrggZxlc40HfP7XP_lfjz6S0niXAmzkIhNl2Ew"/>
-<span class="absolute top-4 right-4 bg-surface text-primary text-[10px] font-bold uppercase tracking-widest px-3 py-1">Skills</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-2">
-<h2 class="font-headline text-xl font-bold leading-tight text-primary">Mastery</h2>
-<span class="material-symbols-outlined text-outline-variant text-lg">bookmark</span>
-</div>
-<p class="text-on-surface-variant text-sm mb-4 font-medium italic">by Robert Greene</p>
-<div class="flex items-center gap-1 text-tertiary mb-6">
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm">star</span>
-<span class="text-xs text-on-surface-variant ml-2 font-body">4.6</span>
-</div>
-</div>
-<div class="flex gap-2">
-<button class="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-primary border border-primary/20 hover:bg-primary hover:text-on-primary transition-all duration-200">View Details</button>
-<button class="flex-1 py-3 text-xs font-bold uppercase tracking-widest bg-primary text-on-primary hover:bg-primary-container transition-all duration-200">Borrow</button>
-</div>
-</article>
-<!-- Book Card 6 -->
-<article class="bg-surface-container-low p-6 transition-all duration-300 hover:scale-[1.02] hover:bg-surface-container-highest hover:editorial-shadow group flex flex-col h-full">
-<div class="aspect-[3/4] mb-6 overflow-hidden relative">
-<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="child looking at an illustrated book with warm morning light and floating dust motes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhmsFPmGpmaR_eVrqp1fVNVo40ZFIIS8mPF3YwaahXmILSzYYO-b1ZzisWeLJWFY0r3GluR3sJz8Xzz876cumWGGNDeQ_LdesNY1gEFrfCcDeNyNuR9Zz3NaI1IMq8K_p_e-l0Gn1aV8BY2iiscerJoXu_Lrbvf6AtZEskDAirLJGAD2yvSY69RmQQY0-UsNPul0966pxaoHgTSFPKPT_6iXs2ojWT2cmu1s4msE6apMvXvffIsrmnAaEO0XLg6zkZ8bZsSoSX_mI2"/>
-<span class="absolute top-4 right-4 bg-on-surface-variant text-surface text-[10px] font-bold uppercase tracking-widest px-3 py-1">Borrowed</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-2">
-<h2 class="font-headline text-xl font-bold leading-tight text-primary">Think Like a Monk</h2>
-<span class="material-symbols-outlined text-outline-variant text-lg">bookmark</span>
-</div>
-<p class="text-on-surface-variant text-sm mb-4 font-medium italic">by Jay Shetty</p>
-<div class="flex items-center gap-1 text-tertiary mb-6">
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-sm">star</span>
-<span class="text-xs text-on-surface-variant ml-2 font-body">4.4</span>
-</div>
-</div>
-<div class="flex gap-2">
-<button class="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-primary border border-primary/20 hover:bg-primary hover:text-on-primary transition-all duration-200">View Details</button>
-<button class="flex-1 py-3 text-xs font-bold uppercase tracking-widest bg-surface-container-high text-outline-variant cursor-not-allowed" disabled="">Waitlist</button>
-</div>
-</article>
-</div>
-<!-- Pagination -->
-<nav class="mt-16 flex justify-center items-center gap-2">
-<button class="w-10 h-10 flex items-center justify-center text-primary hover:bg-surface-container-high transition-colors">
-<span class="material-symbols-outlined">chevron_left</span>
-</button>
-<button class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary font-bold text-sm">1</button>
-<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high font-bold text-sm transition-colors">2</button>
-<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high font-bold text-sm transition-colors">3</button>
-<span class="w-10 h-10 flex items-center justify-center text-on-surface-variant font-bold text-sm">...</span>
-<button class="w-10 h-10 flex items-center justify-center text-primary hover:bg-surface-container-high transition-colors">
-<span class="material-symbols-outlined">chevron_right</span>
-</button>
-</nav>
-</div>
-</div>
+            {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                {% if page_num %}
+                    {% if page_num == pagination.page %}
+                    <span class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary font-bold text-sm rounded-lg">{{ page_num }}</span>
+                    {% else %}
+                    <a href="{{ url_for('book_searching', page=page_num, title=search_title, author=search_author, category_ids=selected_category_ids, isbn_10=search_isbn_10, isbn_13=search_isbn_13) }}"
+                       class="w-10 h-10 flex items-center justify-center text-on-surface hover:bg-surface-container-high font-bold text-sm transition-colors rounded-lg">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    <span class="w-10 h-10 flex items-center justify-center text-on-surface-variant font-bold text-sm">...</span>
+                {% endif %}
+            {% endfor %}
+
+            {% if pagination.has_next %}
+            <a href="{{ url_for('book_searching', page=pagination.next_num, title=search_title, author=search_author, category_ids=selected_category_ids, isbn_10=search_isbn_10, isbn_13=search_isbn_13) }}"
+               class="w-10 h-10 flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors rounded-lg">
+                <span class="material-symbols-outlined">chevron_right</span>
+            </a>
+            {% else %}
+            <span class="w-10 h-10 flex items-center justify-center text-on-surface-variant cursor-not-allowed rounded-lg">
+                <span class="material-symbols-outlined">chevron_right</span>
+            </span>
+            {% endif %}
+        </nav>
+        {% endif %}
+    </section>
 </main>
-<!-- Footer -->
 {% endblock %}

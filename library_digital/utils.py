@@ -39,3 +39,24 @@ def get_categories():
 
 def get_books_by_category(category_id):
     return Book.query.join(CategoryBook).filter(CategoryBook.category_id == category_id).all()
+
+
+def search_books(isbn_10=None, isbn_13=None, title=None, author=None, category_ids=None, page=1, per_page=8):
+    query = Book.query
+
+    if isbn_10:
+        query = query.filter(Book.isbn_10.ilike(f'%{isbn_10}%'))
+    
+    if isbn_13:
+        query = query.filter(Book.isbn_13.ilike(f'%{isbn_13}%'))
+
+    if title:
+        query = query.filter(Book.title.ilike(f'%{title}%'))
+
+    if author:
+        query = query.filter(Book.author.ilike(f'%{author}%'))
+
+    if category_ids:
+        query = query.join(CategoryBook).filter(CategoryBook.category_id.in_(category_ids))
+
+    return query.paginate(page=page, per_page=per_page, error_out=False)

@@ -101,19 +101,58 @@ def borrow_history(user_id):
 @app.route('/user/<int:user_id>/borrow-status')
 def borrow_status(user_id):
     return render_template('user/borrow_status.html')
-@app.route('/book/searching_book/')
+
+@app.route('/book/searching-book/', methods=['GET'])
 def book_searching():
-    return render_template('user/searching_book.html')
+    isbn_10 = request.args.get('isbn_10', '').strip()
+    isbn_13 = request.args.get('isbn_13', '').strip()
+    title = request.args.get('title', '').strip()
+    author = request.args.get('author', '').strip()
+    category_ids = request.args.getlist('category_ids', type=int)
+    page = request.args.get('page', 1, type=int)
 
-@app.route('/librarian/book_management/')
+    categories = utils.get_categories()
+
+    if title or author or category_ids or isbn_10 or isbn_13:
+        pagination = utils.search_books(isbn_10=isbn_10 or None, isbn_13=isbn_13 or None, title=title or None, author=author or None, category_ids=category_ids or None, page=page, per_page=8)
+    else:
+        pagination = utils.search_books(page=page, per_page=8)
+
+    return render_template('user/searching_book.html',
+                           books=pagination.items,
+                           pagination=pagination,
+                           categories=categories,
+                           search_title=title,
+                           search_author=author,
+                           selected_category_ids=category_ids,
+                           search_isbn_10=isbn_10,
+                           search_isbn_13=isbn_13)
+
+@app.route('/librarian/book-management/', methods=['GET'])
 def librarian_book_management():
-    return render_template('librarian/book_management.html')
+    isbn_10 = request.args.get('isbn_10', '').strip()
+    isbn_13 = request.args.get('isbn_13', '').strip()
+    title = request.args.get('title', '').strip()
+    author = request.args.get('author', '').strip()
+    category_ids = request.args.getlist('category_ids', type=int)
+    page = request.args.get('page', 1, type=int)
 
+    categories = utils.get_categories()
+    pagination = utils.search_books(isbn_10=isbn_10 or None, isbn_13=isbn_13 or None, title=title or None, author=author or None, category_ids=category_ids or None, page=page, per_page=10)
+
+    return render_template('librarian/book_management.html',
+                           books=pagination.items,
+                           pagination=pagination,
+                           categories=categories,
+                           search_title=title,
+                           search_author=author,
+                           selected_category_ids=category_ids,
+                           search_isbn_10=isbn_10,
+                           search_isbn_13=isbn_13)
 
 @app.route('/librarian/dashboard/')
 def librarian_dashboard():
     return render_template('librarian/dashboard.html')
-
 
 @app.route('/librarian/reader_management/')
 def librarian_reader_management():
@@ -138,9 +177,27 @@ def admin_user_management():
 def admin_dashboard():
     return render_template('admin/dashboard.html')
 
-@app.route('/admin/book_management/')
+@app.route('/admin/book-management/', methods=['GET'])
 def admin_book_management():
-    return render_template('admin/book_management.html')
+    isbn_10 = request.args.get('isbn_10', '').strip()
+    isbn_13 = request.args.get('isbn_13', '').strip()
+    title = request.args.get('title', '').strip()
+    author = request.args.get('author', '').strip()
+    category_ids = request.args.getlist('category_ids', type=int)
+    page = request.args.get('page', 1, type=int)
+
+    categories = utils.get_categories()
+    pagination = utils.search_books(isbn_10=isbn_10 or None, isbn_13=isbn_13 or None, title=title or None, author=author or None, category_ids=category_ids or None, page=page, per_page=10)
+
+    return render_template('admin/book_management.html',
+                           books=pagination.items,
+                           pagination=pagination,
+                           categories=categories,
+                           search_title=title,
+                           search_author=author,
+                           selected_category_ids=category_ids,
+                           search_isbn_10=isbn_10,
+                           search_isbn_13=isbn_13)
 
 @app.route('/admin/report/')
 def admin_report():

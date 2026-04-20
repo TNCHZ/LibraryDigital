@@ -1,229 +1,193 @@
 {% extends 'librarian/layout.html' %}
 
 {% block content %}
-<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f7f3ef] dark:bg-stone-900 font-['Plus_Jakarta_Sans'] text-sm antialiased flex flex-col p-4 gap-4 z-40">
-<div class="flex items-center gap-3 px-2 py-4">
-<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary">
-<span class="material-symbols-outlined" data-icon="local_library">local_library</span>
-</div>
-<div>
-<h2 class="text-lg font-black tracking-tighter text-[#533528]">Thủ Thư</h2>
-<p class="text-xs opacity-70">Hệ thống quản lý</p>
-</div>
-</div>
-<nav class="flex-1 space-y-2">
-<a class="flex items-center gap-3 px-3 py-2.5 text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02] transition-all duration-200 rounded-md" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-                Dashboard
-            </a>
-<a class="flex items-center gap-3 px-3 py-2.5 bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] rounded-md shadow-sm font-bold" href="#">
-<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
-                Quản lý sách
-            </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02] transition-all duration-200 rounded-md" href="#">
-<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
-                Quản lý đơn mượn
-            </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02] transition-all duration-200 rounded-md" href="#">
-<span class="material-symbols-outlined" data-icon="group">group</span>
-                Quản lý người dùng
-            </a>
-</nav>
-<div class="mt-auto p-3 bg-surface-container rounded-lg flex items-center gap-3">
-<img alt="Ảnh đại diện Thủ thư" class="w-8 h-8 rounded-full object-cover" data-alt="Close-up portrait of a professional librarian woman with glasses and a warm smile in a brightly lit modern library" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTz7vqaxB3J2gL1nZaODeKQSScm800305f1294TCcVOLnKWtCv5FM1NxSXKpUI-xl5Mu035ybvVxsdBCEQpG1BRV-Zvp-3qVqXZFnSwU3IbeG1mvGSUlTBo6o2n2VFIUJWqLhge3uumiCES-fOTgT3OWBKaatFW2ghpPRasPlOLmaeDeyMDsq-oWfyeeJFoFioeruGbGNBX4CeqdwHendMeSTFUZ8Vumimx4g8C5uLZ7HskX1Zok1WBj-pnmTRQChYspu4o5j1p4Yq"/>
-<div class="overflow-hidden">
-<p class="text-xs font-bold truncate">Nguyễn Thư Kỳ</p>
-<p class="text-[10px] opacity-60">Thủ thư trưởng</p>
-</div>
-</div>
-</aside>
 <!-- Main Content Area -->
 <main class="flex-1 ml-64 flex flex-col min-h-screen">
-<!-- TopNavBar -->
-<header class="bg-[#fdf9f5] dark:bg-stone-950 backdrop-blur-md opacity-90 font-['Plus_Jakarta_Sans'] font-semibold tracking-tight shadow-sm dark:shadow-none docked full-width top-0 sticky z-30">
-<div class="flex justify-between items-center w-full px-6 py-3">
-<div class="flex items-center gap-6">
-<span class="text-xl font-bold text-[#533528] dark:text-[#f7f3ef]">Thư Viện</span>
-<div class="relative group">
-<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-sm" data-icon="search">search</span>
-<input class="pl-10 pr-4 py-2 bg-surface-container-high border-none rounded-lg text-sm w-80 focus:ring-2 focus:ring-tertiary transition-all" placeholder="Tìm kiếm mã sách, tên sách..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<button class="p-2 text-[#533528] hover:bg-[#f7f3ef] rounded-full transition-colors scale-105">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<button class="p-2 text-[#533528] hover:bg-[#f7f3ef] rounded-full transition-colors scale-105">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-</button>
-</div>
-</div>
-<div class="bg-[#f7f3ef] dark:bg-stone-900 h-[1px] w-full"></div>
-</header>
-<!-- Canvas -->
-<div class="p-8 max-w-7xl mx-auto w-full">
-<!-- Header Section -->
-<div class="flex justify-between items-end mb-8">
-<div>
-<h1 class="text-4xl font-extrabold text-primary tracking-tight mb-2">Kho Sách Lưu Trữ</h1>
-<p class="text-on-surface-variant font-medium">Quản lý và cập nhật danh mục kiến thức của thư viện.</p>
-</div>
-<button class="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.03] transition-transform shadow-md">
-<span class="material-symbols-outlined" data-icon="add">add</span>
-                    Thêm sách mới
+    <!-- Canvas -->
+    <div class="p-8 max-w-7xl mx-auto w-full">
+        <!-- Header Section -->
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h1 class="text-4xl font-extrabold text-primary tracking-tight mb-2">Kho Sách Lưu Trữ</h1>
+                <p class="text-on-surface-variant font-medium">Quản lý và cập nhật danh mục kiến thức của thư viện.</p>
+            </div>
+            <button
+                class="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.03] transition-transform shadow-md">
+                <span class="material-symbols-outlined" data-icon="add">add</span>
+                Thêm sách mới
+            </button>
+        </div>
+        <!-- Search Form -->
+        <form method="GET" action="{{ url_for('librarian_book_management') }}" class="bg-surface-container-low rounded-2xl p-6 mb-8 shadow-sm">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="title">Tên sách</label>
+                    <div class="bg-surface-container-high rounded-lg flex items-center px-3 py-2">
+                        <span class="material-symbols-outlined text-on-surface-variant mr-2 text-sm">search</span>
+                        <input class="bg-transparent border-none focus:ring-0 w-full text-sm text-on-surface placeholder:text-on-surface-variant/50"
+                            id="title" name="title" placeholder="Nhập tên sách..." type="text" value="{{ search_title }}" />
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="author">Tác giả</label>
+                    <div class="bg-surface-container-high rounded-lg flex items-center px-3 py-2">
+                        <span class="material-symbols-outlined text-on-surface-variant mr-2 text-sm">person</span>
+                        <input class="bg-transparent border-none focus:ring-0 w-full text-sm text-on-surface placeholder:text-on-surface-variant/50"
+                            id="author" name="author" placeholder="Tên tác giả..." type="text" value="{{ search_author }}" />
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="isbn_10">ISBN-10</label>
+                    <div class="bg-surface-container-high rounded-lg flex items-center px-3 py-2">
+                        <span class="material-symbols-outlined text-on-surface-variant mr-2 text-sm">numbers</span>
+                        <input class="bg-transparent border-none focus:ring-0 w-full text-sm text-on-surface placeholder:text-on-surface-variant/50"
+                            id="isbn_10" name="isbn_10" placeholder="Nhập ISBN-10..." type="text" value="{{ search_isbn_10 }}" />
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="isbn_13">ISBN-13</label>
+                    <div class="bg-surface-container-high rounded-lg flex items-center px-3 py-2">
+                        <span class="material-symbols-outlined text-on-surface-variant mr-2 text-sm">tag</span>
+                        <input class="bg-transparent border-none focus:ring-0 w-full text-sm text-on-surface placeholder:text-on-surface-variant/50"
+                            id="isbn_13" name="isbn_13" placeholder="Nhập ISBN-13..." type="text" value="{{ search_isbn_13 }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2 mb-4">
+                <span class="text-sm font-semibold text-on-surface">Thể loại</span>
+                <div class="flex flex-wrap gap-3">
+                    {% for category in categories %}
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input class="form-checkbox text-primary border-outline-variant rounded bg-surface-container-high focus:ring-primary"
+                            type="checkbox" name="category_ids" value="{{ category.id }}"
+                            {% if category.id in selected_category_ids %}checked{% endif %} />
+                        <span class="ml-2 text-sm text-on-surface-variant">{{ category.name }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <button type="submit" class="bg-primary text-on-primary px-6 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] transition-transform">
+                    <span class="material-symbols-outlined text-sm">search</span>
+                    Tìm kiếm
                 </button>
-</div>
-<!-- Stats/Bento Grid Preview -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] flex flex-col gap-2">
-<span class="text-tertiary font-bold text-sm uppercase tracking-wider">Tổng số sách</span>
-<span class="text-3xl font-black text-primary">12,482</span>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] flex flex-col gap-2">
-<span class="text-tertiary font-bold text-sm uppercase tracking-wider">Đang cho mượn</span>
-<span class="text-3xl font-black text-primary">1,105</span>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] flex flex-col gap-2 border-l-4 border-tertiary">
-<span class="text-tertiary font-bold text-sm uppercase tracking-wider">Sách mới về</span>
-<span class="text-3xl font-black text-primary">48</span>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] flex flex-col gap-2">
-<span class="text-tertiary font-bold text-sm uppercase tracking-wider">Cần phục hồi</span>
-<span class="text-3xl font-black text-primary">12</span>
-</div>
-</div>
-<!-- Book Table Section -->
-<div class="bg-surface-container-low rounded-2xl overflow-hidden shadow-sm">
-<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
-<div class="flex gap-4">
-<button class="px-4 py-1.5 bg-surface-container-highest rounded-full text-xs font-bold text-primary">Tất cả</button>
-<button class="px-4 py-1.5 hover:bg-surface-container-highest rounded-full text-xs font-bold text-secondary transition-colors">Văn học</button>
-<button class="px-4 py-1.5 hover:bg-surface-container-highest rounded-full text-xs font-bold text-secondary transition-colors">Kinh tế</button>
-<button class="px-4 py-1.5 hover:bg-surface-container-highest rounded-full text-xs font-bold text-secondary transition-colors">Kỹ năng</button>
-</div>
-<button class="flex items-center gap-2 text-sm font-semibold text-primary">
-<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
-                        Lọc nâng cao
-                    </button>
-</div>
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container-high/50">
-<th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-secondary/70">Bìa sách</th>
-<th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-secondary/70">Thông tin sách</th>
-<th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-secondary/70">Thể loại</th>
-<th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-secondary/70">Trạng thái</th>
-<th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-secondary/70 text-right">Thao tác</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-outline-variant/10">
-<!-- Book Row 1 -->
-<tr class="hover:bg-surface-container-highest/30 transition-colors group">
-<td class="px-6 py-4">
-<img alt="Bìa sách" class="w-14 h-20 object-cover rounded shadow-sm group-hover:scale-105 transition-transform" data-alt="Elegant minimalist book cover with gold typography on a deep forest green textured background, professional studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQYU_oqiL92vRgmFQSof5X1Ax2XL-bi-iLk7UIMiIq9m5tj60i936KNu1SydQxdsANPONCAx7gYnTvCaIItP650_3MJBIzMUdY54dcMo_hkjsZqbdP1Xro316X1I11_V6vLntNgF_Kj8qMNyNs40Qe9sy5CcT895C-ODkPSICs3XkJdmNGV0Ni6LtrMsnz-giMpP44MWegl9gNSvLvpt6ZZZElBknoU8tbLkFSIa4k3HnNz5Yt1lIW1KY7ZRUEGMx4YQv3ZXIQj8I9"/>
-</td>
-<td class="px-6 py-4">
-<div class="font-headline font-bold text-primary">Nghệ Thuật Tư Duy Rành Mạch</div>
-<div class="text-sm text-on-surface-variant italic">Rolf Dobelli</div>
-<div class="text-[10px] text-secondary mt-1 tracking-tighter">ISBN: 978-604-1-0814-2</div>
-</td>
-<td class="px-6 py-4">
-<span class="text-xs font-medium bg-surface-container-highest px-3 py-1 rounded-full">Kỹ năng sống</span>
-</td>
-<td class="px-6 py-4">
-<div class="flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-<span class="text-sm font-semibold text-emerald-700">Sẵn sàng</span>
-</div>
-</td>
-<td class="px-6 py-4 text-right">
-<div class="flex justify-end gap-2">
-<button class="p-2 hover:bg-surface-container-highest rounded transition-colors text-primary" title="Sửa">
-<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
-</button>
-<button class="p-2 hover:bg-error-container/20 rounded transition-colors text-error" title="Xóa">
-<span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Book Row 2 -->
-<tr class="hover:bg-surface-container-highest/30 transition-colors group">
-<td class="px-6 py-4">
-<img alt="Bìa sách" class="w-14 h-20 object-cover rounded shadow-sm group-hover:scale-105 transition-transform" data-alt="Vibrant artistic book cover featuring abstract shapes in warm terracotta and amber tones, clean sans-serif title" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPABr_whosjm_kwja-4A_whegiwaHDaU-KquLocAsrnrweZ9cmbVMBxQCpZGxTq0eZfqWylFZcbgtRHeLYbIC1r3k4kOOFtQJ34Dnp2nfK3450BDBSih4Ana4GqjfK1tkrY10o45ndcoWMgUYo4nUdmfaQLcAMpfDZIPBmRT1Gdcd-bgskiJWmnlMchrbUiXWBoYzGouRBKfxzBTx80ZVNzOerEek4t5VkCrcf_imNip0Gh7fzXXT3x5OQTA1IDhAISfBy6x6sMjBj"/>
-</td>
-<td class="px-6 py-4">
-<div class="font-headline font-bold text-primary">Nhà Giả Kim</div>
-<div class="text-sm text-on-surface-variant italic">Paulo Coelho</div>
-<div class="text-[10px] text-secondary mt-1 tracking-tighter">ISBN: 978-604-1-1234-5</div>
-</td>
-<td class="px-6 py-4">
-<span class="text-xs font-medium bg-surface-container-highest px-3 py-1 rounded-full">Văn học cổ điển</span>
-</td>
-<td class="px-6 py-4">
-<div class="flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-amber-500"></span>
-<span class="text-sm font-semibold text-amber-700">Đang cho mượn</span>
-</div>
-</td>
-<td class="px-6 py-4 text-right">
-<div class="flex justify-end gap-2">
-<button class="p-2 hover:bg-surface-container-highest rounded transition-colors text-primary" title="Sửa">
-<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
-</button>
-<button class="p-2 hover:bg-error-container/20 rounded transition-colors text-error" title="Xóa">
-<span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Book Row 3 -->
-<tr class="hover:bg-surface-container-highest/30 transition-colors group">
-<td class="px-6 py-4">
-<img alt="Bìa sách" class="w-14 h-20 object-cover rounded shadow-sm group-hover:scale-105 transition-transform" data-alt="Classic leather-bound book with embossed gold lettering and intricate vintage scrollwork on the spine and cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA39_GMNAZWG60XfKKYB2rbB5Ulie5WO6N4pzANeuAA6OVzOmNu6VA5qMgQfl6YjFFmWU2qe7BV411Aynxhkra3KsVoGA7eAJIscJPSgrdaWitSg5Edo10eo-Nj3g0rbhkqyYfBdbXN4spS-3kvgB_6nruUtgcJ--HOxVmFRqvIjFYbARMXjTg-bbK_jDDdtcYX_8fAHXlKjiTRbUo5i9V4CvjleGXNtKjZNTv5bR928XanL-thiy0uYBH3MHdtqcpIvq2PIGH9uOle"/>
-</td>
-<td class="px-6 py-4">
-<div class="font-headline font-bold text-primary">Bắt Trẻ Đồng Xanh</div>
-<div class="text-sm text-on-surface-variant italic">J.D. Salinger</div>
-<div class="text-[10px] text-secondary mt-1 tracking-tighter">ISBN: 978-604-1-8899-0</div>
-</td>
-<td class="px-6 py-4">
-<span class="text-xs font-medium bg-surface-container-highest px-3 py-1 rounded-full">Văn học phương Tây</span>
-</td>
-<td class="px-6 py-4">
-<div class="flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-<span class="text-sm font-semibold text-emerald-700">Sẵn sàng</span>
-</div>
-</td>
-<td class="px-6 py-4 text-right">
-<div class="flex justify-end gap-2">
-<button class="p-2 hover:bg-surface-container-highest rounded transition-colors text-primary" title="Sửa">
-<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
-</button>
-<button class="p-2 hover:bg-error-container/20 rounded transition-colors text-error" title="Xóa">
-<span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="p-6 bg-surface-container flex justify-between items-center">
-<p class="text-xs text-secondary font-medium uppercase tracking-widest">Hiển thị 1 - 10 trên 12,482 sách</p>
-<div class="flex gap-2">
-<button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-lowest shadow-sm text-primary">
-<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
-</button>
-<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary font-bold text-xs">1</button>
-<button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-lowest text-primary font-bold text-xs hover:bg-surface-container-highest">2</button>
-<button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-lowest text-primary font-bold text-xs hover:bg-surface-container-highest">3</button>
-<button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-lowest shadow-sm text-primary">
-<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
-</button>
-</div>
-</div>
-</div>
-</div>
+            </div>
+        </form>
+        <!-- Book Table Section -->
+        <div class="bg-surface-container-low rounded-2xl overflow-hidden shadow-sm">
+            <div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
+                <div class="flex gap-4">
+                    <button class="px-4 py-1.5 bg-surface-container-highest rounded-full text-xs font-bold text-primary">Tất cả</button>
+                    <button class="px-4 py-1.5 hover:bg-surface-container-highest rounded-full text-xs font-bold text-secondary transition-colors">Văn học</button>
+                    <button class="px-4 py-1.5 hover:bg-surface-container-highest rounded-full text-xs font-bold text-secondary transition-colors">Kinh tế</button>
+                    <button class="px-4 py-1.5 hover:bg-surface-container-highest rounded-full text-xs font-bold text-secondary transition-colors">Kỹ năng</button>
+                </div>
+                <span class="text-sm text-on-surface-variant">Trang {{ pagination.page }} / {{ pagination.pages }} ({{ pagination.total }} kết quả)</span>
+            </div>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-surface-container-high/50">
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-secondary/70">Bìa sách</th>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-secondary/70">Thông tin sách</th>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-secondary/70">Thể loại</th>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-secondary/70">Trạng thái</th>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-widest text-secondary/70 text-right">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant/10">
+                    {% for book in books %}
+                    <tr class="hover:bg-surface-container-highest/30 transition-colors group">
+                        <td class="px-6 py-4">
+                            <img alt="{{ book.title }}"
+                                class="w-14 h-20 object-cover rounded shadow-sm group-hover:scale-105 transition-transform"
+                                src="{{ book.image }}" />
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="font-headline font-bold text-primary">{{ book.title }}</div>
+                            <div class="text-sm text-on-surface-variant italic">{{ book.author }}</div>
+                            <div class="text-[10px] text-secondary mt-1 tracking-tighter">
+                                {% if book.isbn_13 %}ISBN-13: {{ book.isbn_13 }}{% elif book.isbn_10 %}ISBN-10: {{ book.isbn_10 }}{% endif %}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-xs font-medium bg-surface-container-highest px-3 py-1 rounded-full">
+                                {{ book.categories[0].name if book.categories else 'Chưa phân loại' }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-2">
+                                {% if book.is_active %}
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                <span class="text-sm font-semibold text-emerald-700">Sẵn sàng</span>
+                                {% else %}
+                                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                                <span class="text-sm font-semibold text-amber-700">Ngừng bán</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex justify-end gap-2">
+                                <button class="p-2 hover:bg-surface-container-highest rounded transition-colors text-primary" title="Sửa">
+                                    <span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+                                </button>
+                                <button class="p-2 hover:bg-error-container/20 rounded transition-colors text-error" title="Xóa">
+                                    <span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-12 text-center">
+                            <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">search_off</span>
+                            <p class="text-on-surface-variant">Không tìm thấy sách nào phù hợp.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if pagination.pages > 1 %}
+            <div class="p-6 bg-surface-container flex justify-between items-center">
+                <p class="text-xs text-secondary font-medium uppercase tracking-widest">
+                    Hiển thị {{ (pagination.page - 1) * 10 + 1 }} - {{ (pagination.page - 1) * 10 + books|length }} trên {{ pagination.total }} sách
+                </p>
+                <div class="flex gap-2">
+                    {% if pagination.has_prev %}
+                    <a href="{{ url_for('librarian_book_management', page=pagination.prev_num, title=search_title, author=search_author, isbn_10=search_isbn_10, isbn_13=search_isbn_13, category_ids=selected_category_ids) }}"
+                        class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-lowest shadow-sm text-primary hover:bg-surface-container-highest transition-colors">
+                        <span class="material-symbols-outlined text-sm">chevron_left</span>
+                    </a>
+                    {% else %}
+                    <span class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-lowest shadow-sm text-on-surface-variant cursor-not-allowed">
+                        <span class="material-symbols-outlined text-sm">chevron_left</span>
+                    </span>
+                    {% endif %}
+                    {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                        {% if page_num %}
+                            {% if page_num == pagination.page %}
+                            <span class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary font-bold text-xs">{{ page_num }}</span>
+                            {% else %}
+                            <a href="{{ url_for('librarian_book_management', page=page_num, title=search_title, author=search_author, isbn_10=search_isbn_10, isbn_13=search_isbn_13, category_ids=selected_category_ids) }}"
+                                class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-lowest text-primary font-bold text-xs hover:bg-surface-container-highest transition-colors">{{ page_num }}</a>
+                            {% endif %}
+                        {% else %}
+                            <span class="w-8 h-8 flex items-center justify-center text-on-surface-variant font-bold text-xs">...</span>
+                        {% endif %}
+                    {% endfor %}
+                    {% if pagination.has_next %}
+                    <a href="{{ url_for('librarian_book_management', page=pagination.next_num, title=search_title, author=search_author, isbn_10=search_isbn_10, isbn_13=search_isbn_13, category_ids=selected_category_ids) }}"
+                        class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-lowest shadow-sm text-primary hover:bg-surface-container-highest transition-colors">
+                        <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    </a>
+                    {% else %}
+                    <span class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-lowest shadow-sm text-on-surface-variant cursor-not-allowed">
+                        <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </main>
-{% endblock content%}
+{% endblock content %}

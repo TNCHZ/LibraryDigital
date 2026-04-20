@@ -8,7 +8,8 @@ app = create_app()
 
 @app.route('/')
 def home():
-    return render_template('user/home.html')
+    cates = utils.get_categories()
+    return render_template('user/home.html', cates=cates)
 
 @app.route('/book/<int:book_id>')
 def book_detail(book_id):
@@ -76,6 +77,18 @@ def register():
 @app.route('/auth/forget-password')
 def forget_pass():
     return render_template('auth/forget_password.html')
+
+@app.route('/categories')
+def category_list():
+    cates = utils.get_categories()
+    category_id = request.args.get('category_id')
+
+    if category_id:
+        books = utils.get_books_by_category(category_id)
+    else:
+        books = utils.get_books()
+
+    return render_template('user/categories.html', cates=cates, current_category_id=category_id, books=books)
 
 @app.route('/user/<int:user_id>/profile')
 def user_detail(user_id):

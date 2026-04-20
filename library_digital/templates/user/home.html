@@ -43,48 +43,41 @@
                 </h2>
                 <div class="w-12 h-1 bg-tertiary mt-3"></div>
             </div>
-            <a class="text-primary font-semibold hover:underline flex items-center gap-1" href="#">
+            <a class="text-primary font-semibold hover:underline flex items-center gap-1" href="{{ url_for('category_list') }}">
                 Tất cả danh mục <span class="material-symbols-outlined">chevron_right</span>
             </a>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <!-- Business -->
-            <div
-                class="group h-48 p-8 bg-surface-container-low rounded-xl flex flex-col items-center justify-center text-center hover:bg-surface-container-highest hover:scale-[1.02] transition-all duration-300">
-                <div
-                    class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                    <span class="material-symbols-outlined text-primary text-3xl">business_center</span>
-                </div>
-                <h3 class="font-headline font-bold text-on-surface">Kinh doanh</h3>
-            </div>
-            <!-- Technology -->
-            <div
-                class="group h-48 p-8 bg-surface-container-low rounded-xl flex flex-col items-center justify-center text-center hover:bg-surface-container-highest hover:scale-[1.02] transition-all duration-300">
-                <div
-                    class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                    <span class="material-symbols-outlined text-primary text-3xl">devices</span>
-                </div>
-                <h3 class="font-headline font-bold text-on-surface">Công nghệ</h3>
-            </div>
-            <!-- Literature -->
-            <div
-                class="group h-48 p-8 bg-surface-container-low rounded-xl flex flex-col items-center justify-center text-center hover:bg-surface-container-highest hover:scale-[1.02] transition-all duration-300">
-                <div
-                    class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                    <span class="material-symbols-outlined text-primary text-3xl">menu_book</span>
-                </div>
-                <h3 class="font-headline font-bold text-on-surface">Văn học</h3>
-            </div>
-            <!-- Skills -->
-            <div
-                class="group h-48 p-8 bg-surface-container-low rounded-xl flex flex-col items-center justify-center text-center hover:bg-surface-container-highest hover:scale-[1.02] transition-all duration-300">
-                <div
-                    class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                    <span class="material-symbols-outlined text-primary text-3xl">psychology</span>
-                </div>
-                <h3 class="font-headline font-bold text-on-surface">Kỹ năng</h3>
-            </div>
+    {% for c in cates[:4] %}
+    <div
+        class="group h-48 p-8 bg-surface-container-low rounded-xl flex flex-col items-center justify-center text-center hover:bg-surface-container-highest hover:scale-[1.02] transition-all duration-300">
+
+        <div
+            class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+
+            <!-- Icon mapping -->
+            <span class="material-symbols-outlined text-primary text-3xl">
+                {% if c.id == 1 %}
+                    business_center
+                {% elif c.id == 2 %}
+                    devices
+                {% elif c.id == 3 %}
+                    menu_book
+                {% elif c.id == 4 %}
+                    psychology
+                {% else %}
+                    category
+                {% endif %}
+            </span>
+
         </div>
+
+        <h3 class="font-headline font-bold text-on-surface">
+            {{ c.name }}
+        </h3>
+    </div>
+    {% endfor %}
+</div>
     </div>
 </section>
 <!-- Featured Section (Carousel Style) -->

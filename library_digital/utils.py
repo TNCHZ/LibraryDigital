@@ -1,5 +1,5 @@
 from library_digital.extensions import db
-from library_digital.models import User, Book, category, Category
+from library_digital.models import User, Book, Category, CategoryBook
 import hashlib
 
 
@@ -28,8 +28,14 @@ def check_login(username, password, role):
 def get_user_by_id(user_id):
     return User.query.get(user_id)
 
+def get_books():
+    return Book.query.all()
+
 def get_book_by_id(book_id):
     return Book.query.get(book_id)
 
-def get_category_by_id(cate_id):
-    return Category.query.get(cate_id)
+def get_categories():
+    return Category.query.all()
+
+def get_books_by_category(category_id):
+    return Book.query.join(CategoryBook).filter(CategoryBook.category_id == category_id).all()

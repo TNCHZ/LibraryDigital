@@ -1,0 +1,118 @@
+{% extends 'user/layout.html' %}
+
+{% block content %}
+
+<main class="pt-32 pb-24 max-w-7xl mx-auto px-8">
+    <!-- Category Selection Section -->
+    <header class="mb-20">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div class="max-w-2xl">
+                <span class="text-tertiary-fixed-dim font-headline font-bold uppercase tracking-widest text-xs mb-4 block">Kho tri thức</span>
+                <h1 class="text-5xl md:text-6xl font-headline font-extrabold tracking-tighter text-on-surface leading-tight">
+                    Bộ sưu tập
+                </h1>
+                <p class="mt-6 text-on-surface-variant text-lg leading-relaxed max-w-xl">
+                    Một nơi tôn vinh những tác phẩm văn học cao cấp và kỹ thuật tinh xảo. Lọc các ấn phẩm lưu trữ của
+                    chúng tôi theo chuyên ngành để bắt đầu hành trình của bạn.
+                </p>
+            </div>
+        </div>
+        <!-- Category Chips -->
+        <div class="mt-12 flex flex-wrap gap-3">
+            {% for c in cates %}
+            <a href="{{ url_for('category_list', category_id=c.id) }}" class="px-6 py-3 font-headline rounded-full transition-all duration-300
+                {% if c.id|string == current_category_id %}
+                bg-primary text-on-primary font-semibold
+                {% else %}
+                bg-surface-container-low text-on-surface-variant hover:bg-surface-container-highest
+                {% endif %}">
+                {{ c.name }}
+            </a>
+            {% endfor %}
+        </div>
+    </header>
+
+    <div id="loading" class="hidden flex justify-center items-center py-10">
+        <div class="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    <!-- Book List: 2-Column Grid -->
+    <div id="book-list" class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        {% for book in books %}
+        <div class="book-item min-w-[400px] md:min-w-[600px] bg-surface-container rounded-2xl flex flex-col md:flex-row overflow-hidden hover:shadow-2xl transition-shadow duration-500"
+             style="display: none;">
+
+            <!-- Image -->
+            <div class="w-full md:w-2/5 aspect-[3/4]">
+                <img class="w-full h-full object-cover"
+                     src="{{ book.image }}"
+                     alt="{{ book.title }}">
+            </div>
+
+            <!-- Info -->
+            <div class="w-full md:w-3/5 p-8 flex flex-col justify-center">
+                <h3 class="text-2xl font-headline font-bold text-on-surface mb-3">
+                    {{ book.title }}
+                </h3>
+
+                <p class="text-on-surface-variant text-sm mb-6 line-clamp-3">
+                    {{ book.description }}
+                </p>
+
+                <div class="flex items-center gap-4 mt-auto">
+                    <button class="px-6 py-2 bg-primary text-on-primary rounded-lg">
+                        Mượn sách
+                    </button>
+
+                    <a href="{{ url_for('book_detail', book_id=book.id) }}"
+                       class="px-6 py-2 border border-outline-variant text-primary rounded-lg">
+                        Chi tiết
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Pagination / Load More -->
+    <div class="mt-20 flex justify-center">
+        <button id="load-more-btn"
+                class="px-10 py-4 bg-transparent border-2 border-primary text-primary font-headline font-bold rounded-lg hover:bg-primary hover:text-on-primary transition-all duration-300">
+            Tải thêm
+        </button>
+    </div>
+</main>
+
+<script>
+    const books = document.querySelectorAll('.book-item');
+    const btn = document.getElementById('load-more-btn');
+
+    let visible = 4;
+
+    function showBooks() {
+        books.forEach((book, index) => {
+            if (index < visible) {
+                book.style.display = "flex";
+            }
+        });
+
+        // Nếu tổng sách <= 4 → ẩn luôn nút
+        if (books.length <= 4) {
+            btn.style.display = "none";
+        }
+
+        // Nếu đã load hết → ẩn nút
+        if (visible >= books.length) {
+            btn.style.display = "none";
+        }
+    }
+
+    btn.addEventListener('click', () => {
+        visible += 4;
+        showBooks();
+    });
+
+    // Init
+    showBooks();
+</script>
+
+{% endblock %}

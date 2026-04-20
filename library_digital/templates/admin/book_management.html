@@ -11,7 +11,7 @@
                 <h2 class="text-4xl font-extrabold tracking-tight text-primary font-headline">Quản lý sách</h2>
                 <p class="text-on-surface-variant font-medium">Thư mục lưu trữ: {{ pagination.total }} đầu sách đang hoạt động</p>
             </div>
-            <button class="flex items-center px-6 py-3 bg-primary text-on-primary font-bold rounded-lg hover:scale-[1.03] transition-all shadow-xl shadow-primary/20">
+            <button onclick="openAddModal()" class="flex items-center px-6 py-3 bg-primary text-on-primary font-bold rounded-lg hover:scale-[1.03] transition-all shadow-xl shadow-primary/20">
                 <span class="material-symbols-outlined mr-2" data-icon="add_circle">add_circle</span>
                 + Thêm sách mới
             </button>
@@ -162,10 +162,14 @@
                             <td class="px-8 py-6 text-sm font-bold text-primary">{{ book.stock or 'N/A' }}</td>
                             <td class="px-8 py-6 text-right">
                                 <div class="flex items-center justify-end space-x-2">
-                                    <button class="p-2 hover:bg-surface-container-high rounded-lg text-primary transition-colors">
+                                    <button data-book='{"id": {{ book.id }}, "title": {{ book.title|tojson }}, "author": {{ book.author|tojson }}, "description": {{ book.description|tojson }}, "publisher": {{ book.publisher|tojson }}, "published_date": {{ book.published_date }}, "price": {{ book.price }}, "isbn_10": {{ (book.isbn_10 or '')|tojson }}, "isbn_13": {{ (book.isbn_13 or '')|tojson }}, "language": {{ (book.language or '')|tojson }}, "is_active": {{ book.is_active|lower }}, "category_ids": [{% for cat in book.categories %}{{ cat.id }}{% if not loop.last %},{% endif %}{% endfor %}], "image": {{ book.image|tojson }}}'
+                                        onclick="openEditModalFromButton(this)"
+                                        class="p-2 hover:bg-surface-container-high rounded-lg text-primary transition-colors">
                                         <span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
                                     </button>
-                                    <button class="p-2 hover:bg-error-container/20 rounded-lg text-error transition-colors">
+                                    <button data-book-id="{{ book.id }}" data-book-title="{{ book.title }}"
+                                        onclick="openDeleteModal(this.dataset.bookId, this.dataset.bookTitle)"
+                                        class="p-2 hover:bg-error-container/20 rounded-lg text-error transition-colors">
                                         <span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
                                     </button>
                                 </div>
@@ -278,4 +282,270 @@
         </div>
     </div>
 </main>
+
+<!-- Add Book Modal -->
+<div id="addModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+    <div class="bg-surface-container-low rounded-2xl p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-headline font-bold text-primary">Thêm sách mới</h2>
+            <button onclick="closeAddModal()" class="p-2 hover:bg-surface-container-highest rounded-full transition-colors">
+                <span class="material-symbols-outlined text-on-surface-variant">close</span>
+            </button>
+        </div>
+        <form method="POST" action="{{ url_for('admin_add_book') }}" enctype="multipart/form-data" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="add-title">Tên sách <span class="text-error">*</span></label>
+                    <input required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="add-title" name="title" type="text" placeholder="Nhập tên sách..." />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="add-author">Tác giả <span class="text-error">*</span></label>
+                    <input required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="add-author" name="author" type="text" placeholder="Tên tác giả..." />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="add-publisher">Nhà xuất bản <span class="text-error">*</span></label>
+                    <input required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="add-publisher" name="publisher" type="text" placeholder="Nhà xuất bản..." />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="add-published_date">Năm xuất bản <span class="text-error">*</span></label>
+                    <input required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="add-published_date" name="published_date" type="number" placeholder="2024..." />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="add-price">Giá (VNĐ) <span class="text-error">*</span></label>
+                    <input required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="add-price" name="price" type="number" step="0.01" placeholder="100000..." />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="add-language">Ngôn ngữ</label>
+                    <input class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="add-language" name="language" type="text" placeholder="Tiếng Việt, English..." />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="add-isbn_10">ISBN-10</label>
+                    <input class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="add-isbn_10" name="isbn_10" type="text" placeholder="Nhập ISBN-10..." />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="add-isbn_13">ISBN-13</label>
+                    <input class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="add-isbn_13" name="isbn_13" type="text" placeholder="Nhập ISBN-13..." />
+                </div>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-on-surface" for="add-description">Mô tả <span class="text-error">*</span></label>
+                <textarea required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary resize-none"
+                    id="add-description" name="description" rows="3" placeholder="Mô tả về sách..."></textarea>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-on-surface">Thể loại</label>
+                <div class="flex flex-wrap gap-3">
+                    {% for category in categories %}
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input class="form-checkbox text-primary border-outline-variant rounded bg-surface-container-high focus:ring-primary"
+                            type="checkbox" name="category_ids" value="{{ category.id }}" />
+                        <span class="ml-2 text-sm text-on-surface-variant">{{ category.name }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-on-surface" for="add-image">Ảnh bìa sách</label>
+                <input class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-on-primary hover:file:bg-primary/90"
+                    id="add-image" name="image" type="file" accept="image/*" />
+            </div>
+            <div class="flex justify-end gap-3 pt-4">
+                <button type="button" onclick="closeAddModal()" class="px-6 py-2 rounded-lg font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                    Hủy
+                </button>
+                <button type="submit" class="bg-primary text-on-primary px-6 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] transition-transform">
+                    <span class="material-symbols-outlined text-sm">save</span>
+                    Lưu sách
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Book Modal -->
+<div id="editModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+    <div class="bg-surface-container-low rounded-2xl p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-headline font-bold text-primary">Chỉnh sửa sách</h2>
+            <button onclick="closeEditModal()" class="p-2 hover:bg-surface-container-highest rounded-full transition-colors">
+                <span class="material-symbols-outlined text-on-surface-variant">close</span>
+            </button>
+        </div>
+        <form id="editForm" method="POST" action="" enctype="multipart/form-data" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="edit-title">Tên sách <span class="text-error">*</span></label>
+                    <input required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="edit-title" name="title" type="text" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="edit-author">Tác giả <span class="text-error">*</span></label>
+                    <input required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="edit-author" name="author" type="text" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="edit-publisher">Nhà xuất bản <span class="text-error">*</span></label>
+                    <input required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="edit-publisher" name="publisher" type="text" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="edit-published_date">Năm xuất bản <span class="text-error">*</span></label>
+                    <input required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="edit-published_date" name="published_date" type="number" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="edit-price">Giá (VNĐ) <span class="text-error">*</span></label>
+                    <input required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="edit-price" name="price" type="number" step="0.01" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="edit-language">Ngôn ngữ</label>
+                    <input class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="edit-language" name="language" type="text" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="edit-isbn_10">ISBN-10</label>
+                    <input class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="edit-isbn_10" name="isbn_10" type="text" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="edit-isbn_13">ISBN-13</label>
+                    <input class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="edit-isbn_13" name="isbn_13" type="text" />
+                </div>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-on-surface" for="edit-description">Mô tả <span class="text-error">*</span></label>
+                <textarea required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary resize-none"
+                    id="edit-description" name="description" rows="3"></textarea>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-on-surface">Thể loại</label>
+                <div class="flex flex-wrap gap-3" id="edit-categories">
+                    {% for category in categories %}
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input class="form-checkbox text-primary border-outline-variant rounded bg-surface-container-high focus:ring-primary edit-category-checkbox"
+                            type="checkbox" name="category_ids" value="{{ category.id }}" data-cat-id="{{ category.id }}" />
+                        <span class="ml-2 text-sm text-on-surface-variant">{{ category.name }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="flex items-center gap-3 p-4 bg-surface-container-high rounded-lg">
+                <input type="checkbox" id="edit-is_active" name="is_active" class="form-checkbox text-primary border-outline-variant rounded focus:ring-primary w-5 h-5" />
+                <label for="edit-is_active" class="text-sm font-semibold text-on-surface cursor-pointer">Sách đang hoạt động (có thể mượn)</label>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-on-surface" for="edit-image">Ảnh bìa sách (để trống nếu không đổi)</label>
+                <input class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-on-primary hover:file:bg-primary/90"
+                    id="edit-image" name="image" type="file" accept="image/*" />
+                <div id="edit-current-image" class="mt-2"></div>
+            </div>
+            <div class="flex justify-end gap-3 pt-4">
+                <button type="button" onclick="closeEditModal()" class="px-6 py-2 rounded-lg font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                    Hủy
+                </button>
+                <button type="submit" class="bg-primary text-on-primary px-6 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] transition-transform">
+                    <span class="material-symbols-outlined text-sm">save</span>
+                    Cập nhật
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+    <div class="bg-surface-container-low rounded-2xl p-8 w-full max-w-md shadow-2xl">
+        <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 bg-error-container rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-3xl text-error">delete_forever</span>
+            </div>
+            <h2 class="text-2xl font-headline font-bold text-primary mb-2">Xác nhận xóa</h2>
+            <p class="text-on-surface-variant mb-6">Bạn có chắc chắn muốn xóa sách <strong id="delete-book-title" class="text-on-surface"></strong>? Hành động này không thể hoàn tác.</p>
+            <form id="deleteForm" method="POST" action="">
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeDeleteModal()" class="px-6 py-2 rounded-lg font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        Hủy
+                    </button>
+                    <button type="submit" class="bg-error text-on-error px-6 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] transition-transform">
+                        <span class="material-symbols-outlined text-sm">delete</span>
+                        Xóa sách
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function openAddModal() {
+    document.getElementById('addModal').classList.remove('hidden');
+}
+
+function closeAddModal() {
+    document.getElementById('addModal').classList.add('hidden');
+}
+
+function openEditModalFromButton(button) {
+    const book = JSON.parse(button.dataset.book);
+    const form = document.getElementById('editForm');
+    form.action = `/admin/book/edit/${book.id}/`;
+
+    document.getElementById('edit-title').value = book.title;
+    document.getElementById('edit-author').value = book.author;
+    document.getElementById('edit-description').value = book.description;
+    document.getElementById('edit-publisher').value = book.publisher;
+    document.getElementById('edit-published_date').value = book.published_date;
+    document.getElementById('edit-price').value = book.price;
+    document.getElementById('edit-isbn_10').value = book.isbn_10;
+    document.getElementById('edit-isbn_13').value = book.isbn_13;
+    document.getElementById('edit-language').value = book.language;
+    document.getElementById('edit-is_active').checked = book.is_active;
+
+    // Reset and set categories
+    document.querySelectorAll('.edit-category-checkbox').forEach(cb => {
+        cb.checked = book.category_ids.includes(parseInt(cb.dataset.catId));
+    });
+
+    // Show current image
+    const imgDiv = document.getElementById('edit-current-image');
+    if (book.image) {
+        imgDiv.innerHTML = `<img src="${book.image}" class="w-20 h-28 object-cover rounded shadow-sm" alt="Current cover">`;
+    } else {
+        imgDiv.innerHTML = '';
+    }
+
+    document.getElementById('editModal').classList.remove('hidden');
+}
+
+function closeEditModal() {
+    document.getElementById('editModal').classList.add('hidden');
+}
+
+function openDeleteModal(id, title) {
+    document.getElementById('deleteForm').action = `/admin/book/delete/${id}/`;
+    document.getElementById('delete-book-title').textContent = title;
+    document.getElementById('deleteModal').classList.remove('hidden');
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.add('hidden');
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+    if (event.target.classList.contains('fixed')) {
+        event.target.classList.add('hidden');
+    }
+}
+</script>
 {% endblock %}

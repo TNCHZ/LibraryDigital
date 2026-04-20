@@ -203,5 +203,173 @@ def admin_book_management():
 def admin_report():
     return render_template('admin/report.html')
 
+
+# ==================== LIBRARIAN BOOK CRUD ====================
+@app.route('/librarian/book/add/', methods=['POST'])
+def librarian_add_book():
+    try:
+        title = request.form.get('title', '').strip()
+        description = request.form.get('description', '').strip()
+        publisher = request.form.get('publisher', '').strip()
+        published_date = request.form.get('published_date', type=int)
+        price = request.form.get('price', type=float)
+        author = request.form.get('author', '').strip()
+        isbn_10 = request.form.get('isbn_10', '').strip()
+        isbn_13 = request.form.get('isbn_13', '').strip()
+        language = request.form.get('language', '').strip()
+        category_ids = request.form.getlist('category_ids', type=int)
+
+        # Handle image upload
+        image = request.files.get('image')
+        image_url = ''
+        if image:
+            res = cloudinary.uploader.upload(image)
+            image_url = res['secure_url']
+        else:
+            image_url = 'https://via.placeholder.com/300x400?text=No+Cover'
+
+        librarian_id = current_user.id if current_user.is_authenticated else None
+
+        utils.add_book(
+            title=title, description=description, publisher=publisher,
+            published_date=published_date, price=price, author=author,
+            isbn_10=isbn_10, isbn_13=isbn_13, image=image_url,
+            language=language, category_ids=category_ids,
+            librarian_id=librarian_id
+        )
+
+        return redirect(url_for('librarian_book_management'))
+    except Exception as ex:
+        return str(ex), 500
+
+
+@app.route('/librarian/book/edit/<int:book_id>/', methods=['POST'])
+def librarian_edit_book(book_id):
+    try:
+        title = request.form.get('title', '').strip()
+        description = request.form.get('description', '').strip()
+        publisher = request.form.get('publisher', '').strip()
+        published_date = request.form.get('published_date', type=int)
+        price = request.form.get('price', type=float)
+        author = request.form.get('author', '').strip()
+        isbn_10 = request.form.get('isbn_10', '').strip()
+        isbn_13 = request.form.get('isbn_13', '').strip()
+        language = request.form.get('language', '').strip()
+        is_active = request.form.get('is_active') == 'on'
+        category_ids = request.form.getlist('category_ids', type=int)
+
+        # Handle image upload
+        image = request.files.get('image')
+        image_url = None
+        if image:
+            res = cloudinary.uploader.upload(image)
+            image_url = res['secure_url']
+
+        utils.update_book(
+            book_id=book_id, title=title, description=description,
+            publisher=publisher, published_date=published_date, price=price,
+            author=author, isbn_10=isbn_10, isbn_13=isbn_13, image=image_url,
+            language=language, is_active=is_active, category_ids=category_ids
+        )
+
+        return redirect(url_for('librarian_book_management'))
+    except Exception as ex:
+        return str(ex), 500
+
+
+@app.route('/librarian/book/delete/<int:book_id>/', methods=['POST'])
+def librarian_delete_book(book_id):
+    try:
+        success = utils.delete_book(book_id)
+        if success:
+            return redirect(url_for('librarian_book_management'))
+        else:
+            return "Book not found", 404
+    except Exception as ex:
+        return str(ex), 500
+
+
+# ==================== ADMIN BOOK CRUD ====================
+@app.route('/admin/book/add/', methods=['POST'])
+def admin_add_book():
+    try:
+        title = request.form.get('title', '').strip()
+        description = request.form.get('description', '').strip()
+        publisher = request.form.get('publisher', '').strip()
+        published_date = request.form.get('published_date', type=int)
+        price = request.form.get('price', type=float)
+        author = request.form.get('author', '').strip()
+        isbn_10 = request.form.get('isbn_10', '').strip()
+        isbn_13 = request.form.get('isbn_13', '').strip()
+        language = request.form.get('language', '').strip()
+        category_ids = request.form.getlist('category_ids', type=int)
+
+        # Handle image upload
+        image = request.files.get('image')
+        image_url = ''
+        if image:
+            res = cloudinary.uploader.upload(image)
+            image_url = res['secure_url']
+        else:
+            image_url = 'https://via.placeholder.com/300x400?text=No+Cover'
+
+        utils.add_book(
+            title=title, description=description, publisher=publisher,
+            published_date=published_date, price=price, author=author,
+            isbn_10=isbn_10, isbn_13=isbn_13, image=image_url,
+            language=language, category_ids=category_ids
+        )
+
+        return redirect(url_for('admin_book_management'))
+    except Exception as ex:
+        return str(ex), 500
+
+
+@app.route('/admin/book/edit/<int:book_id>/', methods=['POST'])
+def admin_edit_book(book_id):
+    try:
+        title = request.form.get('title', '').strip()
+        description = request.form.get('description', '').strip()
+        publisher = request.form.get('publisher', '').strip()
+        published_date = request.form.get('published_date', type=int)
+        price = request.form.get('price', type=float)
+        author = request.form.get('author', '').strip()
+        isbn_10 = request.form.get('isbn_10', '').strip()
+        isbn_13 = request.form.get('isbn_13', '').strip()
+        language = request.form.get('language', '').strip()
+        is_active = request.form.get('is_active') == 'on'
+        category_ids = request.form.getlist('category_ids', type=int)
+
+        # Handle image upload
+        image = request.files.get('image')
+        image_url = None
+        if image:
+            res = cloudinary.uploader.upload(image)
+            image_url = res['secure_url']
+
+        utils.update_book(
+            book_id=book_id, title=title, description=description,
+            publisher=publisher, published_date=published_date, price=price,
+            author=author, isbn_10=isbn_10, isbn_13=isbn_13, image=image_url,
+            language=language, is_active=is_active, category_ids=category_ids
+        )
+
+        return redirect(url_for('admin_book_management'))
+    except Exception as ex:
+        return str(ex), 500
+
+
+@app.route('/admin/book/delete/<int:book_id>/', methods=['POST'])
+def admin_delete_book(book_id):
+    try:
+        success = utils.delete_book(book_id)
+        if success:
+            return redirect(url_for('admin_book_management'))
+        else:
+            return "Book not found", 404
+    except Exception as ex:
+        return str(ex), 500
+
+
 if __name__ == "__main__":
-    app.run(debug=True) 
+    app.run(debug=True)

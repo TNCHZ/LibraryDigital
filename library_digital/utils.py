@@ -46,7 +46,7 @@ def search_books(isbn_10=None, isbn_13=None, title=None, author=None, category_i
 
     if isbn_10:
         query = query.filter(Book.isbn_10.ilike(f'%{isbn_10}%'))
-    
+
     if isbn_13:
         query = query.filter(Book.isbn_13.ilike(f'%{isbn_13}%'))
 
@@ -60,3 +60,88 @@ def search_books(isbn_10=None, isbn_13=None, title=None, author=None, category_i
         query = query.join(CategoryBook).filter(CategoryBook.category_id.in_(category_ids))
 
     return query.paginate(page=page, per_page=per_page, error_out=False)
+
+
+def get_category_by_id(category_id):
+    return Category.query.get(category_id)
+
+
+def add_book(title, description, publisher, published_date, price, author, isbn_10, isbn_13, image, language, category_ids, librarian_id=None):
+    book = Book(
+        title=title.strip(),
+        description=description.strip(),
+        publisher=publisher.strip(),
+        published_date=published_date,
+        price=price,
+        author=author.strip(),
+        isbn_10=isbn_10.strip() if isbn_10 else None,
+        isbn_13=isbn_13.strip() if isbn_13 else None,
+        image=image,
+        is_active=True,
+        language=language.strip() if language else None,
+        librarian_id=librarian_id
+    )
+
+    db.session.add(book)
+    db.session.flush()  # Get book.id without committing
+
+    # Add categories
+    if category_ids:
+        for cat_id in category_ids:
+            category = get_category_by_id(cat_id)
+            if category:
+                book.categories.append(category)
+
+    db.session.commit()
+    return book
+
+
+def update_book(book_id, title=None, description=None, publisher=None, published_date=None, price=None,
+                author=None, isbn_10=None, isbn_13=None, image=None, language=None, is_active=None, category_ids=None):
+    book = get_book_by_id(book_id)
+    if not book:
+        return None
+
+    if title is not None:
+        book.title = title.strip()
+    if description is not None:
+        book.description = description.strip()
+    if publisher is not None:
+        book.publisher = publisher.strip()
+    if published_date is not None:
+        book.published_date = published_date
+    if price is not None:
+        book.price = price
+    if author is not None:
+        book.author = author.strip()
+    if isbn_10 is not None:
+        book.isbn_10 = isbn_10.strip() if isbn_10 else None
+    if isbn_13 is not None:
+        book.isbn_13 = isbn_13.strip() if isbn_13 else None
+    if image is not None:
+        book.image = image
+    if language is not None:
+        book.language = language.strip() if language else None
+    if is_active is not None:
+        book.is_active = is_active
+
+    # Update categories
+    if category_ids is not None:
+        book.categories = []
+        for cat_id in category_ids:
+            category = get_category_by_id(cat_id)
+            if category:
+                book.categories.append(category)
+
+    db.session.commit()
+    return book
+
+
+def delete_book(book_id):
+    book = get_book_by_id(book_id)
+    if not book:
+        return False
+
+    db.session.delete(book)
+    db.session.commit()
+    return True

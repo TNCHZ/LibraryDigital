@@ -12,7 +12,9 @@ def home():
 
 @app.route('/book/<int:book_id>')
 def book_detail(book_id):
-    return render_template('user/book_detail.html', book_id=book_id)
+    book = utils.get_book_by_id(book_id)
+
+    return render_template('user/book_detail.html', book=book)
 
 @app.route('/auth/login', methods=['get', 'post'])
 def user_login():

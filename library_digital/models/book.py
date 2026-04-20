@@ -1,6 +1,7 @@
 from library_digital.extensions import db
 from .base import BaseModel
 
+
 class Book(BaseModel):
     __tablename__ = "book"
 
@@ -21,3 +22,4 @@ class Book(BaseModel):
     language = db.Column(db.String(50))
 
     librarian_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    categories = db.relationship("Category", secondary="category_book", backref="books")

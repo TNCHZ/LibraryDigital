@@ -13,6 +13,7 @@ class BaseModel(db.Model):
         onupdate=datetime.utcnow
     )
 
+
     def save(self):
         db.session.add(self)
         db.session.commit()

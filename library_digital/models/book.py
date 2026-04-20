@@ -17,6 +17,7 @@ class Book(BaseModel):
 
     image = db.Column(db.String(255), nullable=False)
 
+    quantity = db.Column(db.Integer)
     is_active = db.Column(db.Boolean, nullable=False)
 
     language = db.Column(db.String(50))

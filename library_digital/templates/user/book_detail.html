@@ -52,9 +52,12 @@
                     <span class="text-3xl font-headline font-bold text-primary">{{ "{:,.0f}".format(book.price) }} VNĐ</span>
                 </div>
                 <div class="space-y-3">
-                    <button class="w-full editorial-gradient bg-primary text-on-primary font-semibold py-4 rounded-md text-sm tracking-wide transition-all duration-300 hover:scale-[1.03] active:scale-95 shadow-md">
-                        Mượn sách
-                    </button>
+                   <form method="POST" action="{{ url_for('borrow_book', book_id=book.id) }}">
+    <button type="submit"
+            class="w-full editorial-gradient bg-primary text-on-primary font-semibold py-4 rounded-md text-sm tracking-wide transition-all duration-300 hover:scale-[1.03] active:scale-95 shadow-md">
+                    Mượn sách
+                        </button>
+                    </form>
                     <button class="w-full bg-surface-container border border-outline-variant/30 text-primary py-4 rounded-md font-semibold text-sm tracking-wide transition-all duration-300 hover:bg-surface-container-high active:scale-95 flex items-center justify-center gap-2">
                         <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 0;">favorite</span>
                         Thêm vào yêu thích

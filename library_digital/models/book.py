@@ -20,6 +20,7 @@ class Book(BaseModel):
     is_active = db.Column(db.Boolean, nullable=False)
 
     language = db.Column(db.String(50))
+    quantity = db.Column(db.Integer, nullable=False)
 
     librarian_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     categories = db.relationship("Category", secondary="category_book", backref="books")

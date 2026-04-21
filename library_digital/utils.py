@@ -1,7 +1,10 @@
 from library_digital.extensions import db
-from library_digital.models import User, Book, Category, CategoryBook
+from library_digital.models import User, Book, Category, CategoryBook, BorrowSlip
 from .models.user import GenderEnum
 import hashlib
+
+from library_digital.models.borrow_slip import BorrowStatus
+
 
 
 def add_user(first_name, last_name, username, password, email, phone, gender, **kwargs):

@@ -422,6 +422,37 @@ def admin_delete_book(book_id):
     except Exception as ex:
         return str(ex), 500
 
+@app.route('/borrow/<int:book_id>', methods=['POST'])
+def borrow_book(book_id):
+    reader_id = current_user.id
 
+    can, message = utils.can_borrow(reader_id, book_id)
+
+    book = utils.get_book_by_id(book_id)
+
+    if not can:
+        return render_template(
+            "user/book_detail.html",
+            book=book,
+            msg=message
+        )
+
+    utils.add_borrow_slip(
+        reader_id=reader_id,
+        librarian_id=None,
+        book_id=book_id,
+        borrow_date=datetime.now(),
+        due_date=None,
+        return_date=None,
+        status="RESERVED",
+        note=""
+    )
+
+    return render_template(
+        "user/book_detail.html",
+        book=book,
+        msg="Mượn sách thành công"
+    )
+    
 if __name__ == "__main__":
     app.run(debug=True)

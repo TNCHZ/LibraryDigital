@@ -35,12 +35,12 @@
                 {% if book.is_active %}
                 <div class="absolute top-4 right-4 bg-emerald-100/80 backdrop-blur px-3 py-1 rounded-full text-xs font-semibold tracking-wider text-emerald-700 flex items-center gap-2 shadow-sm transition-all duration-300 hover:scale-105">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    CÓ SẴN
+                    AVAILABLE
                 </div>
                 {% else %}
                 <div class="absolute top-4 right-4 bg-red-100/80 backdrop-blur px-3 py-1 rounded-full text-xs font-semibold tracking-wider text-red-700 flex items-center gap-2 shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                    KHÔNG CÓ SẴN
+                    UNAVAILABLE
                 </div>
                 {% endif %}
 
@@ -52,9 +52,12 @@
                     <span class="text-3xl font-headline font-bold text-primary">{{ "{:,.0f}".format(book.price) }} VNĐ</span>
                 </div>
                 <div class="space-y-3">
-                    <button class="w-full editorial-gradient bg-primary text-on-primary font-semibold py-4 rounded-md text-sm tracking-wide transition-all duration-300 hover:scale-[1.03] active:scale-95 shadow-md">
-                        Mượn sách
-                    </button>
+                   <form method="POST" action="{{ url_for('borrow_book', book_id=book.id) }}">
+    <button type="submit"
+            class="w-full editorial-gradient bg-primary text-on-primary font-semibold py-4 rounded-md text-sm tracking-wide transition-all duration-300 hover:scale-[1.03] active:scale-95 shadow-md">
+                    Mượn sách
+                        </button>
+                    </form>
                     <button class="w-full bg-surface-container border border-outline-variant/30 text-primary py-4 rounded-md font-semibold text-sm tracking-wide transition-all duration-300 hover:bg-surface-container-high active:scale-95 flex items-center justify-center gap-2">
                         <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 0;">favorite</span>
                         Thêm vào yêu thích
@@ -102,10 +105,6 @@
                     <div>
                         <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">ISBN-13</p>
                         <p class="font-medium text-on-surface">{{ book.isbn_13 }}</p>
-                    </div>
-                    <div>
-                        <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">Số lượng</p>
-                        <p class="font-medium text-on-surface">{{ book.quantity }}</p>
                     </div>
                 </div>
                 <!-- Description -->

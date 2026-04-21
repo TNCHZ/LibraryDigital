@@ -1,290 +1,284 @@
 {% extends 'admin/layout.html' %}
 
 {% block content %}
-<!-- SideNavBar Shell -->
-<aside class="bg-[#f7f3ef] dark:bg-stone-900 h-screen w-72 flex flex-col fixed left-0 top-0 shadow-[4px_0_24px_rgba(28,28,25,0.04)] z-50">
-<div class="flex flex-col h-full py-8 px-6 space-y-6">
-<div class="flex items-center space-x-3 mb-4">
-<div class="w-10 h-10 bg-primary rounded flex items-center justify-center text-on-primary">
-<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
-</div>
-<div>
-<h2 class="text-lg font-black tracking-tighter text-[#533528] dark:text-[#f7f3ef]">Library Admin</h2>
-<p class="text-[10px] uppercase tracking-widest text-[#6d4c3d]/60">Management Portal</p>
-</div>
-</div>
-<nav class="flex-1 space-y-2">
-<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-[#6d4c3d]/70 dark:text-stone-400 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#fdf9f5] dark:hover:bg-stone-800 hover:translate-x-1 transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-<span>Dashboard</span>
-</a>
-<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-[#6d4c3d]/70 dark:text-stone-400 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#fdf9f5] dark:hover:bg-stone-800 hover:translate-x-1 transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
-<span>Quản lý sách</span>
-</a>
-<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-[#6d4c3d]/70 dark:text-stone-400 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#fdf9f5] dark:hover:bg-stone-800 hover:translate-x-1 transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
-<span>Quản lý đơn mượn</span>
-</a>
-<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-[#6d4c3d]/70 dark:text-stone-400 font-['Plus_Jakarta_Sans'] text-sm font-medium hover:bg-[#fdf9f5] dark:hover:bg-stone-800 hover:translate-x-1 transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="group">group</span>
-<span>Quản lý người dùng</span>
-</a>
-<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-[#533528] dark:text-[#fdf9f5] font-bold border-r-4 border-[#6d4c3d] bg-surface-container-lowest font-['Plus_Jakarta_Sans'] text-sm transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
-<span>Báo cáo thống kê</span>
-</a>
-</nav>
-<button class="w-full bg-primary text-on-primary py-3 rounded px-4 font-semibold text-sm flex items-center justify-center space-x-2 hover:bg-primary-container scale-105 transition-transform duration-300">
-<span class="material-symbols-outlined" data-icon="add">add</span>
-<span>Thêm mục mới</span>
-</button>
-<div class="pt-6 border-t border-outline-variant/20">
-<a class="flex items-center space-x-3 px-4 py-3 text-[#6d4c3d]/70 hover:text-error transition-colors" href="#">
-<span class="material-symbols-outlined" data-icon="logout">logout</span>
-<span class="text-sm font-medium">Đăng xuất</span>
-</a>
-</div>
-</div>
-</aside>
 <!-- Main Canvas -->
-<main class="ml-72 min-h-screen pb-12">
-<!-- TopNavBar -->
-<header class="bg-[#fdf9f5]/80 dark:bg-stone-950/80 backdrop-blur-xl sticky top-0 z-40">
-<div class="flex justify-between items-center w-full px-8 py-4">
-<div class="flex items-center bg-surface-container-high px-4 py-2 rounded-full w-96 group transition-all duration-300 focus-within:ring-2 ring-tertiary/20">
-<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-sm w-full font-body placeholder-on-surface-variant/50" placeholder="Tìm kiếm báo cáo, dữ liệu..." type="text"/>
-</div>
-<div class="flex items-center space-x-6">
-<div class="flex space-x-4 text-[#6d4c3d] dark:text-[#d9a066]">
-<button class="material-symbols-outlined hover:text-[#533528] transition-colors" data-icon="notifications">notifications</button>
-<button class="material-symbols-outlined hover:text-[#533528] transition-colors" data-icon="settings">settings</button>
-</div>
-<div class="flex items-center space-x-3 border-l border-outline-variant/20 pl-6">
-<div class="text-right">
-<p class="text-xs font-bold text-primary">Adminstrator</p>
-<p class="text-[10px] text-on-surface-variant">Thư viện Quốc gia</p>
-</div>
-<img alt="Admin Profile" class="w-10 h-10 rounded-full object-cover ring-2 ring-surface-container-highest" data-alt="Professional headshot of a middle-aged male administrator in a library setting with warm, soft background lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl5ez3vXRTA-9FshyNkoQPxDXR-COCeOdBSaiXqjupOllgVudkHGUhOxRBQ1i8poGaI5yMRp69r2QkTKkAYmWD0r_9XFU6rP2lfu8I1WR_piY_Y1Lr_GPk_MTtPjPY2Pk3xF5351PsmkTNgitqz2zL6JPk9EVKrJlXAk5fNmwcsKKD3rur11XJ0RmDGyLjtnHOaItuOJ_CgUXXk4YOu5zr6s1exxo1nuj0IvoJtZ00zVosMl4bUKCwh6G-gEHeQ_rC_ZiEmmI0Hw-V"/>
-</div>
-</div>
-</div>
-</header>
-<!-- Content Body -->
-<section class="px-8 mt-8">
-<div class="flex justify-between items-end mb-10">
-<div class="space-y-1">
-<h1 class="text-4xl font-bold tracking-tight text-primary">Báo cáo thống kê</h1>
-<p class="text-on-surface-variant font-body">Phân tích chuyên sâu về hiệu suất và tăng trưởng của thư viện.</p>
-</div>
-<div class="flex items-center space-x-3">
-<div class="bg-surface-container-lowest px-4 py-2 rounded-lg flex items-center space-x-3 shadow-sm">
-<span class="material-symbols-outlined text-sm text-outline" data-icon="calendar_today">calendar_today</span>
-<span class="text-sm font-medium text-on-surface-variant">01 Jan 2024 - 31 Mar 2024</span>
-<span class="material-symbols-outlined text-sm text-outline" data-icon="expand_more">expand_more</span>
-</div>
-<button class="bg-surface-container-high text-primary px-5 py-2 rounded-lg font-semibold text-sm flex items-center space-x-2 hover:bg-surface-container-highest transition-colors">
-<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
-<span>Xuất báo cáo</span>
-</button>
-</div>
-</div>
-<!-- Bento Grid Stats -->
-<div class="grid grid-cols-12 gap-6 mb-8">
-<!-- Main Borrowing Chart (Large) -->
-<div class="col-span-8 bg-surface-container-lowest p-8 rounded-xl relative overflow-hidden group">
-<div class="flex justify-between items-start mb-12">
-<div>
-<h3 class="text-lg font-bold text-primary">Xu hướng mượn sách</h3>
-<p class="text-sm text-on-surface-variant">Lượt mượn hàng tháng trong quý 1</p>
-</div>
-<div class="flex items-center space-x-2 text-sm font-semibold text-emerald-600">
-<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
-<span>+12.5%</span>
-</div>
-</div>
-<!-- Simplified Visual Graph Placeholder -->
-<div class="relative h-64 w-full flex items-end justify-between px-4">
-<div class="w-12 bg-primary-container/20 rounded-t-lg h-[40%] hover:bg-primary transition-colors cursor-help group/bar relative">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity">1,240</div>
-</div>
-<div class="w-12 bg-primary-container/20 rounded-t-lg h-[55%] hover:bg-primary transition-colors cursor-help group/bar relative">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity">1,820</div>
-</div>
-<div class="w-12 bg-primary-container/20 rounded-t-lg h-[75%] hover:bg-primary transition-colors cursor-help group/bar relative">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity">2,300</div>
-</div>
-<div class="w-12 bg-primary-container/20 rounded-t-lg h-[60%] hover:bg-primary transition-colors cursor-help group/bar relative">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity">1,950</div>
-</div>
-<div class="w-12 bg-primary-container/20 rounded-t-lg h-[85%] hover:bg-primary transition-colors cursor-help group/bar relative">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity">2,800</div>
-</div>
-<div class="w-12 bg-primary rounded-t-lg h-[95%] hover:bg-primary/90 transition-colors cursor-help group/bar relative">
-<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity">3,120</div>
-</div>
-</div>
-<div class="flex justify-between mt-4 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold px-4">
-<span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span>
-</div>
-</div>
-<!-- User Growth (Small) -->
-<div class="col-span-4 bg-surface-container-low p-8 rounded-xl border border-white/50">
-<div class="h-full flex flex-col justify-between">
-<div>
-<h3 class="text-lg font-bold text-primary">Tăng trưởng người dùng</h3>
-<p class="text-sm text-on-surface-variant mb-6">Thành viên mới đăng ký</p>
-<div class="text-5xl font-black text-primary tracking-tighter">8,245</div>
-<div class="flex items-center text-xs mt-2 text-emerald-600 font-semibold">
-<span class="material-symbols-outlined text-sm mr-1" data-icon="north_east">north_east</span>
+<main class="pt-28 px-12 flex-1 bg-surface">
+    <div class="max-w-7xl mx-auto space-y-8 mt-4">
+        <!-- TopNavBar -->
+        <header class="bg-[#fdf9f5]/80 dark:bg-stone-950/80 backdrop-blur-xl sticky top-0 z-40">
+            <div class="flex justify-between items-center w-full px-8 py-4">
+                <div class="flex items-center bg-surface-container-high px-4 py-2 rounded-full w-96 group transition-all duration-300 focus-within:ring-2 ring-tertiary/20">
+                    <span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+                    <input class="bg-transparent border-none focus:ring-0 text-sm w-full font-body placeholder-on-surface-variant/50"
+                           placeholder="Tìm kiếm báo cáo, dữ liệu..." type="text"/>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <div class="flex space-x-4 text-[#6d4c3d] dark:text-[#d9a066]">
+                        <button class="material-symbols-outlined hover:text-[#533528] transition-colors"
+                                data-icon="notifications">notifications
+                        </button>
+                        <button class="material-symbols-outlined hover:text-[#533528] transition-colors"
+                                data-icon="settings">settings
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-3 border-l border-outline-variant/20 pl-6">
+                        <div class="text-right">
+                            <p class="text-xs font-bold text-primary">Adminstrator</p>
+                            <p class="text-[10px] text-on-surface-variant">Thư viện Quốc gia</p>
+                        </div>
+                        <img alt="Admin Profile"
+                             class="w-10 h-10 rounded-full object-cover ring-2 ring-surface-container-highest"
+                             data-alt="Professional headshot of a middle-aged male administrator in a library setting with warm, soft background lighting"
+                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl5ez3vXRTA-9FshyNkoQPxDXR-COCeOdBSaiXqjupOllgVudkHGUhOxRBQ1i8poGaI5yMRp69r2QkTKkAYmWD0r_9XFU6rP2lfu8I1WR_piY_Y1Lr_GPk_MTtPjPY2Pk3xF5351PsmkTNgitqz2zL6JPk9EVKrJlXAk5fNmwcsKKD3rur11XJ0RmDGyLjtnHOaItuOJ_CgUXXk4YOu5zr6s1exxo1nuj0IvoJtZ00zVosMl4bUKCwh6G-gEHeQ_rC_ZiEmmI0Hw-V"/>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Content Body -->
+        <section class="px-8 mt-8">
+            <div class="flex justify-between items-end mb-10">
+                <div class="space-y-1">
+                    <h1 class="text-4xl font-bold tracking-tight text-primary">Báo cáo thống kê</h1>
+                    <p class="text-on-surface-variant font-body">Phân tích chuyên sâu về hiệu suất và tăng trưởng của
+                        thư
+                        viện.</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="bg-surface-container-lowest px-4 py-2 rounded-lg flex items-center space-x-3 shadow-sm">
+                        <span class="material-symbols-outlined text-sm text-outline" data-icon="calendar_today">calendar_today</span>
+                        <span class="text-sm font-medium text-on-surface-variant">01 Jan 2024 - 31 Mar 2024</span>
+                        <span class="material-symbols-outlined text-sm text-outline"
+                              data-icon="expand_more">expand_more</span>
+                    </div>
+                    <button class="bg-surface-container-high text-primary px-5 py-2 rounded-lg font-semibold text-sm flex items-center space-x-2 hover:bg-surface-container-highest transition-colors">
+                        <span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                        <span>Xuất báo cáo</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Bento Grid Stats -->
+            <div class="grid grid-cols-12 gap-6 mb-8">
+                <!-- Main Borrowing Chart (Large) -->
+                <div class="col-span-8 bg-surface-container-lowest p-8 rounded-xl relative overflow-hidden group">
+                    <div class="flex justify-between items-start mb-12">
+                        <div>
+                            <h3 class="text-lg font-bold text-primary">Xu hướng mượn sách</h3>
+                            <p class="text-sm text-on-surface-variant">Lượt mượn hàng tháng trong quý 1</p>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm font-semibold text-emerald-600">
+                            <span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+                            <span>+12.5%</span>
+                        </div>
+                    </div>
+                    <!-- Simplified Visual Graph Placeholder -->
+                    <div class="relative h-64 w-full flex items-end justify-between px-4">
+                        <div class="w-12 bg-primary-container/20 rounded-t-lg h-[40%] hover:bg-primary transition-colors cursor-help group/bar relative">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity">
+                                1,240
+                            </div>
+                        </div>
+                        <div class="w-12 bg-primary-container/20 rounded-t-lg h-[55%] hover:bg-primary transition-colors cursor-help group/bar relative">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity">
+                                1,820
+                            </div>
+                        </div>
+                        <div class="w-12 bg-primary-container/20 rounded-t-lg h-[75%] hover:bg-primary transition-colors cursor-help group/bar relative">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity">
+                                2,300
+                            </div>
+                        </div>
+                        <div class="w-12 bg-primary-container/20 rounded-t-lg h-[60%] hover:bg-primary transition-colors cursor-help group/bar relative">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity">
+                                1,950
+                            </div>
+                        </div>
+                        <div class="w-12 bg-primary-container/20 rounded-t-lg h-[85%] hover:bg-primary transition-colors cursor-help group/bar relative">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity">
+                                2,800
+                            </div>
+                        </div>
+                        <div class="w-12 bg-primary rounded-t-lg h-[95%] hover:bg-primary/90 transition-colors cursor-help group/bar relative">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/bar:opacity-100 transition-opacity">
+                                3,120
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mt-4 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold px-4">
+                        <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span>
+                    </div>
+                </div>
+                <!-- User Growth (Small) -->
+                <div class="col-span-4 bg-surface-container-low p-8 rounded-xl border border-white/50">
+                    <div class="h-full flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-primary">Tăng trưởng người dùng</h3>
+                            <p class="text-sm text-on-surface-variant mb-6">Thành viên mới đăng ký</p>
+                            <div class="text-5xl font-black text-primary tracking-tighter">8,245</div>
+                            <div class="flex items-center text-xs mt-2 text-emerald-600 font-semibold">
+                            <span class="material-symbols-outlined text-sm mr-1"
+                                  data-icon="north_east">north_east</span>
                                 24% so với quý trước
                             </div>
-</div>
-<div class="mt-8 flex items-center -space-x-3">
-<img alt="User" class="w-10 h-10 rounded-full border-2 border-surface-container-low" data-alt="close-up of stylish man with natural lighting and soft background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC5v5uvorpHt-jWwsf2Bah89Tq5lxv3wjh9l_eklycMOlWKcGuklCFDhHoujc-lfhYMmrO8VnEfQ4__ZIn55A5uPPCfd0SiWOULamYx3sAThsW2zYrOXSXU5c0cpewyfgczwxO4fD7aectmENBXF0CLeiE4JBKR1-aZbc8Rs8VMq3bLjVZY1yKV3NqgxpiMyCo2pHMBlbtMyDSgxsXG3QIGHQKx1_1XNqTWYXBdar7DKXSVarrOYwEv4GkjhEjD1-lvkoELMXu_Juo"/>
-<img alt="User" class="w-10 h-10 rounded-full border-2 border-surface-container-low" data-alt="portrait of a smiling woman with warm soft focused garden background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrhdaykIV2jyF69ePgJnU7HpuE4wUEMHRabBNjkVQC5AEecZBmonGoTxRnSX7rqJOoRYgFp6UNoYQwIRrdbcq0dwkFeM74t8x2fyaDHgpYVPtdZv2JwYy8_Dfhw08rCjr8uivheWK4-t2aII7w9Te7jLlgrz7o1eN2uYxjcRpkzfQ3s_3OAe6aYAHL-OblKLoUW_LBL7Kx7C0Jbmn4i6C99z8THuLF9vNOMXIcXcsn9fxwhCbColLfO04r-5F_UtWARK-S8VHLOdKb"/>
-<img alt="User" class="w-10 h-10 rounded-full border-2 border-surface-container-low" data-alt="headshot of a man with dramatic shadows and professional studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSCUd0TTZKIE0WuKMqgLYMwED0PgTdbR4Q4ELdM7tppyi9E0g3JICjjB9SKFFhhAY2_XQAonajzEDJz5LxDWJA1B8CrCO1_jLXFA102vTbQECZyXXwoKpJcwSBcmwFNb13hpb7jVHkVMHm5oJg1zDGXeeoybZzfZcH4lznnhDNLja-JcKhvwBwdA_2cL2b_Fr8lTWG19zcpwmKKnTr0YsNMwS-pfDfM4aP8hFXSKb_xcyqVWdbsNIfLoQWxakYG1iw3GioKSOZkoI8"/>
-<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container text-[10px] flex items-center justify-center font-bold border-2 border-surface-container-low">+42</div>
-</div>
-</div>
-</div>
-<!-- Category Distribution (Donut Style) -->
-<div class="col-span-5 bg-surface-container-lowest p-8 rounded-xl flex flex-col items-center">
-<div class="w-full text-left mb-8">
-<h3 class="text-lg font-bold text-primary">Phân bổ thể loại</h3>
-<p class="text-sm text-on-surface-variant">Theo danh mục bộ sưu tập</p>
-</div>
-<div class="relative w-48 h-48 flex items-center justify-center mb-8">
-<!-- Custom CSS "Donut" using nested border/divs for demo -->
-<div class="absolute inset-0 rounded-full border-[20px] border-primary-container/10"></div>
-<div class="absolute inset-0 rounded-full border-[20px] border-primary border-t-transparent border-l-transparent" style="transform: rotate(45deg);"></div>
-<div class="absolute inset-0 rounded-full border-[20px] border-tertiary-container border-b-transparent border-r-transparent" style="transform: rotate(-120deg);"></div>
-<div class="text-center">
-<span class="block text-2xl font-black text-primary">12k+</span>
-<span class="block text-[10px] uppercase text-on-surface-variant font-bold">Tổng số sách</span>
-</div>
-</div>
-<div class="w-full space-y-3">
-<div class="flex justify-between items-center text-sm">
-<div class="flex items-center space-x-2">
-<div class="w-3 h-3 rounded-full bg-primary"></div>
-<span class="text-on-surface-variant">Văn học nghệ thuật</span>
-</div>
-<span class="font-bold text-primary">45%</span>
-</div>
-<div class="flex justify-between items-center text-sm">
-<div class="flex items-center space-x-2">
-<div class="w-3 h-3 rounded-full bg-tertiary-container"></div>
-<span class="text-on-surface-variant">Khoa học kỹ thuật</span>
-</div>
-<span class="font-bold text-primary">30%</span>
-</div>
-<div class="flex justify-between items-center text-sm">
-<div class="flex items-center space-x-2">
-<div class="w-3 h-3 rounded-full bg-primary-container/20"></div>
-<span class="text-on-surface-variant">Lịch sử địa lý</span>
-</div>
-<span class="font-bold text-primary">25%</span>
-</div>
-</div>
-</div>
-<!-- Top Borrowed Books (List/Bento Mix) -->
-<div class="col-span-7 bg-surface p-8 rounded-xl border border-surface-container-highest flex flex-col">
-<h3 class="text-lg font-bold text-primary mb-6">Sách được mượn nhiều nhất</h3>
-<div class="space-y-4 flex-1">
-<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg hover:translate-x-2 transition-transform duration-200">
-<div class="flex items-center space-x-4">
-<div class="w-12 h-16 bg-surface-container-highest rounded overflow-hidden">
-<img alt="Book Cover" class="w-full h-full object-cover" data-alt="minimalist aesthetic book cover with elegant typography on cream paper background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKOtHr9GYhq4R5iVd1m2KHnR1-8_HQfp0C68Vw-YukvtvXmyjmsRXJ1DVkGIkMvPUgyIlz5tMFjI_DMUlEMFHa8oPSlZVIcckMfhIpZVZnvkpwOKHoAkligfFMhQw3Y9vGrgiquy9gPjLE8nwPDaPZ6Zs20KMpNSTfXPJoP4IX8yM0fEjwOJBD7p6kcp2peauRi3utEYUD8RERJXrjWHh-xnm7YDE0R7WJO2xio0li49g_86i-NRfkJGYuyqdTEAKdO7NfGfhXx-m-"/>
-</div>
-<div>
-<h4 class="font-bold text-primary text-sm">Nghệ thuật Tư duy rành mạch</h4>
-<p class="text-xs text-on-surface-variant">Rolf Dobelli • Khoa học xã hội</p>
-</div>
-</div>
-<div class="text-right">
-<div class="text-sm font-black text-primary">428</div>
-<div class="text-[10px] text-on-surface-variant uppercase font-bold">Lượt mượn</div>
-</div>
-</div>
-<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg hover:translate-x-2 transition-transform duration-200">
-<div class="flex items-center space-x-4">
-<div class="w-12 h-16 bg-surface-container-highest rounded overflow-hidden">
-<img alt="Book Cover" class="w-full h-full object-cover" data-alt="vintage book spine and cover with gold leaf embossing on dark leather texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdKGVMBeJn9jRx6g97V24vY6oogr25T7iLS_p-YC3fw_SEBYyozZcKGt-98RicPhvak-1nWvb82pwFlcZjQ0xn4ahIMeH7Kokv3WCfE_8dCWH5ZTve33IRes3xaTTbhLwItcQTCATIhoDBD5C7etC2_hTNISWohQQ4ZIZRvVD-y3ybwWqbDA9JEtCdVJYkqUk_Vn_HeKThCTYFd4D01p2fmHukQsFED0_kXHsVVxYPH9DrFitvRDFBe9vzoNk1ADw55q6LeCozRkPT"/>
-</div>
-<div>
-<h4 class="font-bold text-primary text-sm">Lược sử loài người</h4>
-<p class="text-xs text-on-surface-variant">Yuval Noah Harari • Lịch sử</p>
-</div>
-</div>
-<div class="text-right">
-<div class="text-sm font-black text-primary">315</div>
-<div class="text-[10px] text-on-surface-variant uppercase font-bold">Lượt mượn</div>
-</div>
-</div>
-<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg hover:translate-x-2 transition-transform duration-200">
-<div class="flex items-center space-x-4">
-<div class="w-12 h-16 bg-surface-container-highest rounded overflow-hidden">
-<img alt="Book Cover" class="w-full h-full object-cover" data-alt="stack of diverse books with colorful spines in a soft blurred library background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5o-hxOYY0gIPm4UcnMFBoGaawYj6j2-6Dkh35KI789SoQPx_9YfeVXrhImkSB2AXXEtBgzjq_DlTB76qSuuSTHCMF4kJRM-F5nIiFSonhOszNgFZ-ZJXHvcKk9v-fREw6OevCgfaZhyRmWghRpPezElABl0QXTgJblMR4DA2YxEt_c7-ujlbW8BA_frPr5ZIhBJPy5VWT5hBpMJ8QR-EigASgrWa_5oVIG-Ei-yVYjXbXyA7p1HizByUxQEdUzZLJQsfcEHw2dAVK"/>
-</div>
-<div>
-<h4 class="font-bold text-primary text-sm">Điểm đến của cuộc đời</h4>
-<p class="text-xs text-on-surface-variant">Đặng Hoàng Giang • Tâm lý học</p>
-</div>
-</div>
-<div class="text-right">
-<div class="text-sm font-black text-primary">289</div>
-<div class="text-[10px] text-on-surface-variant uppercase font-bold">Lượt mượn</div>
-</div>
-</div>
-</div>
-<button class="mt-6 text-sm font-bold text-tertiary hover:underline flex items-center justify-center space-x-1">
-<span>Xem toàn bộ danh sách</span>
-<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
-</button>
-</div>
-</div>
-<!-- Performance Grid -->
-<div class="grid grid-cols-3 gap-6">
-<div class="bg-primary p-6 rounded-xl text-on-primary shadow-xl">
-<div class="flex justify-between items-start mb-6">
-<span class="material-symbols-outlined opacity-50 text-3xl" data-icon="timer">timer</span>
-<span class="text-[10px] bg-white/20 px-2 py-1 rounded">Real-time</span>
-</div>
-<p class="text-xs uppercase tracking-widest font-bold opacity-70 mb-1">Thời gian mượn TB</p>
-<h3 class="text-3xl font-black mb-4">12.4 ngày</h3>
-<div class="w-full bg-white/20 h-1 rounded-full overflow-hidden">
-<div class="bg-white h-full w-[65%]"></div>
-</div>
-<p class="text-[10px] mt-4 opacity-70 italic">-1.5 ngày so với tháng trước</p>
-</div>
-<div class="bg-surface-container-highest p-6 rounded-xl border border-outline-variant/30">
-<div class="flex justify-between items-start mb-6">
-<span class="material-symbols-outlined text-primary text-3xl" data-icon="assignment_return">assignment_return</span>
-</div>
-<p class="text-xs uppercase tracking-widest font-bold text-on-surface-variant mb-1">Tỷ lệ trả sách đúng hạn</p>
-<h3 class="text-3xl font-black text-primary mb-4">94.2%</h3>
-<div class="w-full bg-white h-1 rounded-full overflow-hidden border border-outline-variant/10">
-<div class="bg-emerald-500 h-full w-[94%]"></div>
-</div>
-<p class="text-[10px] mt-4 text-on-surface-variant font-medium">Mục tiêu quý: 95%</p>
-</div>
-<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/20 flex flex-col justify-center items-center text-center">
-<div class="w-12 h-12 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary mb-3">
-<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
-</div>
-<h4 class="font-bold text-primary text-sm mb-1">Dự báo nhu cầu</h4>
-<p class="text-xs text-on-surface-variant px-4">Tăng 15% nhu cầu sách kinh tế vào tháng tới.</p>
-<button class="mt-4 text-[10px] font-black uppercase text-tertiary tracking-widest hover:tracking-tighter transition-all">Chi tiết dự báo</button>
-</div>
-</div>
-</section>
+                        </div>
+                        <div class="mt-8 flex items-center -space-x-3">
+                            <img alt="User" class="w-10 h-10 rounded-full border-2 border-surface-container-low"
+                                 data-alt="close-up of stylish man with natural lighting and soft background"
+                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC5v5uvorpHt-jWwsf2Bah89Tq5lxv3wjh9l_eklycMOlWKcGuklCFDhHoujc-lfhYMmrO8VnEfQ4__ZIn55A5uPPCfd0SiWOULamYx3sAThsW2zYrOXSXU5c0cpewyfgczwxO4fD7aectmENBXF0CLeiE4JBKR1-aZbc8Rs8VMq3bLjVZY1yKV3NqgxpiMyCo2pHMBlbtMyDSgxsXG3QIGHQKx1_1XNqTWYXBdar7DKXSVarrOYwEv4GkjhEjD1-lvkoELMXu_Juo"/>
+                            <img alt="User" class="w-10 h-10 rounded-full border-2 border-surface-container-low"
+                                 data-alt="portrait of a smiling woman with warm soft focused garden background"
+                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrhdaykIV2jyF69ePgJnU7HpuE4wUEMHRabBNjkVQC5AEecZBmonGoTxRnSX7rqJOoRYgFp6UNoYQwIRrdbcq0dwkFeM74t8x2fyaDHgpYVPtdZv2JwYy8_Dfhw08rCjr8uivheWK4-t2aII7w9Te7jLlgrz7o1eN2uYxjcRpkzfQ3s_3OAe6aYAHL-OblKLoUW_LBL7Kx7C0Jbmn4i6C99z8THuLF9vNOMXIcXcsn9fxwhCbColLfO04r-5F_UtWARK-S8VHLOdKb"/>
+                            <img alt="User" class="w-10 h-10 rounded-full border-2 border-surface-container-low"
+                                 data-alt="headshot of a man with dramatic shadows and professional studio lighting"
+                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSCUd0TTZKIE0WuKMqgLYMwED0PgTdbR4Q4ELdM7tppyi9E0g3JICjjB9SKFFhhAY2_XQAonajzEDJz5LxDWJA1B8CrCO1_jLXFA102vTbQECZyXXwoKpJcwSBcmwFNb13hpb7jVHkVMHm5oJg1zDGXeeoybZzfZcH4lznnhDNLja-JcKhvwBwdA_2cL2b_Fr8lTWG19zcpwmKKnTr0YsNMwS-pfDfM4aP8hFXSKb_xcyqVWdbsNIfLoQWxakYG1iw3GioKSOZkoI8"/>
+                            <div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container text-[10px] flex items-center justify-center font-bold border-2 border-surface-container-low">
+                                +42
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Category Distribution (Donut Style) -->
+                <div class="col-span-5 bg-surface-container-lowest p-8 rounded-xl flex flex-col items-center">
+                    <div class="w-full text-left mb-8">
+                        <h3 class="text-lg font-bold text-primary">Phân bổ thể loại</h3>
+                        <p class="text-sm text-on-surface-variant">Theo danh mục bộ sưu tập</p>
+                    </div>
+                    <div class="relative w-48 h-48 flex items-center justify-center mb-8">
+                        <!-- Custom CSS "Donut" using nested border/divs for demo -->
+                        <div class="absolute inset-0 rounded-full border-[20px] border-primary-container/10"></div>
+                        <div class="absolute inset-0 rounded-full border-[20px] border-primary border-t-transparent border-l-transparent"
+                             style="transform: rotate(45deg);"></div>
+                        <div class="absolute inset-0 rounded-full border-[20px] border-tertiary-container border-b-transparent border-r-transparent"
+                             style="transform: rotate(-120deg);"></div>
+                        <div class="text-center">
+                            <span class="block text-2xl font-black text-primary">12k+</span>
+                            <span class="block text-[10px] uppercase text-on-surface-variant font-bold">Tổng số sách</span>
+                        </div>
+                    </div>
+                    <div class="w-full space-y-3">
+                        <div class="flex justify-between items-center text-sm">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-primary"></div>
+                                <span class="text-on-surface-variant">Văn học nghệ thuật</span>
+                            </div>
+                            <span class="font-bold text-primary">45%</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-tertiary-container"></div>
+                                <span class="text-on-surface-variant">Khoa học kỹ thuật</span>
+                            </div>
+                            <span class="font-bold text-primary">30%</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-primary-container/20"></div>
+                                <span class="text-on-surface-variant">Lịch sử địa lý</span>
+                            </div>
+                            <span class="font-bold text-primary">25%</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Top Borrowed Books (List/Bento Mix) -->
+                <div class="col-span-7 bg-surface p-8 rounded-xl border border-surface-container-highest flex flex-col">
+                    <h3 class="text-lg font-bold text-primary mb-6">Sách được mượn nhiều nhất</h3>
+                    <div class="space-y-4 flex-1">
+                        <div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg hover:translate-x-2 transition-transform duration-200">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-16 bg-surface-container-highest rounded overflow-hidden">
+                                    <img alt="Book Cover" class="w-full h-full object-cover"
+                                         data-alt="minimalist aesthetic book cover with elegant typography on cream paper background"
+                                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKOtHr9GYhq4R5iVd1m2KHnR1-8_HQfp0C68Vw-YukvtvXmyjmsRXJ1DVkGIkMvPUgyIlz5tMFjI_DMUlEMFHa8oPSlZVIcckMfhIpZVZnvkpwOKHoAkligfFMhQw3Y9vGrgiquy9gPjLE8nwPDaPZ6Zs20KMpNSTfXPJoP4IX8yM0fEjwOJBD7p6kcp2peauRi3utEYUD8RERJXrjWHh-xnm7YDE0R7WJO2xio0li49g_86i-NRfkJGYuyqdTEAKdO7NfGfhXx-m-"/>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-primary text-sm">Nghệ thuật Tư duy rành mạch</h4>
+                                    <p class="text-xs text-on-surface-variant">Rolf Dobelli • Khoa học xã hội</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm font-black text-primary">428</div>
+                                <div class="text-[10px] text-on-surface-variant uppercase font-bold">Lượt mượn</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg hover:translate-x-2 transition-transform duration-200">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-16 bg-surface-container-highest rounded overflow-hidden">
+                                    <img alt="Book Cover" class="w-full h-full object-cover"
+                                         data-alt="vintage book spine and cover with gold leaf embossing on dark leather texture"
+                                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdKGVMBeJn9jRx6g97V24vY6oogr25T7iLS_p-YC3fw_SEBYyozZcKGt-98RicPhvak-1nWvb82pwFlcZjQ0xn4ahIMeH7Kokv3WCfE_8dCWH5ZTve33IRes3xaTTbhLwItcQTCATIhoDBD5C7etC2_hTNISWohQQ4ZIZRvVD-y3ybwWqbDA9JEtCdVJYkqUk_Vn_HeKThCTYFd4D01p2fmHukQsFED0_kXHsVVxYPH9DrFitvRDFBe9vzoNk1ADw55q6LeCozRkPT"/>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-primary text-sm">Lược sử loài người</h4>
+                                    <p class="text-xs text-on-surface-variant">Yuval Noah Harari • Lịch sử</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm font-black text-primary">315</div>
+                                <div class="text-[10px] text-on-surface-variant uppercase font-bold">Lượt mượn</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg hover:translate-x-2 transition-transform duration-200">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-16 bg-surface-container-highest rounded overflow-hidden">
+                                    <img alt="Book Cover" class="w-full h-full object-cover"
+                                         data-alt="stack of diverse books with colorful spines in a soft blurred library background"
+                                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5o-hxOYY0gIPm4UcnMFBoGaawYj6j2-6Dkh35KI789SoQPx_9YfeVXrhImkSB2AXXEtBgzjq_DlTB76qSuuSTHCMF4kJRM-F5nIiFSonhOszNgFZ-ZJXHvcKk9v-fREw6OevCgfaZhyRmWghRpPezElABl0QXTgJblMR4DA2YxEt_c7-ujlbW8BA_frPr5ZIhBJPy5VWT5hBpMJ8QR-EigASgrWa_5oVIG-Ei-yVYjXbXyA7p1HizByUxQEdUzZLJQsfcEHw2dAVK"/>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-primary text-sm">Điểm đến của cuộc đời</h4>
+                                    <p class="text-xs text-on-surface-variant">Đặng Hoàng Giang • Tâm lý học</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm font-black text-primary">289</div>
+                                <div class="text-[10px] text-on-surface-variant uppercase font-bold">Lượt mượn</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="mt-6 text-sm font-bold text-tertiary hover:underline flex items-center justify-center space-x-1">
+                        <span>Xem toàn bộ danh sách</span>
+                        <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Performance Grid -->
+            <div class="grid grid-cols-3 gap-6">
+                <div class="bg-primary p-6 rounded-xl text-on-primary shadow-xl">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="material-symbols-outlined opacity-50 text-3xl" data-icon="timer">timer</span>
+                        <span class="text-[10px] bg-white/20 px-2 py-1 rounded">Real-time</span>
+                    </div>
+                    <p class="text-xs uppercase tracking-widest font-bold opacity-70 mb-1">Thời gian mượn TB</p>
+                    <h3 class="text-3xl font-black mb-4">12.4 ngày</h3>
+                    <div class="w-full bg-white/20 h-1 rounded-full overflow-hidden">
+                        <div class="bg-white h-full w-[65%]"></div>
+                    </div>
+                    <p class="text-[10px] mt-4 opacity-70 italic">-1.5 ngày so với tháng trước</p>
+                </div>
+                <div class="bg-surface-container-highest p-6 rounded-xl border border-outline-variant/30">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="material-symbols-outlined text-primary text-3xl" data-icon="assignment_return">assignment_return</span>
+                    </div>
+                    <p class="text-xs uppercase tracking-widest font-bold text-on-surface-variant mb-1">Tỷ lệ trả sách
+                        đúng
+                        hạn</p>
+                    <h3 class="text-3xl font-black text-primary mb-4">94.2%</h3>
+                    <div class="w-full bg-white h-1 rounded-full overflow-hidden border border-outline-variant/10">
+                        <div class="bg-emerald-500 h-full w-[94%]"></div>
+                    </div>
+                    <p class="text-[10px] mt-4 text-on-surface-variant font-medium">Mục tiêu quý: 95%</p>
+                </div>
+                <div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/20 flex flex-col justify-center items-center text-center">
+                    <div class="w-12 h-12 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary mb-3">
+                        <span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+                    </div>
+                    <h4 class="font-bold text-primary text-sm mb-1">Dự báo nhu cầu</h4>
+                    <p class="text-xs text-on-surface-variant px-4">Tăng 15% nhu cầu sách kinh tế vào tháng tới.</p>
+                    <button class="mt-4 text-[10px] font-black uppercase text-tertiary tracking-widest hover:tracking-tighter transition-all">
+                        Chi tiết dự báo
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
 </main>
-<!-- Contextual FAB - Restricted to Dashboard/Main screens as per mandate -->
-<div class="fixed bottom-8 right-8 z-50">
-<button class="bg-primary text-on-primary w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95 group">
-<span class="material-symbols-outlined transition-transform group-hover:rotate-90" data-icon="add">add</span>
-</button>
-</div>
 {% endblock %}

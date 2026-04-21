@@ -1,0 +1,67 @@
+{% set active_class = "bg-[#ffffff] text-[#533528] shadow-sm font-bold scale-[1.02]" %}
+{% set normal_class = "text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] hover:bg-stone-100" %}
+
+{% set menu_items = [
+    {
+        "name": "Dashboard",
+        "endpoint": "admin_dashboard",
+        "icon": "dashboard",
+        "fill": true
+    },
+    {
+        "name": "Quản lý sách",
+        "endpoint": "admin_book_management",
+        "icon": "menu_book",
+        "fill": false
+    },
+    {
+        "name": "Quản lý đơn mượn",
+        "endpoint": "admin_borrow_slip_management",
+        "icon": "auto_stories",
+        "fill": false
+    },
+    {
+        "name": "Quản lý người dùng",
+        "endpoint": "admin_user_management",
+        "icon": "group",
+        "fill": true
+    },
+    {
+        "name": "Báo cáo thống kê",
+        "endpoint": "admin_report",
+        "icon": "analytics",
+        "fill": false
+    }
+] %}
+
+<aside class="w-72 bg-[#f7f3ef] p-6 pt-24 flex flex-col">
+    <!-- Logo -->
+    <div class="mb-8 px-2">
+        <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-on-primary-container">
+                <span class="material-symbols-outlined">auto_stories</span>
+            </div>
+            <div>
+                <h2 class="text-lg font-black text-[#533528] leading-tight">Thư viện số</h2>
+                <p class="text-xs text-stone-500 font-medium">Private Archive</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu -->
+    <nav class="space-y-1">
+        {% for item in menu_items %}
+        <a href="{{ url_for(item.endpoint) }}"
+           class="{{ active_class if request.endpoint == item.endpoint else normal_class }}
+                  rounded-lg flex items-center gap-3 p-3 font-['Plus_Jakarta_Sans'] text-sm font-medium transition-all duration-300">
+
+            <span class="material-symbols-outlined"
+                  {% if item.fill %}style="font-variation-settings: 'FILL' 1;"{% endif %}>
+                {{ item.icon }}
+            </span>
+
+            <span>{{ item.name }}</span>
+        </a>
+        {% endfor %}
+    </nav>
+</aside>

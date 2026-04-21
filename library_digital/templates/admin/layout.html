@@ -1,101 +1,112 @@
 <!DOCTYPE html>
 <html class="light" lang="vi">
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
-        rel="stylesheet" />
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+            rel="stylesheet"/>
     <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+            rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-   <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "surface": "#fdf9f5",
-                    "secondary": "#605e5b",
-                    "on-background": "#1c1c19",
-                    "background": "#fdf9f5",
-                    "on-surface": "#1c1c19",
-                    "on-secondary-container": "#666461",
-                    "on-surface-variant": "#50443f",
-                    "surface-dim": "#ddd9d6",
-                    "secondary-container": "#e6e2de",
-                    "surface-container-lowest": "#ffffff",
-                    "surface-container": "#f1ede9",
-                    "on-tertiary-fixed": "#2c1600",
-                    "surface-container-high": "#ebe7e4",
-                    "on-primary-container": "#ebbeab",
-                    "inverse-primary": "#eabdaa",
-                    "on-primary": "#ffffff",
-                    "surface-container-highest": "#e6e2de",
-                    "on-primary-fixed-variant": "#5f3f31",
-                    "on-secondary-fixed-variant": "#484744",
-                    "on-tertiary-container": "#f9bc7f",
-                    "on-primary-fixed": "#2d1509",
-                    "error-container": "#ffdad6",
-                    "primary-fixed-dim": "#eabdaa",
-                    "surface-tint": "#795747",
-                    "primary": "#533528",
-                    "primary-fixed": "#ffdbcc",
-                    "on-tertiary-fixed-variant": "#663d0b",
-                    "primary-container": "#6d4c3d",
-                    "surface-container-low": "#f7f3ef",
-                    "on-secondary": "#ffffff",
-                    "tertiary": "#5a3302",
-                    "tertiary-container": "#754a18",
-                    "on-secondary-fixed": "#1c1c19",
-                    "error": "#ba1a1a",
-                    "secondary-fixed-dim": "#c9c6c2",
-                    "outline-variant": "#d4c3bc",
-                    "surface-variant": "#e6e2de",
-                    "surface-bright": "#fdf9f5",
-                    "secondary-fixed": "#e6e2de",
-                    "on-error": "#ffffff",
-                    "inverse-surface": "#31302e",
-                    "tertiary-fixed-dim": "#f7bb7e",
-                    "on-tertiary": "#ffffff",
-                    "on-error-container": "#93000a",
-                    "inverse-on-surface": "#f4f0ec",
-                    "outline": "#82746f",
-                    "tertiary-fixed": "#ffdcbd"
-            },
-            "borderRadius": {
-                    "DEFAULT": "0.125rem",
-                    "lg": "0.25rem",
-                    "xl": "0.5rem",
-                    "full": "0.75rem"
-            },
-            "fontFamily": {
-                    "headline": ["Plus Jakarta Sans"],
-                    "body": ["Inter"],
-                    "label": ["Inter"]
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#1c1c19",
+                        "secondary-container": "#e6e2de",
+                        "surface-bright": "#fdf9f5",
+                        "inverse-surface": "#31302e",
+                        "on-background": "#1c1c19",
+                        "on-tertiary-fixed-variant": "#663d0b",
+                        "on-tertiary-fixed": "#2c1600",
+                        "on-primary-fixed-variant": "#5f3f31",
+                        "surface-container": "#f1ede9",
+                        "secondary": "#605e5b",
+                        "surface-container-highest": "#e6e2de",
+                        "tertiary-fixed": "#ffdcbd",
+                        "surface-container-low": "#f7f3ef",
+                        "surface": "#fdf9f5",
+                        "on-error": "#ffffff",
+                        "primary": "#533528",
+                        "primary-container": "#6d4c3d",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#666461",
+                        "on-surface": "#1c1c19",
+                        "inverse-on-surface": "#f4f0ec",
+                        "tertiary-container": "#754a18",
+                        "outline": "#82746f",
+                        "on-surface-variant": "#50443f",
+                        "on-tertiary-container": "#f9bc7f",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#ffdbcc",
+                        "outline-variant": "#d4c3bc",
+                        "secondary-fixed-dim": "#c9c6c2",
+                        "secondary-fixed": "#e6e2de",
+                        "tertiary-fixed-dim": "#f7bb7e",
+                        "primary-fixed-dim": "#eabdaa",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#484744",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#e6e2de",
+                        "surface-container-high": "#ebe7e4",
+                        "surface-dim": "#ddd9d6",
+                        "on-primary-container": "#ebbeab",
+                        "on-primary-fixed": "#2d1509",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#795747",
+                        "tertiary": "#5a3302",
+                        "inverse-primary": "#eabdaa",
+                        "background": "#fdf9f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
             }
-          },
-        },
-      }
+        }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-    </style>
 
+        .book-texture {
+            background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        .glass-nav {
+            backdrop-filter: blur(20px);
+        }
+    </style>
     {% block head %}{% endblock %}
 </head>
 
-<body class="bg-surface font-body text-on-surface">
-    {% include 'components/sidebar.html' %}
-    <main class="pt-16">
+
+<body class="bg-surface text-on-surface">
+{% include "components/header.html" %}
+<div class="flex min-h-screen">
+
+    {% include 'admin/sidebar.html' %}
+
+    <div class="flex-1 flex flex-col">
         {% block content %}{% endblock %}
-    </main>
-
-
+    </div>
+</div>
+{% include "components/footer.html" %}
 </body>
 </html>

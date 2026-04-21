@@ -3,328 +3,525 @@
 {% block content %}
 
 <body class="bg-surface text-on-surface flex min-h-screen">
-<!-- SideNavBar -->
-<aside class="bg-[#f7f3ef] dark:bg-stone-900 h-screen w-72 flex flex-col fixed left-0 top-0 shadow-[4px_0_24px_rgba(28,28,25,0.04)] z-50">
-<div class="flex flex-col h-full py-8 px-6 space-y-6">
-<!-- Brand Header -->
-<div class="flex items-center gap-3 px-2 mb-4">
-<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-on-primary">
-<span class="material-symbols-outlined">library_books</span>
-</div>
-<div>
-<h1 class="text-lg font-black tracking-tighter text-[#533528] dark:text-[#f7f3ef]">Library Admin</h1>
-<p class="text-[10px] uppercase tracking-widest text-[#6d4c3d]/60 font-bold">Management Portal</p>
-</div>
-</div>
-<!-- CTA -->
-<button class="w-full py-3 px-4 bg-primary text-on-primary rounded-xl font-semibold text-sm flex items-center justify-center gap-2 hover:scale-[1.03] transition-transform duration-300 shadow-lg shadow-primary/10">
-<span class="material-symbols-outlined text-sm">add</span>
-                Thêm mục mới
-            </button>
-<!-- Navigation Links -->
-<nav class="flex-1 space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#6d4c3d]/70 dark:text-stone-400 font-medium hover:bg-[#fdf9f5] dark:hover:bg-stone-800 transition-all duration-200 hover:translate-x-1" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-<span>Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#6d4c3d]/70 dark:text-stone-400 font-medium hover:bg-[#fdf9f5] dark:hover:bg-stone-800 transition-all duration-200 hover:translate-x-1" href="#">
-<span class="material-symbols-outlined">menu_book</span>
-<span>Quản lý sách</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#6d4c3d]/70 dark:text-stone-400 font-medium hover:bg-[#fdf9f5] dark:hover:bg-stone-800 transition-all duration-200 hover:translate-x-1" href="#">
-<span class="material-symbols-outlined">auto_stories</span>
-<span>Quản lý đơn mượn</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#533528] dark:text-[#fdf9f5] font-bold border-r-4 border-[#6d4c3d] bg-surface-container-lowest/50" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
-<span>Quản lý người dùng</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#6d4c3d]/70 dark:text-stone-400 font-medium hover:bg-[#fdf9f5] dark:hover:bg-stone-800 transition-all duration-200 hover:translate-x-1" href="#">
-<span class="material-symbols-outlined">analytics</span>
-<span>Báo cáo thống kê</span>
-</a>
-</nav>
-<!-- Footer Action -->
-<div class="pt-6 border-t border-outline-variant/10">
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#6d4c3d]/70 dark:text-stone-400 font-medium hover:bg-error-container/10 hover:text-error transition-all duration-200" href="#">
-<span class="material-symbols-outlined">logout</span>
-<span>Đăng xuất</span>
-</a>
-</div>
-</div>
-</aside>
 <!-- Main Content Canvas -->
-<main class="flex-1 ml-72 min-h-screen bg-surface flex flex-col relative">
-<!-- TopNavBar -->
-<header class="bg-[#fdf9f5]/80 dark:bg-stone-950/80 backdrop-blur-xl sticky top-0 z-40 w-full px-8 py-4 flex justify-between items-center font-['Plus_Jakarta_Sans'] tracking-tight">
-<div class="flex items-center gap-6">
-<div class="relative group">
-<span class="absolute inset-y-0 left-3 flex items-center text-on-surface-variant/60">
-<span class="material-symbols-outlined text-lg">search</span>
-</span>
-<input class="pl-10 pr-4 py-2 bg-surface-container-high border-none rounded-full text-sm w-80 focus:ring-1 focus:ring-tertiary transition-all duration-300" placeholder="Tìm kiếm người dùng..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<button class="p-2 text-[#6d4c3d] dark:text-[#d9a066] hover:text-[#533528] transition-colors duration-200 scale-105">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="p-2 text-[#6d4c3d] dark:text-[#d9a066] hover:text-[#533528] transition-colors duration-200 scale-105">
-<span class="material-symbols-outlined">settings</span>
-</button>
-<div class="h-8 w-[1px] bg-outline-variant/20 mx-2"></div>
-<div class="flex items-center gap-3 pl-2">
-<div class="text-right">
-<p class="text-xs font-bold text-primary">Adminstrator</p>
-<p class="text-[10px] text-on-surface-variant">Librarian Level 1</p>
-</div>
-<img alt="Admin Profile" class="w-10 h-10 rounded-full object-cover ring-2 ring-surface-container-high" data-alt="Close-up portrait of a professional man with glasses in a warm lit studio, editorial aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPNt8i45HN_XztIlo4fSJt0EiUJ-pqlUu25f1XVx32bPu31Y6zjmJd-gY3zuyF2jzWxqkK3fR1ylkQIYkpwfTVnhry92yuYtJqh6-_ZdxnDH63ZPpW9n41AP7smPkTTR2qh-aBSwpux4AQkIDte-K4rq2XZBBBGvsMZwHzKml_eii_RFVAsmCt3cCEqtszzK8dx_M4JgdETabW5NJEfDOs6CR744rG1PdfpQKMZCPfZ7a0QtjxiAvZGICppJlNvwvmRUbDTl9glB-v"/>
-</div>
-</div>
-</header>
-<!-- Content Area -->
-<section class="p-8 max-w-7xl w-full mx-auto">
-<!-- Breadcrumbs & Title -->
-<div class="mb-10 flex justify-between items-end">
-<div class="space-y-1">
-<div class="flex items-center gap-2 text-xs font-medium text-on-surface-variant/60 uppercase tracking-widest">
-<span>Hệ thống</span>
-<span class="material-symbols-outlined text-[10px]">chevron_right</span>
-<span>Người dùng</span>
-</div>
-<h2 class="text-4xl font-extrabold tracking-tight text-primary">Quản lý người dùng</h2>
-<p class="text-on-surface-variant max-w-lg">Danh sách thành viên thư viện, cập nhật thông tin và kiểm soát quyền truy cập tài liệu.</p>
-</div>
-<button class="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-lg shadow-primary/20">
-<span class="material-symbols-outlined">person_add</span>
+<main class="pt-28 px-12 flex-1 bg-surface">
+    <div class="max-w-7xl mx-auto space-y-8 mt-4">
+        <!-- Content Area -->
+        <section class="p-8 max-w-7xl w-full mx-auto">
+            <!-- Breadcrumbs & Title -->
+            <div class="mb-10 flex justify-between items-end">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2 text-xs font-medium text-on-surface-variant/60 uppercase tracking-widest">
+                        <span>Hệ thống</span>
+                        <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+                        <span>Người dùng</span>
+                    </div>
+                    <h2 class="text-4xl font-extrabold tracking-tight text-primary">Quản lý người dùng</h2>
+                    <p class="text-on-surface-variant max-w-lg">Danh sách thành viên thư viện, cập nhật thông tin và
+                        kiểm
+                        soát quyền truy cập tài liệu.</p>
+                </div>
+                <button onclick="openAddUserModal()"
+                        class="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02]">
+                    <span class="material-symbols-outlined">person_add</span>
                     Thêm người dùng
                 </button>
-</div>
-<!-- Stats Bar (Asymmetric Bento Style) -->
-<div class="grid grid-cols-12 gap-6 mb-10">
-<div class="col-span-12 md:col-span-4 bg-surface-container-low p-6 rounded-xl relative overflow-hidden group">
-<div class="relative z-10">
-<p class="text-xs font-bold text-on-surface-variant/60 uppercase tracking-tighter">Tổng số thành viên</p>
-<p class="text-3xl font-black text-primary mt-2">1,284</p>
-<div class="mt-4 flex items-center gap-2 text-xs font-semibold text-tertiary">
-<span class="material-symbols-outlined text-sm">trending_up</span>
-<span>+12% so với tháng trước</span>
-</div>
-</div>
-<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-primary/5 text-9xl group-hover:scale-110 transition-transform duration-500">group</span>
-</div>
-<div class="col-span-6 md:col-span-4 bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
-<p class="text-xs font-bold text-on-surface-variant/60 uppercase tracking-tighter">Đang hoạt động</p>
-<p class="text-3xl font-black text-primary mt-2">842</p>
-<div class="mt-4 flex -space-x-2">
-<div class="w-6 h-6 rounded-full bg-surface-container-highest border-2 border-surface"></div>
-<div class="w-6 h-6 rounded-full bg-surface-container-highest border-2 border-surface"></div>
-<div class="w-6 h-6 rounded-full bg-surface-container-highest border-2 border-surface"></div>
-<div class="w-6 h-6 rounded-full bg-primary/10 border-2 border-surface flex items-center justify-center text-[8px] font-bold text-primary">+12</div>
-</div>
-</div>
-<div class="col-span-6 md:col-span-4 bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
-<p class="text-xs font-bold text-on-surface-variant/60 uppercase tracking-tighter">Thẻ sắp hết hạn</p>
-<p class="text-3xl font-black text-error mt-2">24</p>
-<button class="mt-4 text-xs font-bold text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all">Gửi thông báo nhắc nhở</button>
-</div>
-</div>
-<!-- Table Container -->
-<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_40px_rgba(28,28,25,0.03)] overflow-hidden">
-<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
-<div class="flex gap-4">
-<select class="bg-surface-container-low border-none text-xs font-bold text-primary py-2 px-4 rounded-lg focus:ring-1 focus:ring-primary/20">
-<option>Tất cả vai trò</option>
-<option>Sinh viên</option>
-<option>Giảng viên</option>
-<option>Khách hàng tự do</option>
-</select>
-<select class="bg-surface-container-low border-none text-xs font-bold text-primary py-2 px-4 rounded-lg focus:ring-1 focus:ring-primary/20">
-<option>Trạng thái: Hoạt động</option>
-<option>Trạng thái: Khóa</option>
-</select>
-</div>
-<p class="text-xs font-medium text-on-surface-variant/50 italic">Đang hiển thị 10 trong số 1,284 thành viên</p>
-</div>
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="text-xs font-black uppercase tracking-widest text-on-surface-variant/40">
-<th class="px-8 py-5 font-black">Thành viên</th>
-<th class="px-6 py-5 font-black">Mã thẻ</th>
-<th class="px-6 py-5 font-black">Vai trò</th>
-<th class="px-6 py-5 font-black text-center">Sách đang mượn</th>
-<th class="px-6 py-5 font-black">Ngày tham gia</th>
-<th class="px-8 py-5 font-black text-right">Thao tác</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-outline-variant/5">
-<!-- User Row 1 -->
-<tr class="hover:bg-surface-container-low/50 transition-colors duration-200 group">
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-sm">
-                                        NM
-                                    </div>
-<div>
-<p class="text-sm font-bold text-primary">Nguyễn Văn Minh</p>
-<p class="text-xs text-on-surface-variant/70">minh.nv@archive.edu.vn</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="font-mono text-xs font-semibold bg-surface-container-high px-2 py-1 rounded">LIB-2024-001</span>
-</td>
-<td class="px-6 py-5">
-<span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed">Sinh viên</span>
-</td>
-<td class="px-6 py-5 text-center">
-<span class="text-sm font-bold">03</span>
-</td>
-<td class="px-6 py-5">
-<p class="text-xs text-on-surface-variant font-medium">12 Th02, 2024</p>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2">
-<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-white rounded-lg transition-all shadow-sm">
-<span class="material-symbols-outlined text-lg">edit</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded-lg transition-all">
-<span class="material-symbols-outlined text-lg">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- User Row 2 -->
-<tr class="hover:bg-surface-container-low/50 transition-colors duration-200 group">
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<img alt="User" class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of a smiling young woman with bright professional attire and soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAz12M_VFutKPpMxDbJf53HOyewV7l30BJr3s73U0GS0fcmWgyZAWYVkbD22qsZYk3UuKJmju2Hw69hxvE0kNtmayLJv-sApwdOJIgUq_ofaHwQajDp6e7tDh8IJ0QRFXIlJSEKRaREpyZDHEOIHxJm3GkwT8UoE82b-2GFFeAI8Nkuug-aaOh84w7_v7LKySuDD2V8wl6_q7c00VW-X-uGKrdTbIE1rzNQvk8NpavtFvB-csaAeYHk3MZ_h68i1XVZnXCOTa86FeP"/>
-<div>
-<p class="text-sm font-bold text-primary">Lê Thị Thu Thủy</p>
-<p class="text-xs text-on-surface-variant/70">thuy.lt@university.vn</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="font-mono text-xs font-semibold bg-surface-container-high px-2 py-1 rounded">LIB-2023-452</span>
-</td>
-<td class="px-6 py-5">
-<span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-primary/10 text-primary">Giảng viên</span>
-</td>
-<td class="px-6 py-5 text-center">
-<span class="text-sm font-bold">05</span>
-</td>
-<td class="px-6 py-5">
-<p class="text-xs text-on-surface-variant font-medium">05 Th10, 2023</p>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2">
-<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-white rounded-lg transition-all shadow-sm">
-<span class="material-symbols-outlined text-lg">edit</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded-lg transition-all">
-<span class="material-symbols-outlined text-lg">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- User Row 3 (Locked/Inactive) -->
-<tr class="hover:bg-surface-container-low/50 transition-colors duration-200 group opacity-70">
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant font-bold text-sm">
-                                        TH
-                                    </div>
-<div>
-<p class="text-sm font-bold text-primary">Trần Anh Hùng</p>
-<p class="text-xs text-on-surface-variant/70 italic">Tài khoản bị khóa</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="font-mono text-xs font-semibold bg-surface-container-high px-2 py-1 rounded">LIB-2022-119</span>
-</td>
-<td class="px-6 py-5">
-<span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant">Tự do</span>
-</td>
-<td class="px-6 py-5 text-center">
-<span class="text-sm font-bold">00</span>
-</td>
-<td class="px-6 py-5">
-<p class="text-xs text-on-surface-variant font-medium">21 Th05, 2022</p>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2">
-<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-white rounded-lg transition-all shadow-sm">
-<span class="material-symbols-outlined text-lg">edit</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded-lg transition-all">
-<span class="material-symbols-outlined text-lg">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- User Row 4 -->
-<tr class="hover:bg-surface-container-low/50 transition-colors duration-200 group">
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<img alt="User" class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of a young man with thoughtful expression in a library setting with warm, low-key lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDewEq-PP9_BfD1FuUGQAPEbgvPy8o7RzU3iXC_k9opiDLN-BMculBFXtYd5icxpzkEJYkHK4Hp9-R7yvIzUkEKRF3uKHqhTvAuUPkJvat_vBqxsUeTWweVqKmAVaopCTuSH0l1FQofQxwj05qGwvhiWWvzsuCDLTxJt4bae_Xlb504ZOenRiUgER_fWcfXQIpQwOmS9GHFQiAYUuFKrRq8BaK0uAfqCliJjHjZL9RXoctBSXPyYzh22M50m36N3D5Wi4rupPEDO7Fs"/>
-<div>
-<p class="text-sm font-bold text-primary">Phạm Minh Hoàng</p>
-<p class="text-xs text-on-surface-variant/70">hoang.pm@archive.edu.vn</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="font-mono text-xs font-semibold bg-surface-container-high px-2 py-1 rounded">LIB-2024-088</span>
-</td>
-<td class="px-6 py-5">
-<span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed">Sinh viên</span>
-</td>
-<td class="px-6 py-5 text-center">
-<span class="text-sm font-bold text-error">08</span>
-</td>
-<td class="px-6 py-5">
-<p class="text-xs text-on-surface-variant font-medium">01 Th03, 2024</p>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2">
-<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-white rounded-lg transition-all shadow-sm">
-<span class="material-symbols-outlined text-lg">edit</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded-lg transition-all">
-<span class="material-symbols-outlined text-lg">delete</span>
-</button>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-<!-- Pagination -->
-<div class="p-6 bg-surface-container-low/30 border-t border-outline-variant/5 flex justify-between items-center">
-<button class="flex items-center gap-1 text-xs font-bold text-on-surface-variant/60 hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-sm">arrow_back</span>
-                        Trang trước
-                    </button>
-<div class="flex gap-2">
-<button class="w-8 h-8 rounded-lg bg-primary text-on-primary text-xs font-bold">1</button>
-<button class="w-8 h-8 rounded-lg hover:bg-surface-container-highest text-xs font-bold transition-colors">2</button>
-<button class="w-8 h-8 rounded-lg hover:bg-surface-container-highest text-xs font-bold transition-colors">3</button>
-<span class="flex items-center px-1 text-on-surface-variant/40">...</span>
-<button class="w-8 h-8 rounded-lg hover:bg-surface-container-highest text-xs font-bold transition-colors">128</button>
-</div>
-<button class="flex items-center gap-1 text-xs font-bold text-primary hover:translate-x-1 transition-all">
-                        Trang sau
-                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
-</button>
-</div>
-</div>
-</section>
-<!-- Signature Texture Decoration -->
-<div class="absolute bottom-0 right-0 p-12 opacity-5 pointer-events-none">
-<div class="w-64 h-64 bg-gradient-to-br from-primary to-tertiary rounded-full blur-[100px]"></div>
-</div>
+            </div>
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-12 gap-6 mb-10">
+                <!-- TOTAL -->
+                <div class="col-span-12 md:col-span-4 bg-surface-container-low p-6 rounded-xl relative overflow-hidden group">
+                    <div class="relative z-10">
+                        <p class="text-xs font-bold text-on-surface-variant/60 uppercase tracking-tighter">
+                            Tổng số thành viên
+                        </p>
+                        <p class="text-5xl font-black text-primary mt-2">
+                            {{ total_users }}
+                        </p>
+                    </div>
+                    <span class="material-symbols-outlined absolute -right-4 -bottom-4 text-primary/5 text-9xl group-hover:scale-110 transition-transform duration-500">
+            group
+        </span>
+                </div>
+
+                <!-- ACTIVE -->
+                <div class="col-span-6 md:col-span-4 bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+                    <p class="text-xs font-bold text-on-surface-variant/60 uppercase tracking-tighter">
+                        Đang hoạt động
+                    </p>
+                    <p class="text-5xl font-black text-primary mt-2">
+                        {{ active_users }}
+                    </p>
+                </div>
+
+                <!-- INACTIVE -->
+                <div class="col-span-6 md:col-span-4 bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+                    <p class="text-xs font-bold text-on-surface-variant/60 uppercase tracking-tighter">
+                        Ngừng hoạt động
+                    </p>
+                    <p class="text-5xl font-black text-error mt-2">
+                        {{ inactive_users }}
+                    </p>
+                </div>
+            </div>
+            <!-- Table Container -->
+            <div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_40px_rgba(28,28,25,0.03)] overflow-hidden">
+                <div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
+                    <form method="GET" class="flex gap-4">
+                        <!-- ROLE -->
+                        <select name="role" onchange="this.form.submit()"
+                                class="bg-surface-container-low text-xs font-bold text-primary py-2 px-4 rounded-lg">
+
+                            <option value="">Tất cả vai trò</option>
+                            <option value="READER">Độc giả</option>
+                            <option value="LIBRARIAN">Thủ thư</option>
+                            <option value="ADMIN">Quản trị viên</option>
+                        </select>
+
+                        <!-- STATUS -->
+                        <select name="status" onchange="this.form.submit()"
+                                class="bg-surface-container-low text-xs font-bold text-primary py-2 px-4 rounded-lg">
+
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="active">Hoạt động</option>
+                            <option value="inactive">Ngừng hoạt động</option>
+                        </select>
+                    </form>
+                </div>
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                    <tr class="text-xs font-black uppercase tracking-widest text-on-surface-variant/40">
+                        <th class="px-8 py-5 font-black">Thành viên</th>
+                        <th class="px-6 py-5 font-black">Mã thẻ</th>
+                        <th class="px-6 py-5 font-black">Vai trò</th>
+                        <th class="px-6 py-5 font-black text-center">Sách đang mượn</th>
+                        <th class="px-6 py-5 font-black">Ngày tham gia</th>
+                        <th class="px-8 py-5 font-black text-right">Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant/5">
+                    {% for user in users %}
+                    <tr class="hover:bg-surface-container-low/50 transition-colors duration-200 group">
+                        <td class="px-8 py-5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-sm">
+                                    {% if user.avatar %}
+                                    <img src="{{ user.avatar }}" alt="avatar"
+                                         class="w-full h-full object-cover">
+                                    {% else %}
+                                    {{ user.first_name[0] }}{{ user.last_name[0] }}
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-primary">
+                                        {{ user.first_name }} {{ user.last_name }}
+                                    </p>
+                                    <p class="text-xs text-on-surface-variant/70">
+                                        {{ user.email }}
+                                    </p>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="px-6 py-5">
+                            <span class="font-mono text-xs font-semibold bg-surface-container-high px-2 py-1 rounded">
+                                {{ user.id }}
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-5">
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed">
+                                {{ user.role.value }}
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-5 text-center">
+                            <span class="text-sm font-bold">0</span>
+                        </td>
+
+                        <td class="px-6 py-5">
+                            <p class="text-xs text-on-surface-variant font-medium">
+                                {{ user.created_at.strftime('%d/%m/%Y') }}
+                            </p>
+                        </td>
+
+                        <td class="px-8 py-5 text-right">
+                            <div class="flex justify-end gap-2">
+                                <button
+                                        onclick="openEditModal(this)"
+                                        data-user='{{ {
+                                            "id": user.id,
+                                            "first_name": user.first_name,
+                                            "last_name": user.last_name,
+                                            "username": user.username,
+                                            "email": user.email,
+                                            "phone": user.phone,
+                                            "gender": user.gender.value,
+                                            "role": user.role.value,
+                                            "is_active": user.is_active,
+                                            "avatar": user.avatar
+                                        } | tojson }}'
+                                        class="p-2 text-on-surface-variant hover:text-primary hover:bg-white rounded-lg transition-all shadow-sm">
+
+                                    <span class="material-symbols-outlined text-lg">edit</span>
+                                </button>
+                                <button
+                                        onclick="openDeleteModal('{{ user.id }}', '{{ user.first_name }} {{ user.last_name }}')"
+                                        class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded-lg transition-all">
+
+                                    <span class="material-symbols-outlined text-lg">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
 </main>
+
+<!-- ADD USER MODAL -->
+<div id="addUserModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+    <div class="bg-surface-container-low rounded-2xl p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl">
+
+        <!-- HEADER -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-headline font-bold text-primary">Thêm người dùng</h2>
+            <button onclick="closeAddUserModal()"
+                    class="p-2 hover:bg-surface-container-highest rounded-full transition-colors">
+                <span class="material-symbols-outlined text-on-surface-variant">close</span>
+            </button>
+        </div>
+
+        <!-- FORM -->
+        <form method="POST" action="{{ url_for('admin_add_user') }}" enctype="multipart/form-data" class="space-y-4">
+
+            <!-- GRID INPUT -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <!-- FIRST NAME -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Họ <span class="text-error">*</span></label>
+                    <input required name="first_name"
+                           class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                           placeholder="Nguyễn..."/>
+                </div>
+
+                <!-- LAST NAME -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Tên <span class="text-error">*</span></label>
+                    <input required name="last_name"
+                           class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                           placeholder="Văn A..."/>
+                </div>
+
+                <!-- USERNAME -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Username <span
+                            class="text-error">*</span></label>
+                    <input required name="username"
+                           class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                           placeholder="username..."/>
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Mật khẩu <span
+                            class="text-error">*</span></label>
+                    <input required type="password" name="password"
+                           class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                           placeholder="••••••••"/>
+                </div>
+
+                <!-- EMAIL -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Email <span class="text-error">*</span></label>
+                    <input required type="email" name="email"
+                           class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                           placeholder="example@email.com"/>
+                </div>
+
+                <!-- PHONE -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Số điện thoại <span class="text-error">*</span></label>
+                    <input required name="phone"
+                           class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                           placeholder="0123456789"/>
+                </div>
+
+                <!-- GENDER -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Giới tính</label>
+                    <select name="gender"
+                            class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary">
+                        <option value="MALE">Nam</option>
+                        <option value="FEMALE">Nữ</option>
+                        <option value="OTHER">Khác</option>
+                    </select>
+                </div>
+
+                <!-- ROLE -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Vai trò</label>
+                    <select name="role"
+                            class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary">
+                        <option value="READER">Độc giả</option>
+                        <option value="LIBRARIAN">Thủ thư</option>
+                        <option value="ADMIN">Quản trị</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- AVATAR -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-on-surface">Ảnh đại diện</label>
+                <input type="file" name="avatar" accept="image/*"
+                       class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary
+                    file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold
+                    file:bg-primary file:text-on-primary hover:file:bg-primary/90"/>
+            </div>
+
+            <!-- ACTION -->
+            <div class="flex justify-end gap-3 pt-4">
+                <button type="button" onclick="closeAddUserModal()"
+                        class="px-6 py-2 rounded-lg font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                    Hủy
+                </button>
+
+                <button type="submit"
+                        class="bg-primary text-on-primary px-6 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] transition-transform">
+                    <span class="material-symbols-outlined text-sm">save</span>
+                    Lưu người dùng
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- EDIT USER MODAL -->
+<div id="editModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+    <div class="bg-surface-container-low rounded-2xl p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl">
+
+        <!-- HEADER -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-headline font-bold text-primary">Chỉnh sửa người dùng</h2>
+            <button onclick="closeEditModal()"
+                    class="p-2 hover:bg-surface-container-highest rounded-full transition-colors">
+                <span class="material-symbols-outlined text-on-surface-variant">close</span>
+            </button>
+        </div>
+
+        <!-- FORM -->
+        <form id="editForm" method="POST" action="" enctype="multipart/form-data" class="space-y-4">
+
+            <!-- GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <!-- FIRST NAME -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Họ</label>
+                    <input id="edit-first_name" name="first_name"
+                           class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"/>
+                </div>
+
+                <!-- LAST NAME -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Tên</label>
+                    <input id="edit-last_name" name="last_name"
+                           class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"/>
+                </div>
+
+                <!-- USERNAME -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Username</label>
+                    <input id="edit-username" name="username"
+                           class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"/>
+                </div>
+
+                <!-- EMAIL -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Email</label>
+                    <input id="edit-email" name="email" type="email"
+                           class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"/>
+                </div>
+
+                <!-- PHONE -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Số điện thoại</label>
+                    <input id="edit-phone" name="phone"
+                           class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"/>
+                </div>
+
+                <!-- PASSWORD (optional) -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Mật khẩu mới</label>
+                    <input id="edit-password" name="password" type="password"
+                           placeholder="Để trống nếu không đổi"
+                           class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"/>
+                </div>
+
+                <!-- GENDER -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Giới tính</label>
+                    <select id="edit-gender" name="gender"
+                            class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary">
+                        <option value="MALE">Nam</option>
+                        <option value="FEMALE">Nữ</option>
+                        <option value="OTHER">Khác</option>
+                    </select>
+                </div>
+
+                <!-- ROLE -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface">Vai trò</label>
+                    <select id="edit-role" name="role"
+                            class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary">
+                        <option value="READER">Độc giả</option>
+                        <option value="LIBRARIAN">Thủ thư</option>
+                        <option value="ADMIN">Quản trị</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ACTIVE TOGGLE -->
+            <div class="flex items-center gap-3 p-4 bg-surface-container-high rounded-lg">
+                <input type="checkbox" id="edit-is_active" name="is_active"
+                       class="form-checkbox text-primary border-outline-variant rounded focus:ring-primary w-5 h-5"/>
+                <label for="edit-is_active" class="text-sm font-semibold text-on-surface cursor-pointer">
+                    Người dùng đang hoạt động
+                </label>
+            </div>
+
+            <!-- AVATAR -->
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-on-surface">Ảnh đại diện (để trống nếu không đổi)</label>
+                <input type="file" name="avatar" accept="image/*"
+                       class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary
+                    file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold
+                    file:bg-primary file:text-on-primary hover:file:bg-primary/90"/>
+
+                <!-- preview -->
+                <div id="edit-avatar-preview" class="mt-2"></div>
+            </div>
+
+            <!-- ACTION -->
+            <div class="flex justify-end gap-3 pt-4">
+                <button type="button" onclick="closeEditModal()"
+                        class="px-6 py-2 rounded-lg font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                    Hủy
+                </button>
+
+                <button type="submit"
+                        class="bg-primary text-on-primary px-6 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] transition-transform">
+                    <span class="material-symbols-outlined text-sm">save</span>
+                    Cập nhật
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- DELETE -->
+<div id="deleteModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+    <div class="bg-surface-container-low rounded-2xl p-8 w-full max-w-md shadow-2xl">
+        <div class="flex flex-col items-center text-center">
+
+            <!-- ICON -->
+            <div class="w-16 h-16 bg-error-container rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-3xl text-error">delete_forever</span>
+            </div>
+
+            <!-- TITLE -->
+            <h2 class="text-2xl font-headline font-bold text-primary mb-2">
+                Xác nhận xóa
+            </h2>
+
+            <!-- CONTENT -->
+            <p class="text-on-surface-variant mb-6">
+                Bạn có chắc chắn muốn xóa người dùng
+                <strong id="delete-name" class="text-on-surface"></strong>?
+                Hành động này không thể hoàn tác.
+            </p>
+
+            <!-- FORM -->
+            <form id="deleteForm" method="POST" action="">
+                <div class="flex gap-3">
+
+                    <!-- CANCEL -->
+                    <button type="button" onclick="closeDeleteModal()"
+                        class="px-6 py-2 rounded-lg font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        Hủy
+                    </button>
+
+                    <!-- DELETE -->
+                    <button type="submit"
+                        class="bg-error text-on-error px-6 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] transition-transform">
+
+                        <span class="material-symbols-outlined text-sm">delete</span>
+                        Xóa người dùng
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script>
+    function openAddUserModal() {
+        document.getElementById('addUserModal').classList.remove('hidden');
+    }
+
+    function closeAddUserModal() {
+        document.getElementById('addUserModal').classList.add('hidden');
+    }
+
+    function openEditModal(btn) {
+        const u = JSON.parse(btn.dataset.user);
+
+        document.getElementById('editForm').action = `/admin/user/edit/${u.id}/`;
+
+        document.getElementById('edit-first_name').value = u.first_name;
+        document.getElementById('edit-last_name').value = u.last_name;
+        document.getElementById('edit-username').value = u.username;
+        document.getElementById('edit-email').value = u.email;
+        document.getElementById('edit-phone').value = u.phone;
+        document.getElementById('edit-gender').value = u.gender;
+        document.getElementById('edit-role').value = u.role;
+
+        // active
+        document.getElementById('edit-is_active').checked = u.is_active;
+
+        // avatar preview
+        const preview = document.getElementById('edit-avatar-preview');
+        if (u.avatar) {
+            preview.innerHTML = `<img src="${u.avatar}" class="w-20 h-20 rounded-full object-cover shadow-sm"/>`;
+        } else {
+            preview.innerHTML = '';
+        }
+
+        document.getElementById('editModal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').classList.add('hidden');
+    }
+
+    function openDeleteModal(id, name) {
+        document.getElementById('deleteForm').action = `/admin/user/delete/${id}/`;
+        document.getElementById('delete-name').textContent = name;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+
+</script>
+
 {% endblock %}
 
 

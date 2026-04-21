@@ -16,11 +16,11 @@ class Book(BaseModel):
     isbn_13 = db.Column(db.String(13))
 
     image = db.Column(db.String(255), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
 
     is_active = db.Column(db.Boolean, nullable=False)
 
     language = db.Column(db.String(50))
-    quantity = db.Column(db.Integer, nullable=False)
 
     librarian_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     categories = db.relationship("Category", secondary="category_book", backref="books")

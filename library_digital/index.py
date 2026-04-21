@@ -1,7 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
-from future.backports.datetime import datetime
-
 from library_digital import create_app, login, utils
 import cloudinary.uploader
 from library_digital.extensions import db
@@ -75,6 +73,58 @@ def register():
             err_msg = 'Hệ thống đang gặp lỗi: ' + str(ex)
 
     return render_template('auth/register.html', err_msg=err_msg)
+
+@app.route('/update-avatar', methods=['POST'])
+@login_required
+def update_avatar():
+    avatar = request.files.get('avatar')
+
+    if not avatar or avatar.filename == "":
+        flash("Vui lòng chọn ảnh!", "error")
+        return redirect(url_for('user_detail', user_id=current_user.id))
+
+    try:
+        res = cloudinary.uploader.upload(avatar)
+        current_user.avatar = res.get("secure_url")
+
+        db.session.commit()
+        flash("Cập nhật avatar thành công!", "success")
+
+    except Exception as e:
+        db.session.rollback()
+        print(e)
+        flash("Upload thất bại!", "error")
+
+    return redirect(url_for('user_detail', user_id=current_user.id))
+
+@app.route('/update-profile', methods=['POST'])
+@login_required
+def update_profile():
+    success, message = utils.update_user_profile(
+        user=current_user,
+        first_name=request.form.get('first_name'),
+        last_name=request.form.get('last_name'),
+        email=request.form.get('email'),
+        phone=request.form.get('phone'),
+        gender=request.form.get('gender'))
+
+    flash(message, "success" if success else "error")
+
+    return redirect(url_for('user_detail', user_id=current_user.id))
+
+@app.route('/change-password', methods=['POST'])
+@login_required
+def change_password():
+    success, message = utils.change_user_password(
+        user=current_user,
+        current_password=request.form.get('current_password'),
+        new_password=request.form.get('new_password'),
+        confirm_password=request.form.get('confirm_password')
+    )
+
+    flash(message, "success" if success else "error")
+
+    return redirect(url_for('user_detail', user_id=current_user.id))
 
 @app.route('/auth/forget-password')
 def forget_pass():
@@ -372,38 +422,6 @@ def admin_delete_book(book_id):
     except Exception as ex:
         return str(ex), 500
 
-
-@app.route('/borrow/<int:book_id>', methods=['POST'])
-def borrow_book(book_id):
-    reader_id = current_user.id
-
-    can, message = utils.can_borrow(reader_id, book_id)
-
-    book = utils.get_book_by_id(book_id)
-
-    if not can:
-        return render_template(
-            "user/book_detail.html",
-            book=book,
-            msg=message
-        )
-
-    utils.add_borrow_slip(
-        reader_id=reader_id,
-        librarian_id=None,
-        book_id=book_id,
-        borrow_date=datetime.now(),
-        due_date=None,
-        return_date=None,
-        status="RESERVED",
-        note=""
-    )
-
-    return render_template(
-        "user/book_detail.html",
-        book=book,
-        msg="Mượn sách thành công"
-    )
 
 if __name__ == "__main__":
     app.run(debug=True)

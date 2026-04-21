@@ -1,8 +1,7 @@
 from library_digital.extensions import db
-from library_digital.models import User, Book, Category, CategoryBook, BorrowSlip
+from library_digital.models import User, Book, Category, CategoryBook
+from .models.user import GenderEnum
 import hashlib
-
-from library_digital.models.borrow_slip import BorrowStatus
 
 
 def add_user(first_name, last_name, username, password, email, phone, gender, **kwargs):
@@ -26,6 +25,56 @@ def check_login(username, password, role):
         password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
 
         return User.query.filter(User.username.__eq__(username.strip()), User.password.__eq__(password), User.role.__eq__(role)).first()
+
+def update_user_profile(user, first_name, last_name, email, phone, gender):
+    if not all([first_name, last_name, email, phone, gender]):
+        return False, "Vui lòng nhập đầy đủ thông tin!"
+    if User.query.filter(User.email == email, User.id != user.id).first():
+        return False, "Email đã tồn tại!"
+    if User.query.filter(User.phone == phone, User.id != user.id).first():
+        return False, "Số điện thoại đã tồn tại!"
+
+    try:
+        gender_enum = GenderEnum(gender)
+    except ValueError:
+        return False, "Giới tính không hợp lệ!"
+
+    try:
+        # update
+        user.first_name = first_name.strip()
+        user.last_name = last_name.strip()
+        user.email = email.strip()
+        user.phone = phone.strip()
+        user.gender = gender_enum
+
+        db.session.commit()
+        return True, "Cập nhật thành công!"
+
+    except Exception as e:
+        db.session.rollback()
+        print(e)
+        return False, "Có lỗi xảy ra!"
+
+def change_user_password(user, current_password, new_password, confirm_password):
+    current_password_hashed = str(hashlib.md5(current_password.strip().encode('utf-8')).hexdigest())
+
+    if user.password != current_password_hashed:
+        return False, "Mật khẩu hiện tại không đúng!"
+    if new_password != confirm_password:
+        return False, "Mật khẩu xác nhận không khớp!"
+
+    try:
+        new_password_hashed = str(hashlib.md5(new_password.strip().encode('utf-8')).hexdigest())
+
+        user.password = new_password_hashed
+        db.session.commit()
+
+        return True, "Đổi mật khẩu thành công!"
+
+    except Exception as e:
+        db.session.rollback()
+        print(e)
+        return False, "Có lỗi xảy ra!"
 
 def get_user_by_id(user_id):
     return User.query.get(user_id)
@@ -147,52 +196,3 @@ def delete_book(book_id):
     db.session.delete(book)
     db.session.commit()
     return True
-
-def add_borrow_slip(reader_id, librarian_id, book_id, borrow_date, due_date, return_date, status, note):
-    try:
-        # Nếu status truyền vào là string thì convert sang Enum
-        if isinstance(status, str):
-            status = BorrowStatus(status)
-
-        borrow_slip = BorrowSlip(
-            reader_id=reader_id,
-            librarian_id=librarian_id,
-            book_id=book_id,
-            borrow_date=borrow_date,
-            due_date=due_date,
-            return_date=return_date,
-            status=status,
-            note=note
-        )
-
-        db.session.add(borrow_slip)
-        db.session.commit()
-
-        return borrow_slip
-
-    except Exception as e:
-        db.session.rollback()
-        print(f"Error: {e}")
-        return None
-
-def can_borrow(reader_id, book_id):
-    latest_slip = BorrowSlip.query \
-        .filter_by(reader_id=reader_id) \
-        .order_by(BorrowSlip.borrow_date.desc()) \
-        .first()
-
-    book = Book.query.get(book_id)
-
-    if not book:
-        return False, "Sách không thấy"
-
-    if book.quantity <= 0:
-        return False, "Sách đã hết"
-
-    if latest_slip.status == BorrowStatus.BORROWING or latest_slip.status == BorrowStatus.RESERVED:
-        return False, "Đang mượn sách"
-
-    if not latest_slip:
-        return True, "OK"
-
-    return True, "OK"

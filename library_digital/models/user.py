@@ -35,5 +35,9 @@ class User(BaseModel, UserMixin):
     # relationships
     books_managed = db.relationship("Book", backref="librarian", lazy=True)
 
-    def __str__(self):
+    @property
+    def full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+    def __str__(self):
+        return self.full_name

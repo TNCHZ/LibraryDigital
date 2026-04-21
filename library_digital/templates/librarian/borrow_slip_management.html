@@ -1,317 +1,389 @@
 {% extends 'librarian/layout.html' %}
 
 {% block content %}
-</aside>
 <!-- Main Content Area -->
 <main class="flex-1 ml-64 flex flex-col min-h-screen overflow-hidden">
-<!-- TopNavBar Component -->
-<header class="sticky top-0 z-30 w-full bg-[#fdf9f5] dark:bg-stone-950 backdrop-blur-md opacity-95 flex justify-between items-center px-6 py-3 shadow-sm border-b border-surface-container">
-<div class="flex items-center gap-8 flex-1">
-<span class="text-xl font-bold text-[#533528] dark:text-[#f7f3ef] font-['Plus_Jakarta_Sans'] tracking-tight">Thư Viện</span>
-<div class="relative w-full max-w-md">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
-<input class="w-full bg-surface-container-high border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-tertiary transition-all placeholder:text-outline" placeholder="Tìm kiếm đơn mượn, độc giả..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<button class="p-2 rounded-full hover:bg-[#f7f3ef] dark:hover:bg-stone-800 transition-colors duration-200 relative">
-<span class="material-symbols-outlined text-[#533528] dark:text-[#D9A066]" data-icon="notifications">notifications</span>
-<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
-</button>
-<button class="p-2 rounded-full hover:bg-[#f7f3ef] dark:hover:bg-stone-800 transition-colors duration-200">
-<span class="material-symbols-outlined text-[#533528] dark:text-[#D9A066]" data-icon="settings">settings</span>
-</button>
-<div class="w-[1px] h-6 bg-surface-container-high mx-2"></div>
-<div class="flex items-center gap-3">
-<div class="text-right hidden sm:block">
-<p class="text-xs font-bold text-primary leading-none">Admin Nguyễn</p>
-<p class="text-[10px] text-outline-variant font-medium">Thủ thư trưởng</p>
-</div>
-<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-surface-container">
-<img alt="Ảnh đại diện Thủ thư" class="w-full h-full object-cover" data-alt="Close-up headshot of a professional man, neutral expression, soft studio lighting, professional background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCagY1GIAMeeMQJovqvbLk-lqVo7-IGhCmqtV8H14s5kzKp8sDe2_OIdQRK1TG_CC-9GiXEEjqdfDu5b0aDBDjlHGIhKWW-2pg9CaHsao66Iem1QZFvD58HpbEgOoCHCM7bvE10CITKcI86StBcUS5dABNBOhkbFfQXIpE5_osKFxp9u_xJwaDCmyZ4o0kiUUhyqgU3j1wlU5Nt_4tLaAV8GEbDXIncbmGFyzCdAREYCaOu3JfcgyehWG292OdFfR03og96veZtgB90"/>
-</div>
-</div>
-</div>
-</header>
-<!-- Content Canvas -->
-<div class="p-8 max-w-7xl mx-auto w-full">
-<!-- Page Header & Stats -->
-<section class="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-<div>
-<h1 class="text-3xl font-extrabold text-primary tracking-tighter mb-2">Quản lý đơn mượn</h1>
-<p class="text-on-surface-variant font-body">Theo dõi, phê duyệt và xử lý các giao dịch mượn trả sách trong hệ thống.</p>
-</div>
-<div class="flex gap-4">
-<button class="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-lg font-semibold hover:scale-105 transition-transform duration-300 ease-in-out shadow-lg shadow-primary/10">
-<span class="material-symbols-outlined text-lg">add</span>
-<span class="text-sm">Tạo đơn mượn mới</span>
-</button>
-</div>
-</section>
-<!-- Bento Grid Stats -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-tertiary transition-all duration-300 hover:shadow-xl hover:shadow-on-surface/5">
-<p class="text-xs font-bold text-outline-variant uppercase tracking-widest mb-1">Đang chờ duyệt</p>
-<div class="flex items-end justify-between">
-<span class="text-3xl font-black text-primary">12</span>
-<span class="material-symbols-outlined text-tertiary opacity-50 text-4xl">pending_actions</span>
-</div>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-primary transition-all duration-300 hover:shadow-xl hover:shadow-on-surface/5">
-<p class="text-xs font-bold text-outline-variant uppercase tracking-widest mb-1">Đang mượn</p>
-<div class="flex items-end justify-between">
-<span class="text-3xl font-black text-primary">45</span>
-<span class="material-symbols-outlined text-primary opacity-50 text-4xl">auto_stories</span>
-</div>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-error transition-all duration-300 hover:shadow-xl hover:shadow-on-surface/5">
-<p class="text-xs font-bold text-outline-variant uppercase tracking-widest mb-1">Quá hạn</p>
-<div class="flex items-end justify-between">
-<span class="text-3xl font-black text-error">03</span>
-<span class="material-symbols-outlined text-error opacity-50 text-4xl">history_toggle_off</span>
-</div>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-secondary transition-all duration-300 hover:shadow-xl hover:shadow-on-surface/5">
-<p class="text-xs font-bold text-outline-variant uppercase tracking-widest mb-1">Hoàn tất (Tháng)</p>
-<div class="flex items-end justify-between">
-<span class="text-3xl font-black text-primary">128</span>
-<span class="material-symbols-outlined text-secondary opacity-50 text-4xl">assignment_turned_in</span>
-</div>
-</div>
-</div>
-<!-- Main Table Section -->
-<section class="bg-surface-container-low rounded-2xl overflow-hidden mb-12">
-<div class="px-8 py-6 flex justify-between items-center border-b border-surface-container-high bg-surface-container-lowest/50 backdrop-blur-sm">
-<h3 class="text-lg font-bold text-primary flex items-center gap-2">
-<span class="material-symbols-outlined text-tertiary">list_alt</span>
+    <!-- Content Canvas -->
+    <div class="p-8 max-w-7xl mx-auto w-full">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="mb-6 space-y-2">
+            {% for category, message in messages %}
+            <div class="p-4 rounded-lg text-sm font-medium flex items-center gap-2
+                {% if category == 'success' %}
+                    bg-green-100 text-green-700 border border-green-200
+                {% elif category == 'error' %}
+                    bg-red-100 text-red-700 border border-red-200
+                {% else %}
+                    bg-blue-100 text-blue-700 border border-blue-200
+                {% endif %}">
+                <span class="material-symbols-outlined">{{ 'check_circle' if category == 'success' else 'error' if category == 'error' else 'info' }}</span>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+        <!-- Page Header & Stats -->
+        <section class="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+            <div>
+                <h1 class="text-3xl font-extrabold text-primary tracking-tighter mb-2">Quản lý đơn mượn</h1>
+                <p class="text-on-surface-variant font-body">Theo dõi, phê duyệt và xử lý các giao dịch mượn trả sách
+                    trong hệ thống.</p>
+            </div>
+            <div class="flex gap-4">
+                <button
+                    class="flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-lg font-semibold hover:scale-105 transition-transform duration-300 ease-in-out shadow-lg shadow-primary/10">
+                    <span class="material-symbols-outlined text-lg">add</span>
+                    <span class="text-sm">Tạo đơn mượn mới</span>
+                </button>
+            </div>
+        </section>
+        <!-- Bento Grid Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-tertiary transition-all duration-300 hover:shadow-xl hover:shadow-on-surface/5">
+                <p class="text-xs font-bold text-outline-variant uppercase tracking-widest mb-1">Đang chờ duyệt</p>
+                <div class="flex items-end justify-between">
+                    <span class="text-3xl font-black text-primary">12</span>
+                    <span class="material-symbols-outlined text-tertiary opacity-50 text-4xl">pending_actions</span>
+                </div>
+            </div>
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-primary transition-all duration-300 hover:shadow-xl hover:shadow-on-surface/5">
+                <p class="text-xs font-bold text-outline-variant uppercase tracking-widest mb-1">Đang mượn</p>
+                <div class="flex items-end justify-between">
+                    <span class="text-3xl font-black text-primary">45</span>
+                    <span class="material-symbols-outlined text-primary opacity-50 text-4xl">auto_stories</span>
+                </div>
+            </div>
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-error transition-all duration-300 hover:shadow-xl hover:shadow-on-surface/5">
+                <p class="text-xs font-bold text-outline-variant uppercase tracking-widest mb-1">Quá hạn</p>
+                <div class="flex items-end justify-between">
+                    <span class="text-3xl font-black text-error">03</span>
+                    <span class="material-symbols-outlined text-error opacity-50 text-4xl">history_toggle_off</span>
+                </div>
+            </div>
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-secondary transition-all duration-300 hover:shadow-xl hover:shadow-on-surface/5">
+                <p class="text-xs font-bold text-outline-variant uppercase tracking-widest mb-1">Hoàn tất (Tháng)</p>
+                <div class="flex items-end justify-between">
+                    <span class="text-3xl font-black text-primary">128</span>
+                    <span
+                        class="material-symbols-outlined text-secondary opacity-50 text-4xl">assignment_turned_in</span>
+                </div>
+            </div>
+        </div>
+        <!-- Main Table Section -->
+        <section class="bg-surface-container-low rounded-2xl overflow-hidden mb-12">
+            <div
+                class="px-8 py-6 flex justify-between items-center border-b border-surface-container-high bg-surface-container-lowest/50 backdrop-blur-sm">
+                <h3 class="text-lg font-bold text-primary flex items-center gap-2">
+                    <span class="material-symbols-outlined text-tertiary">list_alt</span>
                     Danh sách phiếu mượn
                 </h3>
-<div class="flex items-center gap-3">
-<select class="bg-surface-container-high border-none rounded-lg text-xs font-medium py-2 px-4 focus:ring-1 focus:ring-tertiary cursor-pointer">
-<option>Tất cả trạng thái</option>
-<option>Đang chờ duyệt</option>
-<option>Đ đang mượn</option>
-<option>Đã trả</option>
-<option>Quá hạn</option>
-</select>
-<button class="p-2 hover:bg-surface-container-high rounded-lg transition-colors">
-<span class="material-symbols-outlined text-secondary text-xl">filter_list</span>
-</button>
-</div>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container-lowest/30">
-<th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline">Mã đơn</th>
-<th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline">Độc giả</th>
-<th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline">Tên sách</th>
-<th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline">Ngày mượn</th>
-<th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline">Hạn trả</th>
-<th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline">Trạng thái</th>
-<th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline text-right">Thao tác</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-surface-container-high/50">
-<!-- Pending Row -->
-<tr class="hover:bg-surface-container-lowest transition-colors duration-200 group">
-<td class="px-8 py-5 text-sm font-bold text-primary">#DM-2024-001</td>
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-[10px] text-primary">TH</div>
-<div>
-<p class="text-sm font-semibold text-primary">Trần Hoàng</p>
-<p class="text-[10px] text-outline-variant">SV2024-089</p>
-</div>
-</div>
-</td>
-<td class="px-8 py-5 text-sm text-on-surface-variant font-medium">Chiến tranh và Hòa bình (Tập 1)</td>
-<td class="px-8 py-5 text-sm text-outline-variant">12/05/2024</td>
-<td class="px-8 py-5 text-sm text-outline-variant">26/05/2024</td>
-<td class="px-8 py-5">
-<span class="px-3 py-1 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed uppercase tracking-wider">Chờ duyệt</span>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-1.5 hover:bg-tertiary/10 text-tertiary rounded-md transition-colors" title="Phê duyệt">
-<span class="material-symbols-outlined text-lg">check_circle</span>
-</button>
-<button class="p-1.5 hover:bg-primary/10 text-primary rounded-md transition-colors" title="Sửa">
-<span class="material-symbols-outlined text-lg">edit</span>
-</button>
-<button class="p-1.5 hover:bg-error/10 text-error rounded-md transition-colors" title="Hủy">
-<span class="material-symbols-outlined text-lg">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Borrowing Row -->
-<tr class="hover:bg-surface-container-lowest transition-colors duration-200 group">
-<td class="px-8 py-5 text-sm font-bold text-primary">#DM-2024-002</td>
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-[10px] text-primary">LA</div>
-<div>
-<p class="text-sm font-semibold text-primary">Lê Anh</p>
-<p class="text-[10px] text-outline-variant">SV2024-112</p>
-</div>
-</div>
-</td>
-<td class="px-8 py-5 text-sm text-on-surface-variant font-medium">Nhà giả kim</td>
-<td class="px-8 py-5 text-sm text-outline-variant">10/05/2024</td>
-<td class="px-8 py-5 text-sm text-outline-variant">24/05/2024</td>
-<td class="px-8 py-5">
-<span class="px-3 py-1 rounded-full text-[10px] font-bold bg-primary-fixed text-on-primary-fixed uppercase tracking-wider">Đang mượn</span>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-1.5 hover:bg-primary/10 text-primary rounded-md transition-colors">
-<span class="material-symbols-outlined text-lg">history</span>
-</button>
-<button class="p-1.5 hover:bg-primary/10 text-primary rounded-md transition-colors">
-<span class="material-symbols-outlined text-lg">edit</span>
-</button>
-<button class="p-1.5 hover:bg-error/10 text-error rounded-md transition-colors">
-<span class="material-symbols-outlined text-lg">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Overdue Row -->
-<tr class="hover:bg-surface-container-lowest transition-colors duration-200 group">
-<td class="px-8 py-5 text-sm font-bold text-primary">#DM-2024-003</td>
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center font-bold text-[10px] text-error">MT</div>
-<div>
-<p class="text-sm font-semibold text-primary">Minh Tuấn</p>
-<p class="text-[10px] text-outline-variant">SV2023-045</p>
-</div>
-</div>
-</td>
-<td class="px-8 py-5 text-sm text-on-surface-variant font-medium">Bắt trẻ đồng xanh</td>
-<td class="px-8 py-5 text-sm text-outline-variant">01/05/2024</td>
-<td class="px-8 py-5 text-sm text-error font-bold">15/05/2024</td>
-<td class="px-8 py-5">
-<span class="px-3 py-1 rounded-full text-[10px] font-bold bg-error-container text-on-error-container uppercase tracking-wider">Quá hạn</span>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-1.5 hover:bg-primary/10 text-primary rounded-md transition-colors">
-<span class="material-symbols-outlined text-lg">notification_important</span>
-</button>
-<button class="p-1.5 hover:bg-primary/10 text-primary rounded-md transition-colors">
-<span class="material-symbols-outlined text-lg">edit</span>
-</button>
-<button class="p-1.5 hover:bg-error/10 text-error rounded-md transition-colors">
-<span class="material-symbols-outlined text-lg">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Returned Row -->
-<tr class="hover:bg-surface-container-lowest transition-colors duration-200 group">
-<td class="px-8 py-5 text-sm font-bold text-primary">#DM-2024-004</td>
-<td class="px-8 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-[10px] text-primary">PN</div>
-<div>
-<p class="text-sm font-semibold text-primary">Phạm Nam</p>
-<p class="text-[10px] text-outline-variant">SV2024-002</p>
-</div>
-</div>
-</td>
-<td class="px-8 py-5 text-sm text-on-surface-variant font-medium">Suối nguồn</td>
-<td class="px-8 py-5 text-sm text-outline-variant">05/05/2024</td>
-<td class="px-8 py-5 text-sm text-outline-variant">19/05/2024</td>
-<td class="px-8 py-5">
-<span class="px-3 py-1 rounded-full text-[10px] font-bold bg-secondary-container text-on-secondary-container uppercase tracking-wider">Đã trả</span>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-1.5 hover:bg-primary/10 text-primary rounded-md transition-colors">
-<span class="material-symbols-outlined text-lg">visibility</span>
-</button>
-<button class="p-1.5 hover:bg-primary/10 text-primary rounded-md transition-colors">
-<span class="material-symbols-outlined text-lg">edit</span>
-</button>
-<button class="p-1.5 hover:bg-error/10 text-error rounded-md transition-colors">
-<span class="material-symbols-outlined text-lg">delete</span>
-</button>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="px-8 py-5 flex justify-between items-center bg-surface-container-low border-t border-surface-container-high">
-<p class="text-[10px] font-bold text-outline uppercase tracking-widest">Hiển thị 4 trong tổng số 182 đơn</p>
-<div class="flex gap-2">
-<button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant text-outline-variant hover:bg-surface-container-high transition-colors">
-<span class="material-symbols-outlined text-sm">chevron_left</span>
-</button>
-<button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary text-xs font-bold">1</button>
-<button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant text-primary text-xs font-bold hover:bg-surface-container-high transition-colors">2</button>
-<button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant text-primary text-xs font-bold hover:bg-surface-container-high transition-colors">3</button>
-<button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant text-outline-variant hover:bg-surface-container-high transition-colors">
-<span class="material-symbols-outlined text-sm">chevron_right</span>
-</button>
-</div>
-</div>
-</section>
-<!-- Secondary Actions: Activity Log / History Preview -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<div class="md:col-span-2 bg-surface-container-low p-8 rounded-2xl">
-<h4 class="text-lg font-bold text-primary mb-6 flex items-center gap-2">
-<span class="material-symbols-outlined text-tertiary">history</span>
+                <div class="flex items-center gap-3">
+                    <select
+                        class="bg-surface-container-high border-none rounded-lg text-xs font-medium py-2 px-4 focus:ring-1 focus:ring-tertiary cursor-pointer">
+                        <option>Tất cả trạng thái</option>
+                        <option>Đang chờ duyệt</option>
+                        <option>Đ đang mượn</option>
+                        <option>Đã trả</option>
+                        <option>Quá hạn</option>
+                    </select>
+                    <button class="p-2 hover:bg-surface-container-high rounded-lg transition-colors">
+                        <span class="material-symbols-outlined text-secondary text-xl">filter_list</span>
+                    </button>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-surface-container-lowest/30">
+                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline">Mã đơn
+                            </th>
+                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline">Độc
+                                giả</th>
+                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline">Tên
+                                sách</th>
+                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline">Ngày
+                                mượn</th>
+                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline">Hạn
+                                trả</th>
+                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline">Trạng
+                                thái</th>
+                            <th
+                                class="px-8 py-4 text-[10px] font-black uppercase tracking-[0.15em] text-outline text-right">
+                                Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-container-high/50">
+                        {% for slip in borrow_slips.items %}
+                        <tr class="hover:bg-surface-container-lowest transition-colors duration-200 group">
+                            <td class="px-8 py-5 text-sm font-bold text-primary">#DM-{{ slip.id }}</td>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-[10px] text-primary">
+                                        {{ slip.reader.full_name[:2]|upper if slip.reader else 'NA' }}
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-primary">{{ slip.reader.full_name if slip.reader else 'Unknown' }}</p>
+                                        <p class="text-[10px] text-outline-variant">ID: {{ slip.reader_id }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-8 py-5 text-sm text-on-surface-variant font-medium">{{ slip.book.title if slip.book else 'Unknown' }}</td>
+                            <td class="px-8 py-5 text-sm text-outline-variant">
+                                {{ slip.borrow_date.strftime('%d/%m/%Y') if slip.borrow_date else '-' }}
+                            </td>
+                            <td class="px-8 py-5 text-sm {% if slip.status.value == 'OVERDUE' %}text-error font-bold{% else %}text-outline-variant{% endif %}">
+                                {{ slip.due_date.strftime('%d/%m/%Y') if slip.due_date else '-' }}
+                            </td>
+                            <td class="px-8 py-5">
+                                {% if slip.status.value == 'RESERVED' %}
+                                <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed uppercase tracking-wider">Chờ
+                                    duyệt</span>
+                                {% elif slip.status.value == 'BORROWING' %}
+                                <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-primary-fixed text-on-primary-fixed uppercase tracking-wider">Đang
+                                    mượn</span>
+                                {% elif slip.status.value == 'RETURNED' %}
+                                <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-secondary-container text-on-secondary-container uppercase tracking-wider">Đã
+                                    trả</span>
+                                {% elif slip.status.value == 'OVERDUE' %}
+                                <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-error-container text-on-error-container uppercase tracking-wider">Quá
+                                    hạn</span>
+                                {% elif slip.status.value == 'REJECT' %}
+                                <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-gray-200 text-gray-700 uppercase tracking-wider">Từ chối</span>
+                                {% elif slip.status.value == 'LOST' %}
+                                <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-black text-white uppercase tracking-wider">Mất</span>
+                                {% elif slip.status.value == 'DAMAGED' %}
+                                <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-orange-200 text-orange-700 uppercase tracking-wider">Hư hỏng</span>
+                                {% else %}
+                                <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-surface-container-high text-on-surface uppercase tracking-wider">{{ slip.status.value }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-8 py-5 text-right">
+                                <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    {% if slip.status.value == 'RESERVED' %}
+                                    <button data-slip-id="{{ slip.id }}" data-reader="{{ slip.reader.full_name if slip.reader else 'Unknown' }}" data-book="{{ slip.book.title if slip.book else 'Unknown' }}"
+                                        onclick="openApproveModal(this)"
+                                        class="p-1.5 hover:bg-tertiary/10 text-tertiary rounded-md transition-colors" title="Phê duyệt">
+                                        <span class="material-symbols-outlined text-lg">check_circle</span>
+                                    </button>
+                                    <button data-slip-id="{{ slip.id }}" data-reader="{{ slip.reader.full_name if slip.reader else 'Unknown' }}" data-book="{{ slip.book.title if slip.book else 'Unknown' }}"
+                                        onclick="openRejectModal(this)"
+                                        class="p-1.5 hover:bg-error/10 text-error rounded-md transition-colors" title="Từ chối">
+                                        <span class="material-symbols-outlined text-lg">cancel</span>
+                                    </button>
+                                    {% endif %}
+                                    <button class="p-1.5 hover:bg-primary/10 text-primary rounded-md transition-colors" title="Xem chi tiết">
+                                        <span class="material-symbols-outlined text-lg">visibility</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7" class="px-8 py-12 text-center">
+                                <span class="material-symbols-outlined text-4xl text-outline-variant mb-2">inbox</span>
+                                <p class="text-on-surface-variant">Không có đơn mượn nào.</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div
+                class="px-8 py-5 flex justify-between items-center bg-surface-container-low border-t border-surface-container-high">
+                <p class="text-[10px] font-bold text-outline uppercase tracking-widest">Hiển thị 4 trong tổng số 182 đơn
+                </p>
+                <div class="flex gap-2">
+                    <button
+                        class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant text-outline-variant hover:bg-surface-container-high transition-colors">
+                        <span class="material-symbols-outlined text-sm">chevron_left</span>
+                    </button>
+                    <button
+                        class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary text-xs font-bold">1</button>
+                    <button
+                        class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant text-primary text-xs font-bold hover:bg-surface-container-high transition-colors">2</button>
+                    <button
+                        class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant text-primary text-xs font-bold hover:bg-surface-container-high transition-colors">3</button>
+                    <button
+                        class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant text-outline-variant hover:bg-surface-container-high transition-colors">
+                        <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- Secondary Actions: Activity Log / History Preview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="md:col-span-2 bg-surface-container-low p-8 rounded-2xl">
+                <h4 class="text-lg font-bold text-primary mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-tertiary">history</span>
                     Lịch sử thao tác gần đây
                 </h4>
-<div class="space-y-6">
-<div class="flex gap-4 items-start relative before:absolute before:left-[11px] before:top-8 before:w-[2px] before:h-[calc(100%+16px)] before:bg-surface-container-high last:before:hidden">
-<div class="w-6 h-6 rounded-full bg-tertiary flex items-center justify-center text-[10px] text-on-tertiary z-10 shrink-0">
-<span class="material-symbols-outlined text-xs">add</span>
-</div>
-<div>
-<p class="text-sm font-bold text-primary">Tạo mới đơn mượn #DM-2024-001</p>
-<p class="text-xs text-on-surface-variant mb-1">Thủ thư Nguyễn - cho độc giả Trần Hoàng</p>
-<p class="text-[10px] text-outline-variant uppercase font-medium">10 phút trước</p>
-</div>
-</div>
-<div class="flex gap-4 items-start relative before:absolute before:left-[11px] before:top-8 before:w-[2px] before:h-[calc(100%+16px)] before:bg-surface-container-high last:before:hidden">
-<div class="w-6 h-6 rounded-full bg-secondary flex items-center justify-center text-[10px] text-on-secondary z-10 shrink-0">
-<span class="material-symbols-outlined text-xs">done_all</span>
-</div>
-<div>
-<p class="text-sm font-bold text-primary">Cập nhật trạng thái "Đã trả" cho đơn #DM-2024-004</p>
-<p class="text-xs text-on-surface-variant mb-1">Thủ thư Nguyễn - sách: Suối nguồn</p>
-<p class="text-[10px] text-outline-variant uppercase font-medium">2 giờ trước</p>
-</div>
-</div>
-<div class="flex gap-4 items-start relative">
-<div class="w-6 h-6 rounded-full bg-error flex items-center justify-center text-[10px] text-on-error z-10 shrink-0">
-<span class="material-symbols-outlined text-xs">warning</span>
-</div>
-<div>
-<p class="text-sm font-bold text-primary">Gửi thông báo nhắc quá hạn đơn #DM-2024-003</p>
-<p class="text-xs text-on-surface-variant mb-1">Hệ thống tự động - độc giả: Minh Tuấn</p>
-<p class="text-[10px] text-outline-variant uppercase font-medium">08:30 Sáng nay</p>
-</div>
-</div>
-</div>
-</div>
-<div class="bg-primary-container p-8 rounded-2xl text-on-primary-container relative overflow-hidden flex flex-col justify-between shadow-2xl">
-<div class="relative z-10">
-<h4 class="text-xl font-black mb-4 leading-tight">Mẹo quản lý<br/>hiệu quả</h4>
-<p class="text-sm opacity-80 mb-6 leading-relaxed">Luôn kiểm tra tình trạng sách thực tế khi nhận lại từ độc giả trước khi cập nhật trạng thái "Đã trả" vào hệ thống.</p>
-<a class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-on-primary border-b border-on-primary/30 pb-1 hover:border-on-primary transition-all" href="#">
+                <div class="space-y-6">
+                    <div
+                        class="flex gap-4 items-start relative before:absolute before:left-[11px] before:top-8 before:w-[2px] before:h-[calc(100%+16px)] before:bg-surface-container-high last:before:hidden">
+                        <div
+                            class="w-6 h-6 rounded-full bg-tertiary flex items-center justify-center text-[10px] text-on-tertiary z-10 shrink-0">
+                            <span class="material-symbols-outlined text-xs">add</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-primary">Tạo mới đơn mượn #DM-2024-001</p>
+                            <p class="text-xs text-on-surface-variant mb-1">Thủ thư Nguyễn - cho độc giả Trần Hoàng</p>
+                            <p class="text-[10px] text-outline-variant uppercase font-medium">10 phút trước</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex gap-4 items-start relative before:absolute before:left-[11px] before:top-8 before:w-[2px] before:h-[calc(100%+16px)] before:bg-surface-container-high last:before:hidden">
+                        <div
+                            class="w-6 h-6 rounded-full bg-secondary flex items-center justify-center text-[10px] text-on-secondary z-10 shrink-0">
+                            <span class="material-symbols-outlined text-xs">done_all</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-primary">Cập nhật trạng thái "Đã trả" cho đơn #DM-2024-004
+                            </p>
+                            <p class="text-xs text-on-surface-variant mb-1">Thủ thư Nguyễn - sách: Suối nguồn</p>
+                            <p class="text-[10px] text-outline-variant uppercase font-medium">2 giờ trước</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-start relative">
+                        <div
+                            class="w-6 h-6 rounded-full bg-error flex items-center justify-center text-[10px] text-on-error z-10 shrink-0">
+                            <span class="material-symbols-outlined text-xs">warning</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-primary">Gửi thông báo nhắc quá hạn đơn #DM-2024-003</p>
+                            <p class="text-xs text-on-surface-variant mb-1">Hệ thống tự động - độc giả: Minh Tuấn</p>
+                            <p class="text-[10px] text-outline-variant uppercase font-medium">08:30 Sáng nay</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="bg-primary-container p-8 rounded-2xl text-on-primary-container relative overflow-hidden flex flex-col justify-between shadow-2xl">
+                <div class="relative z-10">
+                    <h4 class="text-xl font-black mb-4 leading-tight">Mẹo quản lý<br />hiệu quả</h4>
+                    <p class="text-sm opacity-80 mb-6 leading-relaxed">Luôn kiểm tra tình trạng sách thực tế khi nhận
+                        lại từ độc giả trước khi cập nhật trạng thái "Đã trả" vào hệ thống.</p>
+                    <a class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-on-primary border-b border-on-primary/30 pb-1 hover:border-on-primary transition-all"
+                        href="#">
                         Xem hướng dẫn
                         <span class="material-symbols-outlined text-sm">arrow_forward</span>
-</a>
-</div>
-<span class="material-symbols-outlined absolute -bottom-8 -right-8 text-[120px] opacity-10 rotate-12">local_library</span>
-</div>
-</div>
-</div>
+                    </a>
+                </div>
+                <span
+                    class="material-symbols-outlined absolute -bottom-8 -right-8 text-[120px] opacity-10 rotate-12">local_library</span>
+            </div>
+        </div>
+    </div>
 </main>
+
+<!-- Approve Modal -->
+<div id="approveModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+    <div class="bg-surface-container-low rounded-2xl p-8 w-full max-w-md shadow-2xl">
+        <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 bg-tertiary-container rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-3xl text-tertiary">check_circle</span>
+            </div>
+            <h2 class="text-2xl font-headline font-bold text-primary mb-2">Phê duyệt đơn mượn</h2>
+            <p class="text-on-surface-variant mb-2">Bạn có chắc chắn muốn phê duyệt đơn mượn này?</p>
+            <div class="bg-surface-container-high rounded-lg p-4 mb-6 text-left w-full">
+                <p class="text-sm"><strong>Độc giả:</strong> <span id="approveReader"></span></p>
+                <p class="text-sm"><strong>Sách:</strong> <span id="approveBook"></span></p>
+            </div>
+            <form id="approveForm" method="POST" action="">
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeApproveModal()" class="px-6 py-2 rounded-lg font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        Hủy
+                    </button>
+                    <button type="submit" class="bg-tertiary text-on-tertiary px-6 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] transition-transform">
+                        <span class="material-symbols-outlined text-sm">check</span>
+                        Duyệt đơn
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div id="rejectModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+    <div class="bg-surface-container-low rounded-2xl p-8 w-full max-w-md shadow-2xl">
+        <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 bg-error-container rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-3xl text-error">cancel</span>
+            </div>
+            <h2 class="text-2xl font-headline font-bold text-primary mb-2">Từ chối đơn mượn</h2>
+            <p class="text-on-surface-variant mb-2">Bạn có chắc chắn muốn từ chối đơn mượn này?</p>
+            <div class="bg-surface-container-high rounded-lg p-4 mb-4 text-left w-full">
+                <p class="text-sm"><strong>Độc giả:</strong> <span id="rejectReader"></span></p>
+                <p class="text-sm"><strong>Sách:</strong> <span id="rejectBook"></span></p>
+            </div>
+            <form id="rejectForm" method="POST" action="" class="w-full">
+                <div class="mb-4 text-left">
+                    <label class="block text-sm font-semibold text-on-surface mb-2">Lý do từ chối:</label>
+                    <textarea id="rejectNote" name="reject_note" rows="3" placeholder="Nhập lý do từ chối..."
+                        class="w-full bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-error resize-none"></textarea>
+                </div>
+                <div class="flex gap-3 justify-center">
+                    <button type="button" onclick="closeRejectModal()" class="px-6 py-2 rounded-lg font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        Hủy
+                    </button>
+                    <button type="submit" class="bg-error text-on-error px-6 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] transition-transform">
+                        <span class="material-symbols-outlined text-sm">block</span>
+                        Từ chối
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function openApproveModal(button) {
+    const slipId = button.dataset.slipId;
+    const reader = button.dataset.reader;
+    const book = button.dataset.book;
+
+    document.getElementById('approveReader').textContent = reader;
+    document.getElementById('approveBook').textContent = book;
+    document.getElementById('approveForm').action = `/librarian/borrow-slip/${slipId}/approve/`;
+    document.getElementById('approveModal').classList.remove('hidden');
+}
+
+function closeApproveModal() {
+    document.getElementById('approveModal').classList.add('hidden');
+}
+
+function openRejectModal(button) {
+    const slipId = button.dataset.slipId;
+    const reader = button.dataset.reader;
+    const book = button.dataset.book;
+
+    document.getElementById('rejectReader').textContent = reader;
+    document.getElementById('rejectBook').textContent = book;
+    document.getElementById('rejectForm').action = `/librarian/borrow-slip/${slipId}/reject/`;
+    document.getElementById('rejectModal').classList.remove('hidden');
+}
+
+function closeRejectModal() {
+    document.getElementById('rejectModal').classList.add('hidden');
+    document.getElementById('rejectNote').value = '';
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+    if (event.target.id === 'approveModal') {
+        closeApproveModal();
+    }
+    if (event.target.id === 'rejectModal') {
+        closeRejectModal();
+    }
+}
+</script>
 
 {% endblock content%}

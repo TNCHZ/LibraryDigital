@@ -1,6 +1,8 @@
+from datetime import timedelta
 from library_digital.extensions import db
-from library_digital.models import User, Book, Category, CategoryBook
-from .models.user import GenderEnum
+from library_digital.models import User, Book, Category, CategoryBook, BorrowSlip
+from library_digital.models.user import GenderEnum
+from library_digital.models.borrow_slip import BorrowStatus
 import hashlib
 
 
@@ -239,10 +241,69 @@ def can_borrow(reader_id, book_id):
     if book.quantity <= 0:
         return False, "Sách đã hết"
 
+    if not latest_slip:
+        return True, "OK"
+        
     if latest_slip.status == BorrowStatus.BORROWING or latest_slip.status == BorrowStatus.RESERVED:
         return False, "Đang mượn sách"
 
-    if not latest_slip:
-        return True, "OK"
-
     return True, "OK"
+
+
+def get_borrow_slips(status=None, page=1, per_page=10):
+    """Get borrow slips with optional status filter and pagination"""
+    query = BorrowSlip.query
+    if status:
+        query = query.filter(BorrowSlip.status == BorrowStatus(status))
+    query = query.order_by(BorrowSlip.created_at.desc())
+    return query.paginate(page=page, per_page=per_page, error_out=False)
+
+
+def get_borrow_slip_by_id(slip_id):
+    """Get a single borrow slip by ID"""
+    return BorrowSlip.query.get(slip_id)
+
+
+def approve_borrow_slip(slip_id, librarian_id):
+    """Approve a borrow slip - change status from RESERVED to BORROWING"""
+    try:
+        slip = get_borrow_slip_by_id(slip_id)
+        if not slip:
+            return False, "Không tìm thấy đơn mượn"
+        
+        if slip.status != BorrowStatus.RESERVED:
+            return False, "Đơn mượn không ở trạng thái chờ duyệt"
+        
+        from datetime import datetime
+        slip.status = BorrowStatus.BORROWING
+        slip.librarian_id = librarian_id
+        slip.borrow_date = datetime.now()
+        slip.due_date = slip.borrow_date + timedelta(days=30)
+        
+        db.session.commit()
+        return True, "Duyệt đơn mượn thành công"
+    except Exception as e:
+        db.session.rollback()
+        return False, f"Lỗi: {str(e)}"
+
+
+def reject_borrow_slip(slip_id, librarian_id, note=None):
+    """Reject a borrow slip - change status to REJECT"""
+    try:
+        slip = get_borrow_slip_by_id(slip_id)
+        if not slip:
+            return False, "Không tìm thấy đơn mượn"
+        
+        if slip.status not in [BorrowStatus.RESERVED, BorrowStatus.BORROWING]:
+            return False, "Không thể từ chối đơn mượn này"
+        
+        slip.status = BorrowStatus.REJECT
+        slip.librarian_id = librarian_id
+        if note:
+            slip.note = note if not slip.note else f"{slip.note}\n[Từ chối]: {note}"
+        
+        db.session.commit()
+        return True, "Từ chối đơn mượn thành công"
+    except Exception as e:
+        db.session.rollback()
+        return False, f"Lỗi: {str(e)}"

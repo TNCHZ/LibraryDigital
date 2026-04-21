@@ -9,6 +9,7 @@ class BorrowStatus(enum.Enum):
     LOST = "LOST"
     RESERVED = "RESERVED"
     DAMAGED = "DAMAGED"
+    REJECT = "REJECT"
 
 class BorrowSlip(BaseModel):
     __tablename__ = "borrow_slip"
@@ -24,3 +25,8 @@ class BorrowSlip(BaseModel):
 
     note = db.Column(db.Text)
     is_active = db.Column(db.Boolean, default=True)
+
+    # Relationships
+    reader = db.relationship("User", foreign_keys=[reader_id], backref="borrow_slips")
+    librarian = db.relationship("User", foreign_keys=[librarian_id], backref="managed_borrows")
+    book = db.relationship("Book", backref="borrow_slips")

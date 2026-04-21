@@ -40,6 +40,22 @@
         </div>
     </aside>
     <!-- Main Content -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="fixed top-24 right-6 z-50 space-y-3">
+        {% for category, message in messages %}
+        <div class="flash-message px-5 py-3 rounded-lg shadow-lg text-sm font-medium
+    {% if category == 'success' %}
+        bg-green-100 text-green-700 border border-green-300
+    {% elif category == 'error' %}
+        bg-red-100 text-red-700 border border-red-300
+    {% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
     <div class="flex flex-col flex-1">
         <main class="pt-24 px-12 flex-1">
             <div class="max-w-7xl mx-auto">
@@ -53,27 +69,28 @@
                         </div>
                     </div>
                     <div class="flex items-end gap-6 px-8 relative z-10">
-                        <div class="p-1 bg-surface rounded-2xl shadow-xl">
+                        <form method="POST"
+                              action="{{ url_for('update_avatar') }}"
+                              enctype="multipart/form-data">
+
                             <div class="w-32 h-32 rounded-xl overflow-hidden relative group">
-                                <img alt="User Photo" class="w-full h-full object-cover"
-                                     data-alt="High-quality profile shot of a man with warm skin tones and neutral lighting"
-                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-VX7LuewUEdvd89uHBqldBAI7vSDyI-JLohHAD0JRXzwkzUM2AKbN1xKD2VC3PDCYrTQDR37gvdUVUG6LhJHFRkkJrs9gR4b9Zw0T5mV664yPDB1skucUZ5mJUsU2h13ylDVxjDehHL7pyqdc6AiwBeWbJcL5bTEDU0K6qVQ0V5cgRObzw4xSFab5GQQcWsBfos-mQdDMqpPc6tG-ZF9a_qCm54KkFc9T0Yh3Ljvy5UrYemae_QgfOONSBtIZPRTuTyEmT5Hig7lY"/>
-                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+
+                                <img id="avatarPreview"
+                                     src="{{ current_user.avatar }}"
+                                     class="w-full h-full object-cover"/>
+
+                                <input type="file" name="avatar" id="avatarInput" class="hidden" accept="image/*">
+
+                                <label for="avatarInput"
+                                       class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
                                     <span class="material-symbols-outlined text-white">photo_camera</span>
-                                </div>
+                                </label>
                             </div>
-                        </div>
+
+                        </form>
                         <div class="pb-4">
-                            <h1 class="text-3xl font-extrabold text-[#533528] tracking-tight">Nguyễn Văn An</h1>
-                            <p class="text-on-surface-variant font-medium flex items-center gap-2">
-                                <span class="material-symbols-outlined text-sm">school</span>
-                                Chuyên ngành Lưu trữ học &amp; Quản trị văn phòng
-                            </p>
-                        </div>
-                        <div class="ml-auto pb-4">
-                            <button class="bg-surface-container-lowest text-primary px-6 py-2 rounded-lg font-bold text-sm shadow-sm hover:bg-primary-fixed hover:scale-105 transition-all duration-300">
-                                Chỉnh sửa ảnh bìa
-                            </button>
+                            <h1 class="text-3xl font-bold text-[#533528] tracking-tight">{{ current_user.first_name }}
+                                {{ current_user.last_name }}</h1>
                         </div>
                     </div>
                 </header>
@@ -86,41 +103,74 @@
                                 <div>
                                     <h2 class="text-2xl font-bold text-[#533528]">Thông tin cơ bản</h2>
                                     <p class="text-stone-500 text-sm">Cập nhật thông tin định danh và chuyên môn của
-                                        bạn.</p>
+                                        bạn
+                                    </p>
                                 </div>
                                 <span class="material-symbols-outlined text-tertiary">edit_note</span>
                             </div>
-                            <form class="space-y-6">
+                            <form method="POST" action="{{ url_for('update_profile') }}" enctype="multipart/form-data"
+                                  class="space-y-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="space-y-2">
                                         <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Họ
-                                            và tên</label>
-                                        <input class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all placeholder-stone-400"
-                                               type="text" value="Nguyễn Văn An"/>
+                                            và tên đệm</label>
+                                        <input name="first_name"
+                                               class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all placeholder-stone-400"
+                                               type="text"
+                                               value="{{ current_user.first_name }} "/>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Tên</label>
+                                        <input name="last_name"
+                                               class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all placeholder-stone-400"
+                                               type="text"
+                                               value="{{ current_user.last_name }}"/>
                                     </div>
                                     <div class="space-y-2">
                                         <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Email</label>
-                                        <input class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all"
-                                               type="email" value="an.nguyen@archive.edu.vn"/>
+                                        <input name="email"
+                                               class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all"
+                                               type="email" value="{{ current_user.email }}"/>
                                     </div>
-                                    <!-- Role dropdown replaced Specialization -->
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Số
+                                            điện thoại</label>
+                                        <input name="phone"
+                                               class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all placeholder-stone-400"
+                                               type="text"
+                                               value="{{ current_user.phone }}"/>
+                                    </div>
                                     <div class="space-y-2">
                                         <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Vai
                                             trò</label>
-                                        <select class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all appearance-none">
-                                            <option selected="">Độc giả</option>
-                                            <option>Thủ thư</option>
-                                            <option>Quản trị viên</option>
+                                        {% if current_user.role.toString == READER %}
+                                        <input class="w-full bg-surface-container-low read-only:text-stone-400 border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all placeholder-stone-400"
+                                               type="text" value="Độc giả" readonly/>
+                                        {% elif current_user.role.toString == LIBRARY %}
+                                        <input class="w-full bg-surface-container-low read-only:text-stone-400 border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all placeholder-stone-400"
+                                               type="text" value="Thủ thư" readonly/>
+                                        {% else %}
+                                        <input class="w-full bg-surface-container-low read-only:text-stone-400 border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all placeholder-stone-400"
+                                               type="text" value="Quản trị viên" readonly/>
+                                        {% endif %}
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">
+                                            Giới tính
+                                        </label>
+                                        <select name="gender"
+                                                class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all">
+                                            <option value="MALE" {% if current_user.gender.value=="MALE" %}selected{%
+                                                    endif %}>Nam
+                                            </option>
+                                            <option value="FEMALE" {% if current_user.gender.value=="FEMALE"
+                                                    %}selected{% endif %}>Nữ
+                                            </option>
+                                            <option value="OTHER" {% if current_user.gender.value=="OTHER" %}selected{%
+                                                    endif %}>Khác
+                                            </option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1">Tiểu
-                                        sử (Bio)</label>
-                                    <textarea
-                                            class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-tertiary transition-all no-scrollbar"
-                                            placeholder="Giới thiệu ngắn về bản thân và niềm đam mê với kho tàng tri thức..."
-                                            rows="4">Sinh viên năm cuối nhiệt huyết với công tác bảo tồn tài liệu cổ và chuyển đổi số trong quản lý thư viện hiện đại. Đã tham gia 2 dự án số hóa di sản tại quốc gia.</textarea>
                                 </div>
                                 <div class="pt-4 flex justify-end gap-4">
                                     <button class="px-6 py-2.5 rounded-lg text-sm font-bold text-stone-500 hover:bg-stone-100 transition-colors"
@@ -142,38 +192,35 @@
                                 <span class="material-symbols-outlined text-primary">security</span>
                                 <h2 class="text-xl font-bold text-[#533528]">Bảo mật</h2>
                             </div>
-                            <div class="space-y-6">
-                                <div class="space-y-4">
-                                    <p class="text-sm text-on-surface-variant leading-relaxed">Cập nhật mật khẩu định kỳ
-                                        để
-                                        bảo vệ tài khoản của bạn khỏi các truy cập trái phép.</p>
-                                    <div class="space-y-3">
-                                        <div class="relative">
-                                            <input class="w-full bg-surface border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-tertiary transition-all pr-10"
-                                                   placeholder="Mật khẩu hiện tại" type="password"/>
-                                            <span class="material-symbols-outlined absolute right-3 top-2.5 text-stone-400 cursor-pointer">visibility_off</span>
-                                        </div>
-                                        <div class="relative">
-                                            <input class="w-full bg-surface border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-tertiary transition-all pr-10"
-                                                   placeholder="Mật khẩu mới" type="password"/>
-                                            <span class="material-symbols-outlined absolute right-3 top-2.5 text-stone-400 cursor-pointer">visibility_off</span>
-                                        </div>
-                                        <div class="relative">
-                                            <input class="w-full bg-surface border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-tertiary transition-all pr-10"
-                                                   placeholder="Xác nhận mật khẩu mới" type="password"/>
+                            <form method="POST" action="{{ url_for('change_password') }}">
+                                <div class="space-y-6">
+                                    <div class="space-y-4">
+                                        <p class="text-sm text-on-surface-variant leading-relaxed">Cập nhật mật khẩu
+                                            định kỳ để bảo vệ tài khoản của bạn khỏi các truy cập trái phép.</p>
+                                        <div class="space-y-3">
+                                            <div class="relative">
+                                                <input name="current_password"
+                                                       class="w-full bg-surface border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-tertiary transition-all pr-10"
+                                                       placeholder="Mật khẩu hiện tại" type="password"/>
+                                            </div>
+                                            <div class="relative">
+                                                <input name="new_password"
+                                                       class="w-full bg-surface border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-tertiary transition-all pr-10"
+                                                       placeholder="Mật khẩu mới" type="password"/>
+                                            </div>
+                                            <div class="relative">
+                                                <input name="confirm_password"
+                                                       class="w-full bg-surface border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-tertiary transition-all pr-10"
+                                                       placeholder="Xác nhận mật khẩu mới" type="password"/>
+                                            </div>
                                         </div>
                                     </div>
+                                    <button type="submit"
+                                            class="w-full bg-primary-container text-on-primary-container py-3 rounded-lg font-bold text-sm shadow-sm hover:bg-primary transition-all duration-300">
+                                        Cập nhật mật khẩu
+                                    </button>
                                 </div>
-                                <button class="w-full bg-primary-container text-on-primary-container py-3 rounded-lg font-bold text-sm shadow-sm hover:bg-primary transition-all duration-300">
-                                    Cập nhật mật khẩu
-                                </button>
-                                <div class="pt-4 border-t border-outline-variant/20 flex items-center justify-between">
-                                    <span class="text-xs font-medium text-stone-500">Xác thực 2 yếu tố (2FA)</span>
-                                    <div class="w-10 h-5 bg-tertiary rounded-full relative cursor-pointer shadow-inner">
-                                        <div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            </form>
                         </section>
                     </div>
                 </div>
@@ -181,4 +228,21 @@
         </main>
     </div>
 </div>
+
+<script>
+    document.getElementById('avatarInput').addEventListener('change', function() {
+        this.form.submit();
+    });
+</script>
+
+<script>
+    setTimeout(() => {
+        document.querySelectorAll('.flash-message').forEach(el => {
+            el.style.transition = "opacity 0.5s";
+            el.style.opacity = "0";
+            setTimeout(() => el.remove(), 500);
+        });
+    }, 3000);
+</script>
+
 {% endblock %}

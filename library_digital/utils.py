@@ -196,3 +196,53 @@ def delete_book(book_id):
     db.session.delete(book)
     db.session.commit()
     return True
+
+
+def add_borrow_slip(reader_id, librarian_id, book_id, borrow_date, due_date, return_date, status, note):
+    try:
+        # Nếu status truyền vào là string thì convert sang Enum
+        if isinstance(status, str):
+            status = BorrowStatus(status)
+
+        borrow_slip = BorrowSlip(
+            reader_id=reader_id,
+            librarian_id=librarian_id,
+            book_id=book_id,
+            borrow_date=borrow_date,
+            due_date=due_date,
+            return_date=return_date,
+            status=status,
+            note=note
+        )
+
+        db.session.add(borrow_slip)
+        db.session.commit()
+
+        return borrow_slip
+
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error: {e}")
+        return None
+
+def can_borrow(reader_id, book_id):
+    latest_slip = BorrowSlip.query \
+        .filter_by(reader_id=reader_id) \
+        .order_by(BorrowSlip.borrow_date.desc()) \
+        .first()
+
+    book = Book.query.get(book_id)
+
+    if not book:
+        return False, "Sách không thấy"
+
+    if book.quantity <= 0:
+        return False, "Sách đã hết"
+
+    if latest_slip.status == BorrowStatus.BORROWING or latest_slip.status == BorrowStatus.RESERVED:
+        return False, "Đang mượn sách"
+
+    if not latest_slip:
+        return True, "OK"
+
+    return True, "OK"

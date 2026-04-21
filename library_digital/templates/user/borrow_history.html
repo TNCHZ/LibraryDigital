@@ -30,12 +30,6 @@
                 <span>Trạng thái yêu cầu mượn</span>
             </a>
         </nav>
-        <div class="mt-auto">
-            <button class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold flex items-center justify-center gap-2 hover:scale-[1.03] transition-transform duration-200 shadow-lg shadow-primary/10">
-                <span class="material-symbols-outlined" data-icon="add">add</span>
-                <span>Mượn sách mới</span>
-            </button>
-        </div>
     </aside>
     <!-- Main Content Area -->
     <div class="flex flex-col flex-1">
@@ -113,136 +107,83 @@
                             <th class="px-8 py-5 text-right">Thao tác</th>
                         </tr>
                         </thead>
-                        <tbody class="divide-y divide-surface-container-low">
-                        <!-- Overdue Item -->
-                        <tr class="hover:bg-surface-container-low transition-colors duration-200">
-                            <td class="px-8 py-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-16 bg-surface-container-high rounded shadow-sm overflow-hidden flex-shrink-0">
-                                        <img class="w-full h-full object-cover"
-                                             data-alt="classic vintage book cover with gold foil lettering on a deep red leather spine and cover"
-                                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXftip0OWp098Sgorkn1n_9GlNivuvj1zP_n6lmrizpB4x-i3HXOEuDF_356r0kNou1naGgX2DjqVjxUrSAvFVCWASwBdEfCLnFiXzIQG3RNVakoLt9oKmeGKLRa8YxvFULiOFUASMJftBOWmEQaBkFqWnS-9i_z25OaTl-9WFrDHdJE-ECqnkYWMHbXaeW-XMh2hABKtl5OVLcvAqhr1DDlOVObHHyPPLcaGunsQjG_Orjpe2HA9QmWBUPD2FGTXB64IWMBgKNuXD"/>
-                                    </div>
-                                    <div>
-                                        <p class="font-bold text-[#533528]">Kiến Trúc Đương Đại</p>
-                                        <p class="text-xs text-stone-400">ID: ARCH-2024-001</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">12/03/2024</td>
-                            <td class="px-6 py-6 text-sm font-bold text-error tracking-tight">26/03/2024</td>
-                            <td class="px-6 py-6">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-error-container text-on-error-container">
-                                        Quá hạn
-                                    </span>
-                            </td>
-                            <td class="px-8 py-6 text-right">
-                                <button class="text-[#6D4C3D] hover:text-[#533528] font-bold text-sm">Gia hạn</button>
-                            </td>
-                        </tr>
-                        <!-- Completed Item -->
-                        <tr class="hover:bg-surface-container-low transition-colors duration-200">
-                            <td class="px-8 py-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-16 bg-surface-container-high rounded shadow-sm overflow-hidden flex-shrink-0">
-                                        <img class="w-full h-full object-cover"
-                                             data-alt="minimalist modern book cover with abstract geometric shapes in muted earth tones of beige and brown"
-                                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWMKTcn0ldm0UCgY8_LTa0QNydZp-9aOoe690X_cu9x7Er3GEPZ0DZjEiTWqcGonVGHnx6WbnlYCY49cEs48yjN5u6-lIPHNHGfeIQ52Q8VEv0Qk6Bx9gbQkXBh6ND-4wNvO2lNWjuKUbW2NeK6TLWwdz54amChr3d35OlutUgXWFMLOg3P75BVoBHboRNU-AgXSyvcGbfS-yCf5nigLlo_IlIAlNYp-ybtlAj7af9nNgJhKW4iNEP3SPQ8L5YWf4bzD8teLBTi0G5"/>
-                                    </div>
-                                    <div>
-                                        <p class="font-bold text-[#533528]">Triết Học Đông Phương</p>
-                                        <p class="text-xs text-stone-400">ID: PHILO-2023-089</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">01/02/2024</td>
-                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">15/02/2024</td>
-                            <td class="px-6 py-6">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
-                                        Hoàn thành
-                                    </span>
-                            </td>
-                            <td class="px-8 py-6 text-right">
-                                <button class="text-stone-400 hover:text-primary font-bold text-sm">Chi tiết</button>
-                            </td>
-                        </tr>
-                        <!-- Completed Item -->
-                        <tr class="hover:bg-surface-container-low transition-colors duration-200">
-                            <td class="px-8 py-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-16 bg-surface-container-high rounded shadow-sm overflow-hidden flex-shrink-0">
-                                        <img class="w-full h-full object-cover"
-                                             data-alt="ancient manuscript book with worn parchment pages and heavy ornate wooden binding in a dark library setting"
-                                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNu4Ak8A6oPJ1ldOdMfDvFZkN-lAM3u03EsY3WgEgH2t4-7co6geL8QDKLt6dlhIoMt0b9aKLH3owqtzHus_iBnrhI9Qgrr1VQPKQSjvn6y8cxDBIXl7jjljBPFPnJZNcgQCWqGXnn2rNbm8dQjoYIFL-QlG62_iFivdKm8Kse-WBFcBzbcbUmrTZ-99_1B8pIvKvVjlO4bt3JX5xsnJkVMfGNT4ke4s7kk-wfxbA-NI2TWarj7ymNtyYHU94cGxJ5gR75lm5zvkUq"/>
-                                    </div>
-                                    <div>
-                                        <p class="font-bold text-[#533528]">Lịch Sử Mỹ Thuật Thế Giới</p>
-                                        <p class="text-xs text-stone-400">ID: ARTS-2023-442</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">15/12/2023</td>
-                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">29/12/2023</td>
-                            <td class="px-6 py-6">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
-                                        Hoàn thành
-                                    </span>
-                            </td>
-                            <td class="px-8 py-6 text-right">
-                                <button class="text-stone-400 hover:text-primary font-bold text-sm">Chi tiết</button>
-                            </td>
-                        </tr>
-                        <!-- Completed Item -->
-                        <tr class="hover:bg-surface-container-low transition-colors duration-200">
-                            <td class="px-8 py-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-16 bg-surface-container-high rounded shadow-sm overflow-hidden flex-shrink-0">
-                                        <img class="w-full h-full object-cover"
-                                             data-alt="a stack of old books with tea stained edges on a rustic wooden table with soft warm light coming from a window"
-                                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-71eA02HtQY8Jy7bd82OjmTU0S1CCebo0U29nBPZxd7Qf_6oJVbSs0Bg0MvEgvrEgAGfzXwg9DrodKlBW8pTyF03W55uHhIKlBg6W8Z74Ls1jUjfJl_ctQQgiKsrqWKicJ6qKphr5WOlGLolznWqpGQW4UXxfz9pd7Cl5kGaLF0tcAXpBucLBpos7gcNvcmhXbltIk4qG4Ad2yqigakwpI16tuRL88Mt1eCCzL-AFwyaYfSCM62yIA-OO2L7XCSJ9KLtVp4F4i12o"/>
-                                    </div>
-                                    <div>
-                                        <p class="font-bold text-[#533528]">Văn Học Việt Nam Cổ Điển</p>
-                                        <p class="text-xs text-stone-400">ID: LIT-2023-012</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">10/11/2023</td>
-                            <td class="px-6 py-6 text-sm font-medium text-stone-600 tracking-tight">24/11/2023</td>
-                            <td class="px-6 py-6">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
-                                        Hoàn thành
-                                    </span>
-                            </td>
-                            <td class="px-8 py-6 text-right">
-                                <button class="text-stone-400 hover:text-primary font-bold text-sm">Chi tiết</button>
-                            </td>
-                        </tr>
-                        </tbody>
+                     <tbody class="divide-y divide-surface-container-low">
+{% for slip in data['items'] %}
+<tr class="hover:bg-surface-container-low transition-colors duration-200">
+    <td class="px-8 py-6">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-16 bg-surface-container-high rounded shadow-sm overflow-hidden flex-shrink-0">
+                <img class="w-full h-full object-cover"
+                     src="{{ slip.book.image if slip.book else '' }}">
+            </div>
+            <div>
+                <p class="font-bold text-[#533528]">
+                    {{ slip.book.title if slip.book else 'Không có tên sách' }}
+                </p>
+                <p class="text-xs text-stone-400">ID: {{ slip.book_id }}</p>
+            </div>
+        </div>
+    </td>
+
+    <td class="px-6 py-6 text-sm text-stone-600">
+        {{ slip.borrow_date.strftime('%d/%m/%Y') if slip.borrow_date else '' }}
+    </td>
+
+    <td class="px-6 py-6 text-sm font-medium
+        {% if slip.status.value == 'OVERDUE' %} text-error {% else %} text-stone-600 {% endif %}">
+        {{ slip.due_date.strftime('%d/%m/%Y') if slip.due_date else '' }}
+    </td>
+
+    <td class="px-6 py-6">
+        {% if slip.status.value == 'OVERDUE' %}
+            <span class="px-2 py-1 text-xs font-bold bg-red-100 text-red-600 rounded">
+                Quá hạn
+            </span>
+        {% elif slip.status.value == 'RETURNED' %}
+            <span class="px-2 py-1 text-xs font-bold bg-green-100 text-green-600 rounded">
+                Hoàn thành
+            </span>
+        {% else %}
+            <span class="px-2 py-1 text-xs font-bold bg-yellow-100 text-yellow-600 rounded">
+                {{ slip.status.value }}
+            </span>
+        {% endif %}
+    </td>
+
+    <td class="px-8 py-6 text-right">
+        <button class="text-stone-400 font-bold text-sm">Chi tiết</button>
+    </td>
+</tr>
+{% endfor %}
+</tbody>
                     </table>
                 </div>
                 <!-- Pagination -->
-                <footer class="px-8 py-6 bg-surface-container-low/30 border-t border-surface-container-low flex justify-between items-center">
-                    <span class="text-xs text-stone-500 font-medium">Hiển thị 1 - 4 trên tổng số 24 bản ghi</span>
-                    <div class="flex gap-2">
-                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-container-high text-stone-400 cursor-not-allowed">
-                            <span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
-                        </button>
-                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold text-xs">
-                            1
-                        </button>
-                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-container-high text-[#533528] font-bold text-xs hover:bg-surface-container-highest transition-colors">
-                            2
-                        </button>
-                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-container-high text-[#533528] font-bold text-xs hover:bg-surface-container-highest transition-colors">
-                            3
-                        </button>
-                        <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-surface-container-high text-[#533528] hover:bg-surface-container-highest transition-colors">
-                            <span class="material-symbols-outlined text-sm"
-                                  data-icon="chevron_right">chevron_right</span>
-                        </button>
-                    </div>
-                </footer>
+              <footer class="px-8 py-6 flex justify-between items-center">
+    <span class="text-xs text-stone-500">
+        Trang {{ data.page }} / {{ data.pages }} - Tổng {{ data.total }} bản ghi
+    </span>
+
+    <div class="flex gap-2">
+        {% if data.has_prev %}
+            <a href="?page={{ data.page - 1 }}"
+               class="px-3 py-1 bg-gray-200 rounded">Prev</a>
+        {% endif %}
+
+        {% for p in range(1, data.pages + 1) %}
+            <a href="?page={{ p }}"
+               class="px-3 py-1 rounded
+               {% if p == data.page %} bg-[#533528] text-white {% else %} bg-gray-200 {% endif %}">
+                {{ p }}
+            </a>
+        {% endfor %}
+
+        {% if data.has_next %}
+            <a href="?page={{ data.page + 1 }}"
+               class="px-3 py-1 bg-gray-200 rounded">Next</a>
+        {% endif %}
+    </div>
+</footer>
             </div>
             <!-- Secondary Content: Reading Tips / Archival Policy -->
             <section class="mt-12 grid grid-cols-3 gap-8">

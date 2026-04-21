@@ -151,11 +151,17 @@ def user_detail(user_id):
 
 @app.route('/user/<int:user_id>/borrow-history')
 def borrow_history(user_id):
-    return render_template('user/borrow_history.html')
+    reader_id = request.args.get("reader_id", user_id, type=int)
+    page = request.args.get("page", 1, type=int)
+
+    data = utils.get_borrow_slips_by_reader(reader_id, page)
+    return render_template('user/borrow_history.html', data=data, user_id=user_id)
 
 @app.route('/user/<int:user_id>/borrow-status')
 def borrow_status(user_id):
-    return render_template('user/borrow_status.html')
+    slip = utils.get_reserved_slip_by_reader(user_id)
+
+    return render_template('user/borrow_status.html', slip=slip)
 
 @app.route('/book/searching-book/', methods=['GET'])
 def book_searching():
@@ -456,6 +462,8 @@ def borrow_book(book_id):
         book=book,
         msg="Mượn sách thành công"
     )
+
+
     
 if __name__ == "__main__":
     app.run(debug=True)

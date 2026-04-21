@@ -33,13 +33,6 @@
                 Trạng thái yêu cầu mượn
             </a>
         </nav>
-        <div class="mt-auto">
-            <button class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold flex items-center justify-center gap-2 hover:scale-[1.03] transition-transform duration-200 shadow-sm">
-                <span class="material-symbols-outlined">add_circle</span>
-                Mượn sách mới
-            </button>
-        </div>
-
     </aside>
     <!-- Main Content Area -->
     <div class="flex flex-col flex-1">
@@ -67,89 +60,41 @@
                 </section>
                 <!-- Bento Grid Status Cards -->
                 <div class="grid grid-cols-12 gap-6">
-                    <!-- Status Card: Pending (Large/Featured) -->
-                    <div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-8 rounded-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-xl hover:shadow-on-surface/5 flex gap-8">
-                        <div class="w-48 h-64 flex-shrink-0 bg-surface-container rounded shadow-lg overflow-hidden">
-                            <img alt="Book cover" class="w-full h-full object-cover"
-                                 data-alt="dark minimalist book cover with gold typography titled 'The Philosophy of Form' on an archival paper background"
-                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzIOrIgAQTCUYEpCT5NpfB0BLl_eoclxwxFerC_bETtN6x9OLs06wnW1Li0fPk4NWFNALnUDdwsc0SwcLJWquc83Wz6IohYAD3E4t5kDQYMVyPIMvOgT1ntEme3vLast8D71LKhaJtnqpVRj7cqnFWpOIFGkGfUT9INoz8ZKV2lJ0Hcsvpa29PvBH-ng9296-SCA4dBzulVioTc9W2oMugCpXYTsbRqtAMl4NmiK9Pix5XMpO0rxoROJhayy_vTF6DmslkpsyBcyUS"/>
-                        </div>
-                        <div class="flex flex-col justify-between py-2">
-                            <div>
-                                <div class="flex items-center gap-3 mb-4">
-                                    <span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold rounded-full uppercase tracking-wider">Đang chờ xử lý</span>
-                                    <span class="text-xs text-stone-400">Yêu cầu: 14/10/2023 09:45</span>
-                                </div>
-                                <h3 class="text-2xl font-bold text-primary mb-1">Triết Học Về Hình Thức</h3>
-                                <p class="text-on-surface-variant font-medium mb-4">Tác giả: Marcus Aurelius (Dịch giả:
-                                    Nhóm Nghiên Cứu)</p>
-                                <p class="text-sm text-stone-500 line-clamp-3">Cuốn sách khám phá mối quan hệ giữa cấu
-                                    trúc vật lý và ý nghĩa siêu hình trong kiến trúc cổ điển. Một tài liệu lưu trữ hiếm
-                                    có trong bộ sưu tập Private Archive.</p>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <button class="px-6 py-2 bg-surface-container-high text-primary font-bold rounded-lg hover:bg-surface-container-highest transition-colors">
-                                    Hủy yêu cầu
-                                </button>
-                                <button class="flex items-center gap-2 text-tertiary font-bold group">
-                                    Xem chi tiết tài liệu
-                                    <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Status Card: Approved (Medium) -->
-                    <div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-6 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-on-surface/5 flex flex-col justify-between">
-                        <div>
-                            <div class="flex justify-between items-start mb-6">
-                                <div class="w-20 h-28 bg-surface-container rounded-md overflow-hidden shadow-sm">
-                                    <img alt="Book cover" class="w-full h-full object-cover"
-                                         data-alt="classic leather bound book cover with silver embossed letters on a mahogany wooden surface"
-                                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFrvAUU_rx1fOTkHpS8lfNjVF6nDId5OKMRbepdiOPTEFGQJKTLtN1hcISh4EDv9L3B88zs2yvaZgpZ0mJYvbJDHHg2O8AjAbpXfZ_msTb1oUWR3AfkKLzYR_oWtSiD2KvaMm5H1N8URW-ewQtmGJLMjubbC8RkYesOIV43b7Gij7cuIeA_ylWYNk_tIbHuI2BswNzJhF9UdYaEivkpuP-ahfYmTeeEk89QPBrTpiCjXLMbgpIYZZh31EWS-d-c4tb_XlRRXsTIKr4"/>
-                                </div>
-                                <span class="px-3 py-1 bg-green-100 text-green-800 text-[10px] font-bold rounded-full uppercase tracking-wider">Đã phê duyệt</span>
-                            </div>
-                            <h4 class="text-lg font-bold text-primary">Biên Niên Sử Nghệ Thuật</h4>
-                            <p class="text-xs text-stone-500 mb-4">Ngày nhận sách: 16/10/2023</p>
-                            <p class="text-xs text-on-surface-variant leading-relaxed">Vui lòng mang theo thẻ thư viện
-                                số tại quầy lễ tân tầng 3 để nhận bản in giới hạn.</p>
-                        </div>
-                        <button class="mt-6 w-full py-2 bg-primary text-on-primary font-bold rounded-lg text-sm">Xem mã
-                            nhận sách
-                        </button>
-                    </div>
-                    <!-- Status Card: Rejected (Small) -->
-                    <div class="col-span-12 lg:col-span-4 bg-surface-container-low p-6 rounded-xl">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="px-3 py-1 bg-error-container text-on-error-container text-[10px] font-bold rounded-full uppercase tracking-wider">Từ chối</span>
-                            <span class="text-[10px] text-stone-400">12/10/2023</span>
-                        </div>
-                        <h4 class="font-bold text-primary truncate">Giải Mã Ký Hiệu Học</h4>
-                        <p class="text-xs text-stone-500 mb-3">Tác giả: Umberto Eco</p>
-                        <div class="bg-surface p-3 rounded border-l-4 border-error mt-2">
-                            <p class="text-[11px] text-on-surface italic">Lý do: Tài liệu này hiện đang trong quá trình
-                                phục chế định kỳ, không thể mượn trực tiếp.</p>
-                        </div>
-                    </div>
-                    <!-- Status Card: Pending (Small) -->
-                    <div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-6 rounded-xl hover:shadow-lg transition-shadow">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold rounded-full uppercase tracking-wider">Đang chờ</span>
-                            <span class="text-[10px] text-stone-400">15/10/2023</span>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="w-12 h-16 bg-surface-container rounded overflow-hidden">
-                                <img alt="Book cover" class="w-full h-full object-cover"
-                                     data-alt="old vintage book spine with faded gold letters on a textured paper background"
-                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCU9WFP4VM1_iF1IUYHXTpu67gcATPrk9jEP7BMEsm7qootJSk6PNELf25DPM0AIoqOfYmfiXol3cysE2mp_31AA4BJT5gdPLVQXxWqJqCgJt6AuYMS4XcnD2YBZC_UVZELSruQSgYlxpIUpvcZp0OxQKZ_BXw8dcu73kWbFx9Q2R8U92Kx4r76qgMs8OVpT7hesVdsKplTP7mpcxBDgnwdxtElf4JXc-dx5-Uzvgy4kQpTknq9lqEFCeSeJYemC7AbtxSJrDuDbIX"/>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-primary text-sm">Lịch Sử Của Sự Im Lặng</h4>
-                                <p class="text-[11px] text-stone-500">Người thẩm định: Nguyễn Văn A</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- CTA Card -->
+                    {% if slip %}
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-8 rounded-xl flex gap-8">
+    <div class="w-48 h-64 flex-shrink-0 bg-surface-container rounded shadow-lg overflow-hidden">
+        <img class="w-full h-full object-cover"
+             src="{{ slip.book.image if slip.book else '' }}">
+    </div>
+
+    <div class="flex flex-col justify-between py-2">
+        <div>
+            <div class="flex items-center gap-3 mb-4">
+                <span class="px-3 py-1 bg-tertiary-fixed text-xs font-bold rounded-full">
+                    Đang chờ xử lý
+                </span>
+                <span class="text-xs text-stone-400">
+                    Yêu cầu: {{ slip.borrow_date.strftime('%d/%m/%Y %H:%M') if slip.borrow_date else '' }}
+                </span>
+            </div>
+
+            <h3 class="text-2xl font-bold text-primary mb-1">
+                {{ slip.book.title if slip.book else 'Không có tên sách' }}
+            </h3>
+
+            <p class="text-sm text-stone-500">
+                ID: {{ slip.book_id }}
+            </p>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <button class="px-6 py-2 bg-red-100 text-red-600 font-bold rounded-lg">
+                Hủy yêu cầu
+            </button>
+        </div>
+    </div>
+</div>
+{% endif %}
                     <div class="col-span-12 lg:col-span-4 bg-tertiary p-6 rounded-xl flex flex-col justify-center items-center text-center text-on-tertiary">
                         <span class="material-symbols-outlined text-4xl mb-4"
                               style="font-variation-settings: 'FILL' 1;">auto_stories</span>
@@ -160,6 +105,10 @@
                             Khám phá ngay
                         </button>
                     </div>
+                    </div>
+
+                    <!-- CTA Card -->
+
                 </div>
                 <!-- Empty Space/Visual Texture -->
                 <div class="mt-16 flex items-center gap-8 opacity-20 grayscale pointer-events-none">

@@ -1,7 +1,11 @@
+from sqlalchemy.orm import joinedload
+
 from library_digital.extensions import db
-from library_digital.models import User, Book, Category, CategoryBook, BorrowSlip
+from library_digital.models import User, Book, Category, CategoryBook, BorrowSlip, ViewHistory, ReaderCategory
+from .gemini_service import call_ai
 from .models.user import GenderEnum
 import hashlib
+import json
 
 from library_digital.models.borrow_slip import BorrowStatus
 
@@ -271,3 +275,124 @@ def get_reserved_slip_by_reader(reader_id):
         .first()
 
     return slip
+
+def get_viewed_books(reader_id):
+    views = (
+        ViewHistory.query
+        .options(joinedload(ViewHistory.book))  # tránh N+1 query
+        .filter_by(reader_id=reader_id)
+        .order_by(ViewHistory.count.desc())
+        .limit(5)
+        .all()
+    )
+
+    return [
+        {
+            "id": v.book.id,
+            "title": v.book.title
+        }
+        for v in views if v.book
+    ]
+
+def get_borrowed_books(reader_id):
+    slips = (
+        BorrowSlip.query
+        .options(joinedload(BorrowSlip.book))  # tránh N+1 query
+        .filter(
+            BorrowSlip.reader_id == reader_id,
+            BorrowSlip.status.in_(["BORROWING", "RETURNED"])
+        )
+        .all()
+    )
+
+    return [
+        {
+            "id": s.book.id,
+            "title": s.book.title
+        }
+        for s in slips if s.book
+    ]
+
+def get_favorite_categories(reader_id):
+    categories = (
+        ReaderCategory.query
+        .options(joinedload(ReaderCategory.category))  # tránh N+1
+        .filter_by(user_id=reader_id)
+        .all()
+    )
+
+    return [
+        {
+            "id": c.category.id,
+            "name": c.category.name
+        }
+        for c in categories if c.category_id
+    ]
+
+def get_candidate_books(reader_id):
+    books = (
+        db.session.query(Book)
+        .join(CategoryBook, Book.id == CategoryBook.book_id)
+        .join(ReaderCategory, CategoryBook.category_id == ReaderCategory.category_id)
+        .filter(
+            ReaderCategory.user_id == reader_id,
+            Book.is_active == True
+        )
+        .distinct()
+        .limit(20)
+        .all()
+    )
+
+    return [
+        {
+            "id": b.id,
+            "title": b.title
+        }
+        for b in books
+    ]
+
+def build_profile(reader_id):
+    return {
+        "views": get_viewed_books(reader_id),
+        "borrows": get_borrowed_books(reader_id),
+        "categories": get_favorite_categories(reader_id)
+    }
+
+def parse_ai_response(ai_text):
+    try:
+        return json.loads(ai_text)
+    except:
+        return []
+
+
+def map_to_books(ai_result, candidates):
+    book_map = {b["title"]: b["id"] for b in candidates}
+
+    final = []
+
+    for item in ai_result:
+        title = item["title"]
+        if title in book_map:
+            final.append({
+                "id": book_map[title],
+                "title": title,
+                "reason": item["reason"]
+            })
+
+    return final
+
+def recommend_books(reader_id):
+
+    profile = build_profile(reader_id)
+    candidates = get_candidate_books(reader_id)  # [{id, title}]
+
+    ai_text = call_ai(profile, candidates)
+
+    ai_json = parse_ai_response(ai_text)
+
+    final = map_to_books(ai_json, candidates)
+
+    if not candidates:
+        return "No recommendation available"
+
+    return final

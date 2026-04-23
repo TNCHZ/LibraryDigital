@@ -626,6 +626,53 @@ def admin_delete_user(user_id):
         return redirect(url_for('admin_user_management'))
     except Exception as ex:
         return str(ex), 500
+
+@app.route('/admin/statistics/')
+@login_required
+def admin_statistics():
+    from library_digital import utils
+    from datetime import datetime, timedelta
+
+    # Get period from query params
+    period = request.args.get('period', 'current')
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+
+    # Calculate reference date based on period
+    now = datetime.now()
+    if period == 'last':
+        # Last month
+        if now.month == 1:
+            ref_date = datetime(now.year - 1, 12, 1)
+        else:
+            ref_date = datetime(now.year, now.month - 1, 1)
+    elif period == 'custom' and start_date and end_date:
+        # Custom date range - use end_date as reference
+        ref_date = datetime.strptime(end_date, '%Y-%m-%d')
+    else:
+        # Current month (default)
+        ref_date = now
+        period = 'current'
+
+    # Get comprehensive statistics with reference date
+    stats = utils.get_dashboard_statistics(ref_date=ref_date)
+    monthly_stats = utils.get_monthly_loan_stats(ref_date=ref_date)
+    top_readers = utils.get_top_readers(5, ref_date=ref_date)
+    category_dist = utils.get_category_distribution()
+    status_breakdown = utils.get_borrow_status_breakdown()
+    recent_activities = utils.get_recent_activities(10)
+
+    return render_template('admin/statistics.html',
+                         stats=stats,
+                         monthly_stats=monthly_stats,
+                         top_readers=top_readers,
+                         category_dist=category_dist,
+                         status_breakdown=status_breakdown,
+                         recent_activities=recent_activities,
+                         current_period=period,
+                         start_date=start_date,
+                         end_date=end_date)
+    
     
 if __name__ == "__main__":
     app.run(debug=True)

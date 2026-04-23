@@ -1,6 +1,6 @@
 from library_digital.extensions import db
 from library_digital.models import User, Book, Category, CategoryBook, BorrowSlip
-from .models.user import GenderEnum
+from .models.user import GenderEnum, UserRole
 import hashlib
 from datetime import timedelta
 
@@ -330,3 +330,96 @@ def reject_borrow_slip(slip_id, librarian_id, note=None):
     except Exception as e:
         db.session.rollback()
         return False, f"Lỗi: {str(e)}"
+
+def get_user_stats():
+    total_users = User.query.count()
+    active_users = User.query.filter_by(is_active=True).count()
+    inactive_users = User.query.filter_by(is_active=False).count()
+
+
+    return {
+        "total_users": total_users,
+        "active_users": active_users,
+        "inactive_users": inactive_users
+    }
+
+
+def get_users(role=None, is_active=None):
+    query = User.query
+
+
+    if role and role != "ALL":
+        query = query.filter(User.role == UserRole[role])
+
+
+    if is_active is not None:
+        query = query.filter(User.is_active == is_active)
+
+
+    return query.all()
+
+
+def admin_add_user(first_name, last_name, username, password, email, phone, gender, role, **kwargs):
+    password = hashlib.md5(password.strip().encode('utf-8')).hexdigest()
+
+
+    user = User(
+        first_name=first_name.strip(),
+        last_name=last_name.strip(),
+        username=username.strip(),
+        password=password,
+        phone=phone.strip(),
+        email=email.strip(),
+        gender=gender,
+        role=role,
+        avatar=kwargs.get('avatar')
+    )
+
+
+    db.session.add(user)
+    db.session.commit()
+
+
+def update_user(user_id, first_name, last_name, username, email, phone, gender, role, is_active, password=None, avatar=None):
+    user = User.query.get(user_id)
+
+
+    if not user:
+        return False
+
+
+    user.first_name = first_name.strip()
+    user.last_name = last_name.strip()
+    user.username = username.strip()
+    user.email = email.strip()
+    user.phone = phone.strip()
+    user.gender = gender
+    user.role = role
+    user.is_active = is_active
+
+
+    # password optional
+    if password:
+        user.password = hashlib.md5(password.strip().encode('utf-8')).hexdigest()
+
+
+    # avatar optional
+    if avatar:
+        user.avatar = avatar
+
+
+    db.session.commit()
+    return True
+
+
+def delete_user(user_id):
+    user = User.query.get(user_id)
+
+
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return True
+
+
+    return False

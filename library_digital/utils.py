@@ -249,3 +249,25 @@ def can_borrow(reader_id, book_id):
         return True, "OK"
 
     return True, "OK"
+
+
+def get_borrow_slips_by_reader(reader_id, page=1, per_page=5):
+    query = BorrowSlip.query.filter_by(reader_id=reader_id).order_by(BorrowSlip.id.desc())
+    pagination = query.paginate(page=page, per_page=per_page, error_out=False)
+
+    return {
+        "items": list(pagination.items),
+        "total": pagination.total,
+        "page": pagination.page,
+        "pages": pagination.pages,
+        "has_next": bool(pagination.has_next),
+        "has_prev": bool(pagination.has_prev)
+    }
+
+def get_reserved_slip_by_reader(reader_id):
+    slip = BorrowSlip.query\
+        .filter_by(reader_id=reader_id, status=BorrowStatus.RESERVED)\
+        .order_by(BorrowSlip.id.desc())\
+        .first()
+
+    return slip

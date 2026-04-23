@@ -32,6 +32,12 @@ def user_login():
         user = utils.check_login(username=username, password=password, role=role)
         if user:
             login_user(user=user)
+            if user.role.value =="ADMIN":
+                return redirect(url_for('admin_dashboard'))
+            elif user.role.value =="LIBRARIAN":
+                return redirect(url_for('librarian_dashboard'))
+            else:
+                return redirect(url_for('home'))
             return redirect(url_for('home'))
         else:
             err_msg = "Sai tài khoản hoặc mật khẩu!!!"
@@ -288,7 +294,23 @@ def admin_reject_borrow_slip(slip_id):
 
 @app.route('/admin/user_management/')
 def admin_user_management():
-    return render_template('admin/user_management.html')
+    role = request.args.get('role')  # ADMIN / LIBRARIAN / READER
+    status = request.args.get('status')  # active / inactive
+
+    is_active = None
+    if status == "active":
+        is_active = True
+    elif status == "inactive":
+        is_active = False
+
+    users = utils.get_users(role=role, is_active=is_active)
+    stats = utils.get_user_stats()
+
+    return render_template(
+        'admin/user_management.html',
+        users=users,
+        **stats
+    )
 
 
 @app.route('/admin/dashboard/')
@@ -520,7 +542,90 @@ def borrow_book(book_id):
         msg="Mượn sách thành công"
     )
 
+@app.route('/admin/user/add/', methods=['POST'])
+def admin_add_user():
+    try:
+        first_name = request.form.get('first_name', '').strip()
+        last_name = request.form.get('last_name', '').strip()
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '').strip()
+        email = request.form.get('email', '').strip()
+        phone = request.form.get('phone', '').strip()
 
+        gender = request.form.get('gender')  # MALE / FEMALE / OTHER
+        role = request.form.get('role')      # ADMIN / LIBRARIAN / READER
+
+        avatar = request.files.get('avatar')
+        avatar_url = None
+
+        if avatar:
+            res = cloudinary.uploader.upload(avatar)
+            avatar_url = res['secure_url']
+
+        utils.admin_add_user(
+            first_name=first_name,
+            last_name=last_name,
+            username=username,
+            password=password,
+            email=email,
+            phone=phone,
+            gender=gender,
+            role=role,
+            avatar=avatar_url
+        )
+
+        return redirect(url_for('admin_user_management'))
+
+    except Exception as ex:
+        return str(ex), 500
+
+@app.route('/admin/user/edit/<int:user_id>/', methods=['POST'])
+def admin_edit_user(user_id):
+    try:
+        first_name = request.form.get('first_name', '').strip()
+        last_name = request.form.get('last_name', '').strip()
+        username = request.form.get('username', '').strip()
+        email = request.form.get('email', '').strip()
+        phone = request.form.get('phone', '').strip()
+
+        gender = request.form.get('gender')
+        role = request.form.get('role')
+        password = request.form.get('password')
+        is_active = request.form.get('is_active') == 'on'
+
+        # upload avatar
+        avatar = request.files.get('avatar')
+        avatar_url = None
+        if avatar:
+            res = cloudinary.uploader.upload(avatar)
+            avatar_url = res['secure_url']
+
+        utils.update_user(
+            user_id=user_id,
+            first_name=first_name,
+            last_name=last_name,
+            username=username,
+            email=email,
+            phone=phone,
+            gender=gender,
+            role=role,
+            password=password,
+            is_active=is_active,
+            avatar=avatar_url
+        )
+
+        return redirect(url_for('admin_user_management'))
+
+    except Exception as ex:
+        return str(ex), 500
+
+@app.route('/admin/user/delete/<int:user_id>/', methods=['POST'])
+def admin_delete_user(user_id):
+    try:
+        utils.delete_user(user_id)
+        return redirect(url_for('admin_user_management'))
+    except Exception as ex:
+        return str(ex), 500
     
 if __name__ == "__main__":
     app.run(debug=True)

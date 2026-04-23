@@ -9,26 +9,26 @@
             <p class="text-xs opacity-70">Hệ thống quản lý</p>
         </div>
     </div>
-    <nav class="flex-1 space-y-2">
-        <a class="flex items-center gap-3 px-3 py-2.5 text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02] transition-all duration-200 rounded-md"
-            href="#">
+ <nav class="flex-1 space-y-2">
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 {% if request.endpoint == 'librarian_dashboard' %}bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] shadow-sm font-bold{% else %}text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02]{% endif %}"
+            href="{{ url_for('librarian_dashboard') }}">
             <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
             Dashboard
         </a>
-        <a class="flex items-center gap-3 px-3 py-2.5 bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] rounded-md shadow-sm font-bold"
-            href="#">
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 {% if request.endpoint == 'librarian_book_management' %}bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] shadow-sm font-bold{% else %}text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02]{% endif %}"
+            href="{{ url_for('librarian_book_management') }}">
             <span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
             Quản lý sách
         </a>
-        <a class="flex items-center gap-3 px-3 py-2.5 text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02] transition-all duration-200 rounded-md"
-            href="#">
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 {% if request.endpoint == 'librarian_borrow_slip_management' %}bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] shadow-sm font-bold{% else %}text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02]{% endif %}"
+            href="{{ url_for('librarian_borrow_slip_management') }}">
             <span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
             Quản lý đơn mượn
         </a>
-        <a class="flex items-center gap-3 px-3 py-2.5 text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02] transition-all duration-200 rounded-md"
-            href="#">
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 {% if request.endpoint == 'librarian_reader_management' %}bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] shadow-sm font-bold{% else %}text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02]{% endif %}"
+            href="{{ url_for('librarian_reader_management') }}">
             <span class="material-symbols-outlined" data-icon="group">group</span>
-            Quản lý người dùng
+            Quản lý độc giả
         </a>
     </nav>
     <div class="mt-auto p-3 bg-surface-container rounded-lg flex items-center gap-3">

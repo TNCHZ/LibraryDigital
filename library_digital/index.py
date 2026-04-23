@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from future.backports.datetime import datetime
-
+from datetime import datetime
 
 from library_digital import create_app, login, utils
 import cloudinary.uploader
@@ -220,14 +220,71 @@ def librarian_reader_management():
     return render_template('librarian/reader_management.html')
 
 
-@app.route('/librarian/borrow_slip_management/')
+@app.route('/librarian/borrow-slip-management/')
+@login_required
 def librarian_borrow_slip_management():
-    return render_template('librarian/borrow_slip_management.html')
+    status = request.args.get('status', '').strip()
+    page = request.args.get('page', 1, type=int)
+
+    borrow_slips = utils.get_borrow_slips(status=status if status else None, page=page, per_page=10)
+
+    return render_template(
+        'librarian/borrow_slip_management.html',
+        borrow_slips=borrow_slips,
+        status_filter=status,
+        BorrowStatus=utils.BorrowStatus
+    )
 
 
-@app.route('/admin/borrow_slip_management/')
+@app.route('/librarian/borrow-slip/<int:slip_id>/approve/', methods=['POST'])
+@login_required
+def librarian_approve_borrow_slip(slip_id):
+    success, message = utils.approve_borrow_slip(slip_id, current_user.id)
+    flash(message, 'success' if success else 'error')
+    return redirect(url_for('librarian_borrow_slip_management'))
+
+
+@app.route('/librarian/borrow-slip/<int:slip_id>/reject/', methods=['POST'])
+@login_required
+def librarian_reject_borrow_slip(slip_id):
+    note = request.form.get('reject_note', '').strip()
+    success, message = utils.reject_borrow_slip(slip_id, current_user.id, note)
+    flash(message, 'success' if success else 'error')
+    return redirect(url_for('librarian_borrow_slip_management'))
+
+
+@app.route('/admin/borrow-slip-management/')
+@login_required
 def admin_borrow_slip_management():
-    return render_template('admin/borrow_slip_management.html')
+    status = request.args.get('status', '').strip()
+    page = request.args.get('page', 1, type=int)
+
+    borrow_slips = utils.get_borrow_slips(status=status if status else None, page=page, per_page=10)
+
+    return render_template(
+        'admin/borrow_slip_management.html',
+        borrow_slips=borrow_slips,
+        status_filter=status,
+        BorrowStatus=utils.BorrowStatus
+    )
+
+
+@app.route('/admin/borrow-slip/<int:slip_id>/approve/', methods=['POST'])
+@login_required
+def admin_approve_borrow_slip(slip_id):
+    success, message = utils.approve_borrow_slip(slip_id, current_user.id)
+    flash(message, 'success' if success else 'error')
+    return redirect(url_for('admin_borrow_slip_management'))
+
+
+@app.route('/admin/borrow-slip/<int:slip_id>/reject/', methods=['POST'])
+@login_required
+def admin_reject_borrow_slip(slip_id):
+    note = request.form.get('reject_note', '').strip()
+    success, message = utils.reject_borrow_slip(slip_id, current_user.id, note)
+    flash(message, 'success' if success else 'error')
+    return redirect(url_for('admin_borrow_slip_management'))
+
 
 @app.route('/admin/user_management/')
 def admin_user_management():

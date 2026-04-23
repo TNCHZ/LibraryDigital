@@ -12,6 +12,21 @@ app = create_app()
 @app.route('/')
 def home():
     cates = utils.get_categories()
+    reader_id = current_user.id
+    notes = utils.recommend_books(reader_id)
+    result = []
+
+    for item in notes:
+        book = utils.get_book_by_id(item['id'])
+
+        if book:
+            result.append({
+                "book": book,
+                "reason": item["reason"]
+            })
+
+
+    return render_template('user/home.html', cates=cates, result = result)
     return render_template('user/home.html', cates=cates)
 
 @app.route('/book/<int:book_id>')

@@ -423,3 +423,245 @@ def delete_user(user_id):
 
 
     return False
+
+
+
+def get_dashboard_statistics(ref_date=None):
+    """Get comprehensive statistics for admin dashboard"""
+    from datetime import datetime, timedelta
+
+
+    if ref_date is None:
+        ref_date = datetime.now()
+
+
+    # User statistics
+    total_users = User.query.count()
+    new_users_this_month = User.query.filter(
+        db.extract('month', User.created_at) == ref_date.month,
+        db.extract('year', User.created_at) == ref_date.year
+    ).count()
+
+
+    # Book statistics
+    total_books = Book.query.count()
+    total_books_value = db.session.query(db.func.sum(Book.price)).scalar() or 0
+
+
+    # Borrow statistics
+    total_loans = BorrowSlip.query.count()
+
+
+    # Status breakdown
+    pending_loans = BorrowSlip.query.filter(BorrowSlip.status == BorrowStatus.RESERVED).count()
+    active_loans = BorrowSlip.query.filter(BorrowSlip.status == BorrowStatus.BORROWING).count()
+    overdue_loans = BorrowSlip.query.filter(BorrowSlip.status == BorrowStatus.OVERDUE).count()
+    returned_loans = BorrowSlip.query.filter(BorrowSlip.status == BorrowStatus.RETURNED).count()
+
+
+    # This month's loans
+    current_month_loans = BorrowSlip.query.filter(
+        db.extract('month', BorrowSlip.created_at) == ref_date.month,
+        db.extract('year', BorrowSlip.created_at) == ref_date.year
+    ).count()
+
+
+    # Last 6 months loan trend (relative to ref_date)
+    months = []
+    loan_counts = []
+    for i in range(5, -1, -1):
+        month_date = ref_date - timedelta(days=30*i)
+        count = BorrowSlip.query.filter(
+            db.extract('month', BorrowSlip.created_at) == month_date.month,
+            db.extract('year', BorrowSlip.created_at) == month_date.year
+        ).count()
+        months.append(f"T{month_date.month}")
+        loan_counts.append(count)
+
+
+    # Top borrowed books
+    top_books = db.session.query(
+        Book,
+        db.func.count(BorrowSlip.id).label('borrow_count')
+    ).join(BorrowSlip, Book.id == BorrowSlip.book_id) \
+     .group_by(Book.id) \
+     .order_by(db.desc('borrow_count')) \
+     .limit(5).all()
+
+
+    # Books by category
+    category_stats = db.session.query(
+        Category,
+        db.func.count(Book.id).label('book_count')
+    ).join(CategoryBook, Category.id == CategoryBook.category_id) \
+     .join(Book, CategoryBook.book_id == Book.id) \
+     .group_by(Category.id) \
+     .order_by(db.desc('book_count')) \
+     .limit(5).all()
+
+
+    # Return rate calculation
+    completed_loans = returned_loans + overdue_loans
+    on_time_return_rate = (returned_loans / completed_loans * 100) if completed_loans > 0 else 0
+
+
+    # Circulation rate (books currently borrowed / total books)
+    circulation_rate = (active_loans / total_books * 100) if total_books > 0 else 0
+
+
+    return {
+        'total_users': total_users,
+        'new_users_this_month': new_users_this_month,
+        'total_books': total_books,
+        'total_books_value': total_books_value,
+        'total_loans': total_loans,
+        'pending_loans': pending_loans,
+        'active_loans': active_loans,
+        'overdue_loans': overdue_loans,
+        'returned_loans': returned_loans,
+        'current_month_loans': current_month_loans,
+        'months': months,
+        'loan_counts': loan_counts,
+        'top_books': top_books,
+        'category_stats': category_stats,
+        'on_time_return_rate': round(on_time_return_rate, 1),
+        'circulation_rate': round(circulation_rate, 1)
+    }
+
+
+
+
+def get_monthly_loan_stats(ref_date=None):
+    """Get loan statistics by month for the last 12 months"""
+    from datetime import datetime, timedelta
+
+
+    if ref_date is None:
+        ref_date = datetime.now()
+
+
+    months = []
+    loan_data = []
+    return_data = []
+
+
+    for i in range(11, -1, -1):
+        date = ref_date - timedelta(days=30*i)
+        month_label = f"T{date.month}"
+
+
+        # Loans created this month
+        loans = BorrowSlip.query.filter(
+            db.extract('month', BorrowSlip.created_at) == date.month,
+            db.extract('year', BorrowSlip.created_at) == date.year
+        ).count()
+
+
+        # Books returned this month
+        returns = BorrowSlip.query.filter(
+            BorrowSlip.status == BorrowStatus.RETURNED,
+            db.extract('month', BorrowSlip.updated_at) == date.month,
+            db.extract('year', BorrowSlip.updated_at) == date.year
+        ).count()
+
+
+        months.append(month_label)
+        loan_data.append(loans)
+        return_data.append(returns)
+
+
+    return {
+        'months': months,
+        'loans': loan_data,
+        'returns': return_data
+    }
+
+
+
+
+def get_top_readers(limit=5, ref_date=None):
+    """Get top readers by number of books borrowed"""
+    from sqlalchemy import func
+    from datetime import datetime
+
+
+    if ref_date is None:
+        ref_date = datetime.now()
+
+
+    query = db.session.query(
+        User,
+        func.count(BorrowSlip.id).label('borrow_count')
+    ).join(BorrowSlip, User.id == BorrowSlip.reader_id) \
+     .filter(BorrowSlip.status.in_([BorrowStatus.RETURNED, BorrowStatus.BORROWING, BorrowStatus.OVERDUE]))
+
+
+    # Filter by reference month/year
+    query = query.filter(
+        db.extract('month', BorrowSlip.created_at) == ref_date.month,
+        db.extract('year', BorrowSlip.created_at) == ref_date.year
+    )
+
+
+    readers = query.group_by(User.id) \
+     .order_by(func.count(BorrowSlip.id).desc()) \
+     .limit(limit).all()
+
+
+    return readers
+
+
+
+
+def get_category_distribution():
+    """Get book distribution by category for pie chart"""
+    from sqlalchemy import func
+
+
+    categories = db.session.query(
+        Category,
+        func.count(Book.id).label('book_count')
+    ).join(CategoryBook, Category.id == CategoryBook.category_id) \
+     .join(Book, CategoryBook.book_id == Book.id) \
+     .group_by(Category.id) \
+     .all()
+
+
+    total = sum(c.book_count for c in categories)
+    result = []
+    for cat, count in categories:
+        percentage = (count / total * 100) if total > 0 else 0
+        result.append({
+            'name': cat.name,
+            'count': count,
+            'percentage': round(percentage, 1)
+        })
+
+
+    return sorted(result, key=lambda x: x['percentage'], reverse=True)
+
+
+
+
+def get_borrow_status_breakdown():
+    """Get breakdown of borrow slips by status"""
+    stats = {}
+    for status in BorrowStatus:
+        count = BorrowSlip.query.filter(BorrowSlip.status == status).count()
+        stats[status.value] = count
+    return stats
+
+
+
+
+def get_recent_activities(limit=10):
+    """Get recent borrowing activities"""
+    from library_digital.models import BorrowSlip
+
+
+    activities = BorrowSlip.query \
+        .order_by(BorrowSlip.updated_at.desc()) \
+        .limit(limit).all()
+
+
+    return activities

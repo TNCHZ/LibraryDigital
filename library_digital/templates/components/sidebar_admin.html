@@ -1,0 +1,48 @@
+<aside
+    class="h-screen w-64 fixed left-0 top-0 bg-[#f7f3ef] dark:bg-stone-900 font-['Plus_Jakarta_Sans'] text-sm antialiased flex flex-col p-4 gap-4 z-40">
+    <div class="flex items-center gap-3 px-2 py-4">
+        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary">
+            <span class="material-symbols-outlined" data-icon="local_library">local_library</span>
+        </div>
+        <div>
+            <h2 class="text-lg font-black tracking-tighter text-[#533528]">Admin</h2>
+            <p class="text-xs opacity-70">Hệ thống quản lý</p>
+        </div>
+    </div>
+    <nav class="flex-1 space-y-2">
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 {% if request.endpoint == 'admin_dashboard' %}bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] shadow-sm font-bold{% else %}text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02]{% endif %}"
+            href="{{ url_for('admin_dashboard') }}">
+            <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+            Dashboard
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 {% if request.endpoint == 'admin_book_management' %}bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] shadow-sm font-bold{% else %}text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02]{% endif %}"
+            href="{{ url_for('admin_book_management') }}">
+            <span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+            Quản lý sách
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 {% if request.endpoint == 'admin_borrow_slip_management' %}bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] shadow-sm font-bold{% else %}text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02]{% endif %}"
+            href="{{ url_for('admin_borrow_slip_management') }}">
+            <span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+            Quản lý đơn mượn
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 {% if request.endpoint == 'admin_user_management' %}bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] shadow-sm font-bold{% else %}text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02]{% endif %}"
+            href="{{ url_for('admin_user_management') }}">
+            <span class="material-symbols-outlined" data-icon="group">group</span>
+            Quản lý người dùng
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 {% if request.endpoint == 'admin_report' %}bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] shadow-sm font-bold{% else %}text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02]{% endif %}"
+            href="{{ url_for('admin_report') }}">
+            <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+            Báo cáo thống kê
+        </a>
+    </nav>
+    <div class="mt-auto p-3 bg-surface-container rounded-lg flex items-center gap-3">
+        <img alt="Ảnh đại diện Thủ thư" class="w-8 h-8 rounded-full object-cover"
+            data-alt="Close-up portrait of a professional librarian woman with glasses and a warm smile in a brightly lit modern library"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTz7vqaxB3J2gL1nZaODeKQSScm800305f1294TCcVOLnKWtCv5FM1NxSXKpUI-xl5Mu035ybvVxsdBCEQpG1BRV-Zvp-3qVqXZFnSwU3IbeG1mvGSUlTBo6o2n2VFIUJWqLhge3uumiCES-fOTgT3OWBKaatFW2ghpPRasPlOLmaeDeyMDsq-oWfyeeJFoFioeruGbGNBX4CeqdwHendMeSTFUZ8Vumimx4g8C5uLZ7HskX1Zok1WBj-pnmTRQChYspu4o5j1p4Yq" />
+        <div class="overflow-hidden">
+            <p class="text-xs font-bold truncate">Admin</p>
+            <p class="text-[10px] opacity-60">Quản trị viên</p>
+        </div>
+    </div>
+</aside>

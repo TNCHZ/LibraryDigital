@@ -1,357 +1,447 @@
-
 {% extends 'admin/layout.html' %}
 
 {% block content %}
 
-<aside class="h-screen w-72 flex flex-col fixed left-0 top-0 bg-[#f7f3ef] dark:bg-stone-900 shadow-[4px_0_24px_rgba(28,28,25,0.04)] z-50 overflow-y-auto font-['Plus_Jakarta_Sans'] text-sm font-medium">
-<div class="flex flex-col h-full py-8 px-6 space-y-6">
-<!-- Branding -->
-<div class="flex items-center space-x-3 px-2">
-<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center">
-<span class="material-symbols-outlined text-surface" data-icon="auto_stories">auto_stories</span>
-</div>
-<div>
-<h1 class="text-lg font-black tracking-tighter text-[#533528] dark:text-[#f7f3ef]">Library Admin</h1>
-<p class="text-[10px] uppercase tracking-widest text-[#6d4c3d]/60">Management Portal</p>
-</div>
-</div>
-<!-- Primary Actions -->
-<button class="w-full flex items-center justify-center space-x-2 py-3 px-4 bg-primary text-on-primary rounded-lg transition-transform duration-300 hover:scale-105 shadow-md">
-<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
-<span class="font-semibold tracking-tight">Thêm mục mới</span>
-</button>
-<!-- Navigation Links -->
-<nav class="flex-1 space-y-2 py-4">
-<a class="group flex items-center px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-[#fdf9f5] dark:hover:bg-stone-800 transition-all duration-200 hover:translate-x-1" href="#">
-<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
-<span>Dashboard</span>
-</a>
-<a class="group flex items-center px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-[#fdf9f5] dark:hover:bg-stone-800 transition-all duration-200 hover:translate-x-1" href="#">
-<span class="material-symbols-outlined mr-3" data-icon="menu_book">menu_book</span>
-<span>Quản lý sách</span>
-</a>
-<!-- Active Item -->
-<a class="group flex items-center px-4 py-3 text-[#533528] dark:text-[#fdf9f5] font-bold border-r-4 border-[#6d4c3d] bg-surface-container-highest/20 transition-all duration-200" href="#">
-<span class="material-symbols-outlined mr-3" data-icon="auto_stories" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
-<span>Quản lý đơn mượn</span>
-</a>
-<a class="group flex items-center px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-[#fdf9f5] dark:hover:bg-stone-800 transition-all duration-200 hover:translate-x-1" href="#">
-<span class="material-symbols-outlined mr-3" data-icon="group">group</span>
-<span>Quản lý người dùng</span>
-</a>
-<a class="group flex items-center px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-[#fdf9f5] dark:hover:bg-stone-800 transition-all duration-200 hover:translate-x-1" href="#">
-<span class="material-symbols-outlined mr-3" data-icon="analytics">analytics</span>
-<span>Báo cáo thống kê</span>
-</a>
-</nav>
-<!-- Footer Tabs -->
-<div class="pt-6 border-t border-[#6d4c3d]/10">
-<a class="group flex items-center px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-error-container/10 hover:text-error transition-all duration-200" href="#">
-<span class="material-symbols-outlined mr-3" data-icon="logout">logout</span>
-<span>Đăng xuất</span>
-</a>
-</div>
-</div>
-</aside>
+{% include 'components/sidebar_admin.html' %}
 <!-- Main Content Area -->
-<main class="ml-72 flex-1 flex flex-col min-h-screen">
-<!-- TopNavBar Shell -->
-<header class="bg-[#fdf9f5]/80 dark:bg-stone-950/80 backdrop-blur-xl sticky top-0 z-40 w-full px-8 py-4 flex justify-between items-center font-['Plus_Jakarta_Sans'] tracking-tight">
-<div class="flex items-center space-x-6 flex-1">
-<h2 class="text-xl font-bold text-[#533528] dark:text-[#f7f3ef] mr-8">Quản lý đơn mượn</h2>
-<div class="relative w-full max-w-md group">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/50 group-focus-within:text-tertiary transition-colors" data-icon="search">search</span>
-<input class="w-full bg-surface-container-high border-none rounded-full py-2.5 pl-12 pr-4 text-sm focus:ring-2 focus:ring-tertiary/20 placeholder-on-surface-variant/40 transition-all" placeholder="Tìm kiếm đơn mượn, tên bạn đọc..." type="text"/>
-</div>
-</div>
-<div class="flex items-center space-x-6">
-<div class="flex items-center space-x-2">
-<button class="p-2 rounded-full hover:bg-surface-container transition-colors relative">
-<span class="material-symbols-outlined text-[#6d4c3d]" data-icon="notifications">notifications</span>
-<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
-</button>
-<button class="p-2 rounded-full hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined text-[#6d4c3d]" data-icon="settings">settings</span>
-</button>
-</div>
-<div class="h-10 w-[1px] bg-outline-variant/30"></div>
-<div class="flex items-center space-x-3">
-<div class="text-right hidden sm:block">
-<p class="text-xs font-bold text-[#533528]">Admin Profile</p>
-<p class="text-[10px] text-on-surface-variant">Librarian Senior</p>
-</div>
-<img alt="Admin Profile" class="w-10 h-10 rounded-full object-cover border-2 border-primary-container/20 shadow-sm" data-alt="portrait of a professional male librarian in a crisp white shirt with soft studio lighting and warm tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5VgVMCP_wLriguGsAEhG6nTP5BaxXIiI2XXQ_N3tJOPiywx1z1NzT761P6Wzz-UFAPi5yoJ3Ef33G4STSYY-uRsaEgkQyZUHX57uAA7zkCKMKEvdRn1ZHbAUffN5Is5ic5hqP-8B_B8KVastpXKMXUZEi75BEFyII_O0s8fYnJbxloCI2ZgdH2x_6zeZx-ZVtDtUBtoK228JAXF1QarD8W8RZHuKvz_Pm6ovqqKXlkVYZ9UD0MLxmT_X0gVMKDDw8glR0tOl8LAp7"/>
-</div>
-</div>
-</header>
-<!-- Content Canvas -->
-<div class="p-8 space-y-8 max-w-7xl mx-auto w-full">
-<!-- Summary Bento Grid -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[4px_0_24px_rgba(28,28,25,0.04)] border-b-2 border-primary-container/10 transition-transform duration-300 hover:scale-[1.02]">
-<div class="flex justify-between items-start mb-4">
-<div class="p-2 bg-tertiary/10 rounded-lg">
-<span class="material-symbols-outlined text-tertiary" data-icon="pending_actions">pending_actions</span>
-</div>
-<span class="text-xs font-medium text-on-surface-variant">+12 hôm nay</span>
-</div>
-<h3 class="text-on-surface-variant text-sm font-medium">Đang chờ duyệt</h3>
-<p class="text-3xl font-black text-primary mt-1">24</p>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[4px_0_24px_rgba(28,28,25,0.04)] border-b-2 border-primary-container/10 transition-transform duration-300 hover:scale-[1.02]">
-<div class="flex justify-between items-start mb-4">
-<div class="p-2 bg-primary-container/10 rounded-lg">
-<span class="material-symbols-outlined text-primary-container" data-icon="check_circle">check_circle</span>
-</div>
-<span class="text-xs font-medium text-on-surface-variant">Tháng này</span>
-</div>
-<h3 class="text-on-surface-variant text-sm font-medium">Đã phê duyệt</h3>
-<p class="text-3xl font-black text-primary mt-1">156</p>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[4px_0_24px_rgba(28,28,25,0.04)] border-b-2 border-primary-container/10 transition-transform duration-300 hover:scale-[1.02]">
-<div class="flex justify-between items-start mb-4">
-<div class="p-2 bg-outline/10 rounded-lg">
-<span class="material-symbols-outlined text-outline" data-icon="assignment_return">assignment_return</span>
-</div>
-<span class="text-xs font-medium text-on-surface-variant">Tỷ lệ 92%</span>
-</div>
-<h3 class="text-on-surface-variant text-sm font-medium">Đã trả sách</h3>
-<p class="text-3xl font-black text-primary mt-1">1,204</p>
-</div>
-</div>
-<!-- Table Section -->
-<section class="bg-surface-container-low rounded-2xl overflow-hidden shadow-sm">
-<div class="px-8 py-6 flex justify-between items-center border-b border-outline-variant/20 bg-surface-container-lowest">
-<div class="space-y-1">
-<h3 class="text-lg font-bold text-primary">Danh sách đơn mượn</h3>
-<p class="text-xs text-on-surface-variant">Quản lý và cập nhật trạng thái các yêu cầu mượn sách</p>
-</div>
-<div class="flex items-center space-x-3">
-<button class="flex items-center space-x-2 px-4 py-2 bg-surface-container-high text-on-surface-variant text-sm font-semibold rounded-lg hover:bg-surface-container-highest transition-colors">
-<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
-<span>Lọc</span>
-</button>
-<button class="flex items-center space-x-2 px-6 py-2 bg-primary text-on-primary text-sm font-bold rounded-lg shadow-md hover:scale-[1.03] transition-all">
-<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
-<span>+ Tạo đơn mới</span>
-</button>
-</div>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container/50 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
-<th class="px-8 py-5">Mã đơn</th>
-<th class="px-6 py-5">Bạn đọc</th>
-<th class="px-6 py-5">Tên sách</th>
-<th class="px-6 py-5">Ngày mượn</th>
-<th class="px-6 py-5">Hạn trả</th>
-<th class="px-6 py-5">Trạng thái</th>
-<th class="px-8 py-5 text-right">Thao tác</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-outline-variant/10">
-<!-- Row 1: Pending -->
-<tr class="hover:bg-surface-container-lowest transition-colors group">
-<td class="px-8 py-5 font-bold text-primary tracking-tight">#BM-7742</td>
-<td class="px-6 py-5">
-<div class="flex items-center">
-<div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center text-[10px] font-bold text-tertiary mr-3">NH</div>
-<div>
-<p class="text-sm font-semibold text-on-surface">Nguyễn Văn Hiếu</p>
-<p class="text-[10px] text-on-surface-variant">ID: 24091</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<p class="text-sm font-medium text-on-surface max-w-[200px] truncate">Lịch Sử Văn Minh Thế Giới</p>
-</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant">24/10/2023</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant">07/11/2023</td>
-<td class="px-6 py-5">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-tertiary-fixed text-tertiary">
-<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5"></span>
-                                        Pending
-                                    </span>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex items-center justify-end space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-on-surface-variant hover:text-primary-container transition-colors" title="Sửa">
-<span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:text-error transition-colors" title="Xóa">
-<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 2: Approved -->
-<tr class="hover:bg-surface-container-lowest transition-colors group">
-<td class="px-8 py-5 font-bold text-primary tracking-tight">#BM-7741</td>
-<td class="px-6 py-5">
-<div class="flex items-center">
-<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-[10px] font-bold text-primary mr-3">TL</div>
-<div>
-<p class="text-sm font-semibold text-on-surface">Trần Thị Lan</p>
-<p class="text-[10px] text-on-surface-variant">ID: 23882</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<p class="text-sm font-medium text-on-surface max-w-[200px] truncate">Tâm Lý Học Tội Phạm</p>
-</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant">22/10/2023</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant">05/11/2023</td>
-<td class="px-6 py-5">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary-fixed text-on-primary-fixed-variant">
-<span class="w-1.5 h-1.5 rounded-full bg-primary mr-1.5"></span>
-                                        Approved
-                                    </span>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex items-center justify-end space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-on-surface-variant hover:text-primary-container transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:text-error transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 3: Returned -->
-<tr class="hover:bg-surface-container-lowest transition-colors group">
-<td class="px-8 py-5 font-bold text-primary tracking-tight">#BM-7740</td>
-<td class="px-6 py-5">
-<div class="flex items-center">
-<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-[10px] font-bold text-secondary mr-3">PA</div>
-<div>
-<p class="text-sm font-semibold text-on-surface">Phạm Anh</p>
-<p class="text-[10px] text-on-surface-variant">ID: 21004</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<p class="text-sm font-medium text-on-surface max-w-[200px] truncate">Nghệ Thuật Tư Duy Rành Mạch</p>
-</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant">15/10/2023</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant">29/10/2023</td>
-<td class="px-6 py-5">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-surface-container-highest text-secondary">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1.5"></span>
-                                        Returned
-                                    </span>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex items-center justify-end space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-on-surface-variant hover:text-primary-container transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:text-error transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 4: Approved -->
-<tr class="hover:bg-surface-container-lowest transition-colors group">
-<td class="px-8 py-5 font-bold text-primary tracking-tight">#BM-7739</td>
-<td class="px-6 py-5">
-<div class="flex items-center">
-<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-[10px] font-bold text-primary mr-3">LM</div>
-<div>
-<p class="text-sm font-semibold text-on-surface">Lý Minh</p>
-<p class="text-[10px] text-on-surface-variant">ID: 25012</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<p class="text-sm font-medium text-on-surface max-w-[200px] truncate">Cơ sở dữ liệu nâng cao</p>
-</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant">20/10/2023</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant">03/11/2023</td>
-<td class="px-6 py-5">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary-fixed text-on-primary-fixed-variant">
-<span class="w-1.5 h-1.5 rounded-full bg-primary mr-1.5"></span>
-                                        Approved
-                                    </span>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex items-center justify-end space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 text-on-surface-variant hover:text-primary-container transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:text-error transition-colors">
-<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<!-- Pagination -->
-<div class="px-8 py-6 flex items-center justify-between bg-surface-container-lowest">
-<p class="text-sm text-on-surface-variant">Đang hiển thị <span class="font-bold text-primary">1 - 4</span> của 24 đơn mượn</p>
-<div class="flex space-x-2">
-<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/30 text-on-surface-variant hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
-</button>
-<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold">1</button>
-<button class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors">2</button>
-<button class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors">3</button>
-<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/30 text-on-surface-variant hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
-</button>
-</div>
-</div>
-</section>
-<!-- Asymmetric Informational Cards -->
-<div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-<div class="lg:col-span-3 bg-surface-container-high rounded-2xl p-8 relative overflow-hidden group">
-<div class="relative z-10">
-<span class="inline-block px-3 py-1 bg-tertiary/20 text-tertiary text-[10px] font-black uppercase tracking-widest rounded mb-4">Lưu ý nghiệp vụ</span>
-<h4 class="text-2xl font-black text-primary leading-tight max-w-sm">Quy trình gia hạn sách trực tuyến đã được cập nhật.</h4>
-<p class="text-sm text-on-surface-variant mt-4 max-w-md">Các yêu cầu gia hạn giờ đây sẽ được hệ thống tự động đánh giá dựa trên lịch sử trả sách của bạn đọc và mức độ ưu tiên của tựa sách.</p>
-<button class="mt-8 flex items-center space-x-2 text-primary font-bold text-sm hover:underline">
-<span>Xem chi tiết quy trình</span>
-<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
-</button>
-</div>
-<div class="absolute -right-12 -bottom-12 w-64 h-64 opacity-10 group-hover:scale-110 transition-transform duration-500">
-<span class="material-symbols-outlined text-[200px]" data-icon="history_edu">history_edu</span>
-</div>
-</div>
-<div class="lg:col-span-2 bg-[#533528] rounded-2xl p-8 text-on-primary relative flex flex-col justify-between">
-<div>
-<h4 class="text-lg font-bold">Tài liệu cần thu hồi</h4>
-<p class="text-xs text-on-primary-container mt-1 opacity-80">Danh sách sách quá hạn trên 14 ngày</p>
-</div>
-<div class="mt-6 space-y-4">
-<div class="flex justify-between items-center bg-white/5 p-3 rounded-lg border border-white/10">
-<span class="text-sm font-medium">Chiến Tranh và Hòa Bình</span>
-<span class="text-xs font-bold bg-error px-2 py-0.5 rounded">QUÁ HẠN</span>
-</div>
-<div class="flex justify-between items-center bg-white/5 p-3 rounded-lg border border-white/10">
-<span class="text-sm font-medium">Bắt Trẻ Đồng Xanh</span>
-<span class="text-xs font-bold bg-error px-2 py-0.5 rounded">QUÁ HẠN</span>
-</div>
-</div>
-<button class="w-full mt-6 py-3 bg-[#eabdaa] text-[#2d1509] rounded-lg font-bold text-sm hover:bg-[#ffdbcc] transition-colors">
-                        Gửi thông báo nhắc nhở
+<main class="ml-64 flex-1 flex flex-col min-h-screen">
+    <!-- TopNavBar Shell -->
+    <header
+        class="bg-[#fdf9f5]/80 dark:bg-stone-950/80 backdrop-blur-xl sticky top-0 z-40 w-full px-8 py-4 flex justify-between items-center font-['Plus_Jakarta_Sans'] tracking-tight">
+        <div class="flex items-center space-x-6 flex-1">
+            <h2 class="text-xl font-bold text-[#533528] dark:text-[#f7f3ef] mr-8">Quản lý đơn mượn</h2>
+            <div class="relative w-full max-w-md group">
+                <span
+                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/50 group-focus-within:text-tertiary transition-colors"
+                    data-icon="search">search</span>
+                <input
+                    class="w-full bg-surface-container-high border-none rounded-full py-2.5 pl-12 pr-4 text-sm focus:ring-2 focus:ring-tertiary/20 placeholder-on-surface-variant/40 transition-all"
+                    placeholder="Tìm kiếm đơn mượn, tên bạn đọc..." type="text" />
+            </div>
+        </div>
+        <div class="flex items-center space-x-6">
+            <div class="flex items-center space-x-2">
+                <button class="p-2 rounded-full hover:bg-surface-container transition-colors relative">
+                    <span class="material-symbols-outlined text-[#6d4c3d]"
+                        data-icon="notifications">notifications</span>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
+                </button>
+                <button class="p-2 rounded-full hover:bg-surface-container transition-colors">
+                    <span class="material-symbols-outlined text-[#6d4c3d]" data-icon="settings">settings</span>
+                </button>
+            </div>
+            <div class="h-10 w-[1px] bg-outline-variant/30"></div>
+            <div class="flex items-center space-x-3">
+                <div class="text-right hidden sm:block">
+                    <p class="text-xs font-bold text-[#533528]">Admin Profile</p>
+                    <p class="text-[10px] text-on-surface-variant">Librarian Senior</p>
+                </div>
+                <img alt="Admin Profile"
+                    class="w-10 h-10 rounded-full object-cover border-2 border-primary-container/20 shadow-sm"
+                    data-alt="portrait of a professional male librarian in a crisp white shirt with soft studio lighting and warm tones"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5VgVMCP_wLriguGsAEhG6nTP5BaxXIiI2XXQ_N3tJOPiywx1z1NzT761P6Wzz-UFAPi5yoJ3Ef33G4STSYY-uRsaEgkQyZUHX57uAA7zkCKMKEvdRn1ZHbAUffN5Is5ic5hqP-8B_B8KVastpXKMXUZEi75BEFyII_O0s8fYnJbxloCI2ZgdH2x_6zeZx-ZVtDtUBtoK228JAXF1QarD8W8RZHuKvz_Pm6ovqqKXlkVYZ9UD0MLxmT_X0gVMKDDw8glR0tOl8LAp7" />
+            </div>
+        </div>
+    </header>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="space-y-2">
+        {% for category, message in messages %}
+        <div class="p-4 rounded-xl text-sm font-medium flex items-center gap-3
+            {% if category == 'success' %}
+                bg-tertiary-container text-tertiary
+            {% elif category == 'error' %}
+                bg-error-container text-error
+            {% else %}
+                bg-surface-container-high text-on-surface
+            {% endif %}">
+            <span class="material-symbols-outlined">{{ 'check_circle' if category == 'success' else 'error' if category == 'error' else 'info' }}</span>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <!-- Content Canvas -->
+    <div class="p-8 space-y-8 max-w-7xl mx-auto w-full">
+        <!-- Summary Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl shadow-[4px_0_24px_rgba(28,28,25,0.04)] border-b-2 border-primary-container/10 transition-transform duration-300 hover:scale-[1.02]">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-2 bg-tertiary/10 rounded-lg">
+                        <span class="material-symbols-outlined text-tertiary"
+                            data-icon="pending_actions">pending_actions</span>
+                    </div>
+                    <span class="text-xs font-medium text-on-surface-variant">+12 hôm nay</span>
+                </div>
+                <h3 class="text-on-surface-variant text-sm font-medium">Đang chờ duyệt</h3>
+                <p class="text-3xl font-black text-primary mt-1">24</p>
+            </div>
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl shadow-[4px_0_24px_rgba(28,28,25,0.04)] border-b-2 border-primary-container/10 transition-transform duration-300 hover:scale-[1.02]">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-2 bg-primary-container/10 rounded-lg">
+                        <span class="material-symbols-outlined text-primary-container"
+                            data-icon="check_circle">check_circle</span>
+                    </div>
+                    <span class="text-xs font-medium text-on-surface-variant">Tháng này</span>
+                </div>
+                <h3 class="text-on-surface-variant text-sm font-medium">Đã phê duyệt</h3>
+                <p class="text-3xl font-black text-primary mt-1">156</p>
+            </div>
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl shadow-[4px_0_24px_rgba(28,28,25,0.04)] border-b-2 border-primary-container/10 transition-transform duration-300 hover:scale-[1.02]">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-2 bg-outline/10 rounded-lg">
+                        <span class="material-symbols-outlined text-outline"
+                            data-icon="assignment_return">assignment_return</span>
+                    </div>
+                    <span class="text-xs font-medium text-on-surface-variant">Tỷ lệ 92%</span>
+                </div>
+                <h3 class="text-on-surface-variant text-sm font-medium">Đã trả sách</h3>
+                <p class="text-3xl font-black text-primary mt-1">1,204</p>
+            </div>
+        </div>
+        <!-- Table Section -->
+        <section class="bg-surface-container-low rounded-2xl overflow-hidden shadow-sm">
+            <div
+                class="px-8 py-6 flex justify-between items-center border-b border-outline-variant/20 bg-surface-container-lowest">
+                <div class="space-y-1">
+                    <h3 class="text-lg font-bold text-primary">Danh sách đơn mượn</h3>
+                    <p class="text-xs text-on-surface-variant">Quản lý và cập nhật trạng thái các yêu cầu mượn sách</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button
+                        class="flex items-center space-x-2 px-4 py-2 bg-surface-container-high text-on-surface-variant text-sm font-semibold rounded-lg hover:bg-surface-container-highest transition-colors">
+                        <span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+                        <span>Lọc</span>
                     </button>
-</div>
-</div>
-</div>
-<!-- Footer -->
-<footer class="mt-auto px-8 py-6 border-t border-outline-variant/20 bg-surface-container-low text-on-surface-variant flex flex-col md:flex-row justify-between items-center gap-4">
-<p class="text-xs">© 2023 The Curated Archive Admin. Toàn quyền bảo lưu.</p>
-<div class="flex space-x-6 text-xs font-medium">
-<a class="hover:text-primary transition-colors" href="#">Hướng dẫn sử dụng</a>
-<a class="hover:text-primary transition-colors" href="#">Chính sách bảo mật</a>
-<a class="hover:text-primary transition-colors" href="#">Liên hệ hỗ trợ</a>
-</div>
-</footer>
-</main>
-{% endblock %}
+                    <button
+                        class="flex items-center space-x-2 px-6 py-2 bg-primary text-on-primary text-sm font-bold rounded-lg shadow-md hover:scale-[1.03] transition-all">
+                        <span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                        <span>+ Tạo đơn mới</span>
+                    </button>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr
+                            class="bg-surface-container/50 text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                            <th class="px-8 py-5">Mã đơn</th>
+                            <th class="px-6 py-5">Bạn đọc</th>
+                            <th class="px-6 py-5">Tên sách</th>
+                            <th class="px-6 py-5">Ngày mượn</th>
+                            <th class="px-6 py-5">Hạn trả</th>
+                            <th class="px-6 py-5">Trạng thái</th>
+                            <th class="px-8 py-5 text-right">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant/10">
+                        {% for slip in borrow_slips.items %}
+                        <tr class="hover:bg-surface-container-lowest transition-colors group">
+                            <td class="px-8 py-5 font-bold text-primary tracking-tight">#DM-{{ slip.id }}</td>
+                            <td class="px-6 py-5">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-[10px] font-bold text-primary mr-3">
+                                        {{ slip.reader.full_name[:2]|upper if slip.reader else 'NA' }}
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-on-surface">{{ slip.reader.full_name if slip.reader else 'Unknown' }}</p>
+                                        <p class="text-[10px] text-on-surface-variant">ID: {{ slip.reader_id }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5">
+                                <p class="text-sm font-medium text-on-surface max-w-[200px] truncate">{{ slip.book.title if slip.book else 'Unknown' }}</p>
+                            </td>
+                            <td class="px-6 py-5 text-sm text-on-surface-variant">
+                                {{ slip.borrow_date.strftime('%d/%m/%Y') if slip.borrow_date else '-' }}
+                            </td>
+                            <td class="px-6 py-5 text-sm {% if slip.status.value == 'OVERDUE' %}text-error font-bold{% else %}text-on-surface-variant{% endif %}">
+                                {{ slip.due_date.strftime('%d/%m/%Y') if slip.due_date else '-' }}
+                            </td>
+                            <td class="px-6 py-5">
+                                {% if slip.status.value == 'RESERVED' %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-tertiary-fixed text-tertiary">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5"></span>
+                                    Chờ duyệt
+                                </span>
+                                {% elif slip.status.value == 'BORROWING' %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary-fixed text-on-primary-fixed-variant">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-primary mr-1.5"></span>
+                                    Đang mượn
+                                </span>
+                                {% elif slip.status.value == 'RETURNED' %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-surface-container-highest text-secondary">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1.5"></span>
+                                    Đã trả
+                                </span>
+                                {% elif slip.status.value == 'OVERDUE' %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-error-container text-error">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-error mr-1.5"></span>
+                                    Quá hạn
+                                </span>
+                                {% elif slip.status.value == 'REJECT' %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-gray-200 text-gray-700">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-gray-500 mr-1.5"></span>
+                                    Từ chối
+                                </span>
+                                {% elif slip.status.value == 'LOST' %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-black text-white">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-white mr-1.5"></span>
+                                    Mất
+                                </span>
+                                {% elif slip.status.value == 'DAMAGED' %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-orange-200 text-orange-700">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-orange-500 mr-1.5"></span>
+                                    Hư hỏng
+                                </span>
+                                {% else %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-surface-container-high text-on-surface">
+                                    {{ slip.status.value }}
+                                </span>
+                                {% endif %}
+                            </td>
+                            <td class="px-8 py-5 text-right">
+                                <div class="flex items-center justify-end space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    {% if slip.status.value == 'RESERVED' %}
+                                    <button data-slip-id="{{ slip.id }}" data-reader="{{ slip.reader.full_name if slip.reader else 'Unknown' }}" data-book="{{ slip.book.title if slip.book else 'Unknown' }}"
+                                        onclick="openApproveModal(this)"
+                                        class="p-2 text-on-surface-variant hover:text-tertiary transition-colors" title="Phê duyệt">
+                                        <span class="material-symbols-outlined text-lg">check_circle</span>
+                                    </button>
+                                    <button data-slip-id="{{ slip.id }}" data-reader="{{ slip.reader.full_name if slip.reader else 'Unknown' }}" data-book="{{ slip.book.title if slip.book else 'Unknown' }}"
+                                        onclick="openRejectModal(this)"
+                                        class="p-2 text-on-surface-variant hover:text-error transition-colors" title="Từ chối">
+                                        <span class="material-symbols-outlined text-lg">cancel</span>
+                                    </button>
+                                    {% endif %}
+                                    <button class="p-2 text-on-surface-variant hover:text-primary-container transition-colors" title="Xem chi tiết">
+                                        <span class="material-symbols-outlined text-lg">visibility</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7" class="px-8 py-12 text-center">
+                                <span class="material-symbols-outlined text-4xl text-outline-variant mb-2">inbox</span>
+                                <p class="text-on-surface-variant">Không có đơn mượn nào.</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination -->
+            <div class="px-8 py-6 flex items-center justify-between bg-surface-container-lowest">
+                <p class="text-sm text-on-surface-variant">
+                    Đang hiển thị <span class="font-bold text-primary">
+                        {{ (borrow_slips.page - 1) * borrow_slips.per_page + 1 if borrow_slips.items else 0 }} -
+                        {{ [borrow_slips.page * borrow_slips.per_page, borrow_slips.total] | min }}
+                    </span> của {{ borrow_slips.total }} đơn mượn
+                </p>
+                <div class="flex space-x-2">
+                    {% if borrow_slips.has_prev %}
+                    <a href="{{ url_for('admin_borrow_slip_management', page=borrow_slips.prev_num, status=status_filter) }}"
+                        class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/30 text-on-surface-variant hover:bg-surface-container transition-colors">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </a>
+                    {% else %}
+                    <button disabled
+                        class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/30 text-on-surface-variant/40 cursor-not-allowed">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                    {% endif %}
 
+                    {% for page_num in borrow_slips.iter_pages(left_edge=1, left_current=2, right_current=2, right_edge=1) %}
+                        {% if page_num %}
+                            {% if page_num == borrow_slips.page %}
+                            <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold">{{ page_num }}</button>
+                            {% else %}
+                            <a href="{{ url_for('admin_borrow_slip_management', page=page_num, status=status_filter) }}"
+                                class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors">{{ page_num }}</a>
+                            {% endif %}
+                        {% else %}
+                            <span class="w-10 h-10 flex items-center justify-center text-on-surface-variant">...</span>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if borrow_slips.has_next %}
+                    <a href="{{ url_for('admin_borrow_slip_management', page=borrow_slips.next_num, status=status_filter) }}"
+                        class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/30 text-on-surface-variant hover:bg-surface-container transition-colors">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </a>
+                    {% else %}
+                    <button disabled
+                        class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/30 text-on-surface-variant/40 cursor-not-allowed">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        <!-- Asymmetric Informational Cards -->
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            <div class="lg:col-span-3 bg-surface-container-high rounded-2xl p-8 relative overflow-hidden group">
+                <div class="relative z-10">
+                    <span
+                        class="inline-block px-3 py-1 bg-tertiary/20 text-tertiary text-[10px] font-black uppercase tracking-widest rounded mb-4">Lưu
+                        ý nghiệp vụ</span>
+                    <h4 class="text-2xl font-black text-primary leading-tight max-w-sm">Quy trình gia hạn sách trực
+                        tuyến đã được cập nhật.</h4>
+                    <p class="text-sm text-on-surface-variant mt-4 max-w-md">Các yêu cầu gia hạn giờ đây sẽ được hệ
+                        thống tự động đánh giá dựa trên lịch sử trả sách của bạn đọc và mức độ ưu tiên của tựa sách.</p>
+                    <button class="mt-8 flex items-center space-x-2 text-primary font-bold text-sm hover:underline">
+                        <span>Xem chi tiết quy trình</span>
+                        <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+                    </button>
+                </div>
+                <div
+                    class="absolute -right-12 -bottom-12 w-64 h-64 opacity-10 group-hover:scale-110 transition-transform duration-500">
+                    <span class="material-symbols-outlined text-[200px]" data-icon="history_edu">history_edu</span>
+                </div>
+            </div>
+            <div
+                class="lg:col-span-2 bg-[#533528] rounded-2xl p-8 text-on-primary relative flex flex-col justify-between">
+                <div>
+                    <h4 class="text-lg font-bold">Tài liệu cần thu hồi</h4>
+                    <p class="text-xs text-on-primary-container mt-1 opacity-80">Danh sách sách quá hạn trên 14 ngày</p>
+                </div>
+                <div class="mt-6 space-y-4">
+                    <div class="flex justify-between items-center bg-white/5 p-3 rounded-lg border border-white/10">
+                        <span class="text-sm font-medium">Chiến Tranh và Hòa Bình</span>
+                        <span class="text-xs font-bold bg-error px-2 py-0.5 rounded">QUÁ HẠN</span>
+                    </div>
+                    <div class="flex justify-between items-center bg-white/5 p-3 rounded-lg border border-white/10">
+                        <span class="text-sm font-medium">Bắt Trẻ Đồng Xanh</span>
+                        <span class="text-xs font-bold bg-error px-2 py-0.5 rounded">QUÁ HẠN</span>
+                    </div>
+                </div>
+                <button
+                    class="w-full mt-6 py-3 bg-[#eabdaa] text-[#2d1509] rounded-lg font-bold text-sm hover:bg-[#ffdbcc] transition-colors">
+                    Gửi thông báo nhắc nhở
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer
+        class="mt-auto px-8 py-6 border-t border-outline-variant/20 bg-surface-container-low text-on-surface-variant flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-xs"> 2023 The Curated Archive Admin. Toàn quyền bảo lưu.</p>
+        <div class="flex space-x-6 text-xs font-medium">
+            <a class="hover:text-primary transition-colors" href="#">Hướng dẫn sử dụng</a>
+            <a class="hover:text-primary transition-colors" href="#">Chính sách bảo mật</a>
+            <a class="hover:text-primary transition-colors" href="#">Liên hệ hỗ trợ</a>
+        </div>
+    </footer>
+</main>
+
+<!-- Approve Modal -->
+<div id="approveModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+    <div class="bg-surface-container-low rounded-2xl p-8 w-full max-w-md shadow-2xl">
+        <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 bg-tertiary-container rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-3xl text-tertiary">check_circle</span>
+            </div>
+            <h2 class="text-2xl font-headline font-bold text-primary mb-2">Phê duyệt đơn mượn</h2>
+            <p class="text-on-surface-variant mb-2">Bạn có chắc chắn muốn phê duyệt đơn mượn này?</p>
+            <div class="bg-surface-container-high rounded-lg p-4 mb-6 text-left w-full">
+                <p class="text-sm"><strong>Độc giả:</strong> <span id="approveReader"></span></p>
+                <p class="text-sm"><strong>Sách:</strong> <span id="approveBook"></span></p>
+            </div>
+            <form id="approveForm" method="POST" action="">
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeApproveModal()" class="px-6 py-2 rounded-lg font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        Hủy
+                    </button>
+                    <button type="submit" class="bg-tertiary text-on-tertiary px-6 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] transition-transform">
+                        <span class="material-symbols-outlined text-sm">check</span>
+                        Duyệt đơn
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div id="rejectModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+    <div class="bg-surface-container-low rounded-2xl p-8 w-full max-w-md shadow-2xl">
+        <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 bg-error-container rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-3xl text-error">cancel</span>
+            </div>
+            <h2 class="text-2xl font-headline font-bold text-primary mb-2">Từ chối đơn mượn</h2>
+            <p class="text-on-surface-variant mb-2">Bạn có chắc chắn muốn từ chối đơn mượn này?</p>
+            <div class="bg-surface-container-high rounded-lg p-4 mb-4 text-left w-full">
+                <p class="text-sm"><strong>Độc giả:</strong> <span id="rejectReader"></span></p>
+                <p class="text-sm"><strong>Sách:</strong> <span id="rejectBook"></span></p>
+            </div>
+            <form id="rejectForm" method="POST" action="" class="w-full">
+                <div class="mb-4 text-left">
+                    <label class="block text-sm font-semibold text-on-surface mb-2">Lý do từ chối:</label>
+                    <textarea id="rejectNote" name="reject_note" rows="3" placeholder="Nhập lý do từ chối..."
+                        class="w-full bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-error resize-none"></textarea>
+                </div>
+                <div class="flex gap-3 justify-center">
+                    <button type="button" onclick="closeRejectModal()" class="px-6 py-2 rounded-lg font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        Hủy
+                    </button>
+                    <button type="submit" class="bg-error text-on-error px-6 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] transition-transform">
+                        <span class="material-symbols-outlined text-sm">block</span>
+                        Từ chối
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function openApproveModal(button) {
+    const slipId = button.dataset.slipId;
+    const reader = button.dataset.reader;
+    const book = button.dataset.book;
+
+    document.getElementById('approveReader').textContent = reader;
+    document.getElementById('approveBook').textContent = book;
+    document.getElementById('approveForm').action = `/admin/borrow-slip/${slipId}/approve/`;
+    document.getElementById('approveModal').classList.remove('hidden');
+}
+
+function closeApproveModal() {
+    document.getElementById('approveModal').classList.add('hidden');
+}
+
+function openRejectModal(button) {
+    const slipId = button.dataset.slipId;
+    const reader = button.dataset.reader;
+    const book = button.dataset.book;
+
+    document.getElementById('rejectReader').textContent = reader;
+    document.getElementById('rejectBook').textContent = book;
+    document.getElementById('rejectForm').action = `/admin/borrow-slip/${slipId}/reject/`;
+    document.getElementById('rejectModal').classList.remove('hidden');
+}
+
+function closeRejectModal() {
+    document.getElementById('rejectModal').classList.add('hidden');
+    document.getElementById('rejectNote').value = '';
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+    if (event.target.id === 'approveModal') {
+        closeApproveModal();
+    }
+    if (event.target.id === 'rejectModal') {
+        closeRejectModal();
+    }
+}
+</script>
+
+{% endblock %}

@@ -1,300 +1,270 @@
 {% extends 'librarian/layout.html' %}
 
 {% block content %}
-<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f7f3ef] dark:bg-stone-900 font-['Plus_Jakarta_Sans'] text-sm antialiased flex flex-col p-4 gap-4 z-40">
-<div class="flex items-center gap-3 px-2 py-4">
-<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary">
-<span class="material-symbols-outlined" data-icon="local_library">local_library</span>
-</div>
-<div>
-<h2 class="text-lg font-black tracking-tighter text-[#533528]">Thủ Thư</h2>
-<p class="text-xs opacity-70">Hệ thống quản lý</p>
-</div>
-</div>
-<nav class="flex-1 space-y-2">
-<!-- Active Tab: Dashboard (Adjusted active state styling for this specific page) -->
-<a class="flex items-center gap-3 px-3 py-2.5 bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] rounded-md shadow-sm font-bold" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-                Dashboard
-            </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02] transition-all duration-200 rounded-md" href="#">
-<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
-                Quản lý sách
-            </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02] transition-all duration-200 rounded-md" href="#">
-<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
-                Quản lý đơn mượn
-            </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02] transition-all duration-200 rounded-md" href="#">
-<span class="material-symbols-outlined" data-icon="group">group</span>
-                Quản lý người dùng
-            </a>
-</nav>
-<!-- Librarian profile section (Synced with SCREEN_9) -->
-<div class="mt-auto p-3 bg-surface-container rounded-lg flex items-center gap-3">
-<img alt="Ảnh đại diện Thủ thư" class="w-8 h-8 rounded-full object-cover" data-alt="Close-up portrait of a professional librarian woman with glasses and a warm smile in a brightly lit modern library" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTz7vqaxB3J2gL1nZaODeKQSScm800305f1294TCcVOLnKWtCv5FM1NxSXKpUI-xl5Mu035ybvVxsdBCEQpG1BRV-Zvp-3qVqXZFnSwU3IbeG1mvGSUlTBo6o2n2VFIUJWqLhge3uumiCES-fOTgT3OWBKaatFW2ghpPRasPlOLmaeDeyMDsq-oWfyeeJFoFioeruGbGNBX4CeqdwHendMeSTFUZ8Vumimx4g8C5uLZ7HskX1Zok1WBj-pnmTRQChYspu4o5j1p4Yq"/>
-<div class="overflow-hidden">
-<p class="text-xs font-bold truncate">Nguyễn Thư Kỳ</p>
-<p class="text-[10px] opacity-60">Thủ thư trưởng</p>
-</div>
-</div>
-</aside>
 <!-- Main Content Area -->
 <main class="flex-1 ml-64 min-h-screen flex flex-col">
-<!-- TopNavBar Component -->
-<header class="docked full-width top-0 sticky z-30 bg-[#fdf9f5] dark:bg-stone-950 backdrop-blur-md opacity-90 shadow-sm dark:shadow-none font-['Plus_Jakarta_Sans'] font-semibold tracking-tight">
-<div class="flex justify-between items-center w-full px-6 py-3">
-<div class="flex items-center gap-4 flex-1">
-<div class="relative w-full max-w-md">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary/50 text-xl" data-icon="search">search</span>
-<input class="w-full bg-surface-container-high border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-tertiary transition-all" placeholder="Tìm kiếm sách, độc giả..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-6">
-<div class="flex items-center gap-4">
-<button class="text-[#533528] dark:text-[#D9A066] hover:bg-[#f7f3ef] p-2 rounded-full transition-colors duration-200 scale-105">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<button class="text-[#533528] dark:text-[#D9A066] hover:bg-[#f7f3ef] p-2 rounded-full transition-colors duration-200 scale-105">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-</button>
-</div>
-<div class="h-8 w-[1px] bg-[#f7f3ef] dark:bg-stone-900 mx-2"></div>
-<div class="flex items-center gap-3">
-<span class="text-sm font-bold text-[#533528]">Thư Viện</span>
-<div class="w-8 h-8 rounded-full bg-tertiary-container overflow-hidden">
-<img alt="Ảnh đại diện Thủ thư" class="w-full h-full object-cover" data-alt="headshot of a male librarian in professional attire, indoor soft library lighting, high quality" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqaq1uAouWXaODnnzscajVTsGtmBpAepcTa04o5hRb0v2cNOM_k2Hm5VRCpFZV2s671CT2McR6V8a4-gP9IwrODH4IqxqMXnZ8ZQ4UI_eQ8Rg4MkO6xkQq5FsTt0AoTzKLX0Ov5Ju6EYeyTvOGPHeeWk9BFN87r5h1bNxfKOr76yurWZ7dVnoMqtWWnwum_PDOVm6ubx-WS5_eXpIW6chjD6vwktJqCDpH_7HHLdR2jDqEaTCWCg-fxzxFwWRTKLOYxwkE5gcszuww"/>
-</div>
-</div>
-</div>
-</div>
-<div class="bg-[#f7f3ef] dark:bg-stone-900 h-[1px] w-full"></div>
-</header>
-<!-- Dashboard Canvas -->
-<section class="p-8 space-y-8 max-w-7xl mx-auto w-full">
-<!-- Header Section -->
-<div class="flex justify-between items-end">
-<div>
-<h2 class="text-3xl font-headline font-extrabold tracking-tight text-primary">Tổng quan hệ thống</h2>
-<p class="text-secondary mt-1">Chào mừng trở lại, hôm nay có 12 yêu cầu mượn mới đang chờ xử lý.</p>
-</div>
-<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg flex items-center gap-2 hover:scale-[1.03] transition-all duration-300 font-medium text-sm">
-<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
-                    Thêm sách mới
-                </button>
-</div>
-<!-- Stats Bento Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] border-none hover:scale-[1.02] transition-all duration-300 group">
-<div class="flex justify-between items-start mb-4">
-<div class="p-3 bg-primary-container/10 rounded-lg group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
-<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
-</div>
-<span class="text-xs font-bold text-tertiary bg-tertiary-fixed px-2 py-1 rounded">+2.4%</span>
-</div>
-<p class="text-secondary text-sm font-medium uppercase tracking-wider">Tổng số sách</p>
-<h3 class="text-3xl font-headline font-bold text-primary mt-1">12,842</h3>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] border-none hover:scale-[1.02] transition-all duration-300 group">
-<div class="flex justify-between items-start mb-4">
-<div class="p-3 bg-primary-container/10 rounded-lg group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
-<span class="material-symbols-outlined" data-icon="book_5">book_5</span>
-</div>
-<span class="text-xs font-bold text-error bg-error-container px-2 py-1 rounded">-0.8%</span>
-</div>
-<p class="text-secondary text-sm font-medium uppercase tracking-wider">Đang cho mượn</p>
-<h3 class="text-3xl font-headline font-bold text-primary mt-1">856</h3>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] border-none hover:scale-[1.02] transition-all duration-300 group">
-<div class="flex justify-between items-start mb-4">
-<div class="p-3 bg-primary-container/10 rounded-lg group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
-<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
-</div>
-<div class="w-3 h-3 bg-error rounded-full animate-pulse"></div>
-</div>
-<p class="text-secondary text-sm font-medium uppercase tracking-wider">Yêu cầu mới</p>
-<h3 class="text-3xl font-headline font-bold text-primary mt-1">12</h3>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] border-none hover:scale-[1.02] transition-all duration-300 group">
-<div class="flex justify-between items-start mb-4">
-<div class="p-3 bg-primary-container/10 rounded-lg group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
-<span class="material-symbols-outlined" data-icon="person_celebrate">person_celebrate</span>
-</div>
-<span class="text-xs font-bold text-tertiary bg-tertiary-fixed px-2 py-1 rounded">+12%</span>
-</div>
-<p class="text-secondary text-sm font-medium uppercase tracking-wider">Độc giả tích cực</p>
-<h3 class="text-3xl font-headline font-bold text-primary mt-1">1,204</h3>
-</div>
-</div>
-<!-- Middle Section: Chart & Activities -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-<!-- Activity Chart Placeholder -->
-<div class="lg:col-span-2 bg-surface-container-low p-8 rounded-xl relative overflow-hidden flex flex-col">
-<div class="flex justify-between items-center mb-8">
-<h3 class="text-xl font-headline font-bold text-primary">Hoạt động mượn trả gần đây</h3>
-<div class="flex gap-2">
-<button class="bg-surface px-3 py-1.5 text-xs font-bold text-primary rounded-md border-none shadow-sm">Tuần này</button>
-<button class="px-3 py-1.5 text-xs font-medium text-secondary rounded-md">Tháng này</button>
-</div>
-</div>
-<!-- Simplified Visual Chart using pure Tailwind -->
-<div class="flex-1 flex items-end gap-4 h-64 mt-4">
-<div class="flex-1 flex flex-col items-center gap-2">
-<div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[65%]"></div>
-</div>
-<span class="text-[10px] text-secondary font-bold uppercase">Th2</span>
-</div>
-<div class="flex-1 flex flex-col items-center gap-2">
-<div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[45%]"></div>
-</div>
-<span class="text-[10px] text-secondary font-bold uppercase">Th3</span>
-</div>
-<div class="flex-1 flex flex-col items-center gap-2">
-<div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[85%]"></div>
-</div>
-<span class="text-[10px] text-secondary font-bold uppercase">Th4</span>
-</div>
-<div class="flex-1 flex flex-col items-center gap-2">
-<div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[35%]"></div>
-</div>
-<span class="text-[10px] text-secondary font-bold uppercase">Th5</span>
-</div>
-<div class="flex-1 flex flex-col items-center gap-2">
-<div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[95%]"></div>
-</div>
-<span class="text-[10px] text-secondary font-bold uppercase">Th6</span>
-</div>
-<div class="flex-1 flex flex-col items-center gap-2">
-<div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[55%]"></div>
-</div>
-<span class="text-[10px] text-secondary font-bold uppercase">Th7</span>
-</div>
-<div class="flex-1 flex flex-col items-center gap-2">
-<div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
-<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[25%]"></div>
-</div>
-<span class="text-[10px] text-secondary font-bold uppercase">CN</span>
-</div>
-</div>
-</div>
-<!-- Latest Activity Feed -->
-<div class="bg-surface-container-low p-8 rounded-xl">
-<div class="flex justify-between items-center mb-6">
-<h3 class="text-xl font-headline font-bold text-primary">Hoạt động mới nhất</h3>
-<a class="text-xs font-bold text-tertiary hover:underline" href="#">Xem tất cả</a>
-</div>
-<div class="space-y-6">
-<!-- Activity Item -->
-<div class="flex gap-4">
-<div class="w-10 h-10 rounded-full bg-surface shrink-0 flex items-center justify-center">
-<span class="material-symbols-outlined text-primary text-xl" data-icon="history_edu">history_edu</span>
-</div>
-<div>
-<p class="text-sm text-on-surface font-medium"><span class="font-bold">Nguyễn Văn A</span> đã mượn cuốn "Đắc Nhân Tâm"</p>
-<span class="text-[11px] text-secondary">2 phút trước</span>
-</div>
-</div>
-<!-- Activity Item -->
-<div class="flex gap-4">
-<div class="w-10 h-10 rounded-full bg-surface shrink-0 flex items-center justify-center">
-<span class="material-symbols-outlined text-tertiary text-xl" data-icon="assignment_return">assignment_return</span>
-</div>
-<div>
-<p class="text-sm text-on-surface font-medium"><span class="font-bold">Trần Thị B</span> đã trả cuốn "Nhà Giả Kim"</p>
-<span class="text-[11px] text-secondary">15 phút trước</span>
-</div>
-</div>
-<!-- Activity Item -->
-<div class="flex gap-4">
-<div class="w-10 h-10 rounded-full bg-surface shrink-0 flex items-center justify-center">
-<span class="material-symbols-outlined text-error text-xl" data-icon="warning">warning</span>
-</div>
-<div>
-<p class="text-sm text-on-surface font-medium"><span class="font-bold">Lê Văn C</span> quá hạn trả sách "Tâm Lý Học"</p>
-<span class="text-[11px] text-secondary">1 giờ trước</span>
-</div>
-</div>
-<!-- Activity Item -->
-<div class="flex gap-4">
-<div class="w-10 h-10 rounded-full bg-surface shrink-0 flex items-center justify-center">
-<span class="material-symbols-outlined text-primary text-xl" data-icon="person_add">person_add</span>
-</div>
-<div>
-<p class="text-sm text-on-surface font-medium">Độc giả mới: <span class="font-bold">Phạm Minh D</span></p>
-<span class="text-[11px] text-secondary">3 giờ trước</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Asymmetric Bottom Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<!-- Top Readers Card -->
-<div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)]">
-<h3 class="text-xl font-headline font-bold text-primary mb-6">Độc giả tích cực nhất tháng</h3>
-<div class="space-y-4">
-<div class="flex items-center justify-between p-4 hover:bg-surface-container-low rounded-lg transition-colors group">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-full overflow-hidden">
-<img alt="Độc giả" class="w-full h-full object-cover" data-alt="portrait of a smiling young woman, academic library background, natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtxs26xOcB51LH89AQFSL1_-RZdozBo9HVTwhakyyV3Vh3xtu3_jcil1arxBQQ-HRC5HMUOQgKojQNbZhFi0hBIOCtq35Vj62GBs-OZ846LE-Q8V0E54Wq_bDeKPt0oUtVs-lkIu1ZrZnz-Xk-WN59wuL801AxMcIG_MeNAiBv1JEr-Zl2VY3S1zITikrf2FoYgzQ8UX5Z0ILLNZE6NZ9v1CNOtJ6lnFGE0vjVEK3lHQGO7LACuQeDBGREEo15qz4PnunhLOnwf3D_"/>
-</div>
-<div>
-<h4 class="text-sm font-bold text-on-surface">Hoàng Mỹ Linh</h4>
-<p class="text-xs text-secondary">ID: LIB-2024-001</p>
-</div>
-</div>
-<div class="text-right">
-<span class="text-lg font-headline font-bold text-primary">24</span>
-<p class="text-[10px] uppercase text-secondary font-bold">Cuốn sách</p>
-</div>
-</div>
-<div class="flex items-center justify-between p-4 hover:bg-surface-container-low rounded-lg transition-colors group">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-full overflow-hidden">
-<img alt="Độc giả" class="w-full h-full object-cover" data-alt="portrait of a young man, studious look, neutral background, cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUqewFqjBcXZfHCtVqQtTCSAIF--zIAIvi88ZTySdg6CNpspgNHzTsrjMmFArQr_Td-isvdxPXCqwEAd05zD1gqVpcy7bG-qwKuDytbVlV3diZxdeAqpFbcxCVJh1k9Upulkk28rucop_MdFU4edwgZ1ZKOtcFetGBPdWGoiiDThaRgBoCkuGNnmZ1IBnG-UXyYGCxnNnQkWmEmGDCrW1Nd6D2ua3PO6l8tNVeYqf1VDG4ertd5aSDMuGW2M0O6kMfRV9SV_ZcyuXm"/>
-</div>
-<div>
-<h4 class="text-sm font-bold text-on-surface">Đỗ Tiến Thành</h4>
-<p class="text-xs text-secondary">ID: LIB-2024-042</p>
-</div>
-</div>
-<div class="text-right">
-<span class="text-lg font-headline font-bold text-primary">18</span>
-<p class="text-[10px] uppercase text-secondary font-bold">Cuốn sách</p>
-</div>
-</div>
-</div>
-</div>
-<!-- Trending Books Card -->
-<div class="bg-primary p-8 rounded-xl text-on-primary flex flex-col justify-between relative overflow-hidden">
-<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container rounded-bl-full opacity-20"></div>
-<div>
-<span class="bg-tertiary text-on-tertiary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Sách nổi bật</span>
-<h3 class="text-2xl font-headline font-bold mt-4 leading-tight">Xu hướng đọc tuần này: Tâm lý học hành vi</h3>
-<p class="text-on-primary-container text-sm mt-2 opacity-80">Các đầu sách về tư duy và kỹ năng mềm đang có lượt mượn tăng 40% so với tuần trước.</p>
-</div>
-<div class="mt-8 flex items-center justify-between">
-<div class="flex -space-x-3">
-<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
-<img alt="book cover" class="w-full h-full object-cover" data-alt="close up of a beautiful book cover design with artistic typography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2FevJV6t66Hb23j6SDh45e2Lxb7oLK59AoMdtlHxAvCsfkpuXmp6lwFGz6vq0CwKfv2LHFsQjtaEnwLq7kB-pOidbkgwpB6w3J1v4N5h_IkRIE3QNrGftqtJFfFYd8FrUr9Hml3ty5c730WGeR9DzMCgL-f_TXEjIa28wZDkB_5nPAGVibfA_3aR57RH_M8fad9uHyrW3-zxuhAqAVIHd4UR-oVUvQ_euFacmDWAWAR4fAp9gduwm5lYm9iClZCr3mSh1DhVydEsR"/>
-</div>
-<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
-<img alt="book cover" class="w-full h-full object-cover" data-alt="minimalist aesthetic book cover on a shelf" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbLwH0VQtQDrgsf7fhJ0eSIdkrTA6XYnirGbG_7B8J2elEVciscYhOX2KAXnteNJbj7OjQS7yakgfPsSJKLqfpSBNKG7WAwdJ5hYscwNaFxEyN6NgYVGqLmTCdIXhvq4Nf8HUwSdOONurSkM5N5HRoBTAuXREKZYxt5uHa1K3fQyeKJLlD90pdQG72UKRm_1bQYKhtaShqDSTxuCA2CZ_owIEnRoRzCX7A6I14PmElEWYQ46aQSGWZdvxQlk5d_cPGwv0KdoS-82oz"/>
-</div>
-<div class="w-10 h-10 rounded-full border-2 border-primary bg-primary-container flex items-center justify-center text-xs font-bold">
-                                +5
+    <!-- Dashboard Canvas -->
+    <section class="p-8 space-y-8 max-w-7xl mx-auto w-full">
+        <!-- Header Section -->
+        <div class="flex justify-between items-end">
+            <div>
+                <h2 class="text-3xl font-headline font-extrabold tracking-tight text-primary">Tổng quan hệ thống</h2>
+                <p class="text-secondary mt-1">Chào mừng trở lại, hôm nay có 12 yêu cầu mượn mới đang chờ xử lý.</p>
+            </div>
+            <button
+                class="bg-primary text-on-primary px-6 py-2.5 rounded-lg flex items-center gap-2 hover:scale-[1.03] transition-all duration-300 font-medium text-sm">
+                <span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+                Thêm sách mới
+            </button>
+        </div>
+        <!-- Stats Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] border-none hover:scale-[1.02] transition-all duration-300 group">
+                <div class="flex justify-between items-start mb-4">
+                    <div
+                        class="p-3 bg-primary-container/10 rounded-lg group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+                        <span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+                    </div>
+                    <span class="text-xs font-bold text-tertiary bg-tertiary-fixed px-2 py-1 rounded">+2.4%</span>
+                </div>
+                <p class="text-secondary text-sm font-medium uppercase tracking-wider">Tổng số sách</p>
+                <h3 class="text-3xl font-headline font-bold text-primary mt-1">12,842</h3>
+            </div>
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] border-none hover:scale-[1.02] transition-all duration-300 group">
+                <div class="flex justify-between items-start mb-4">
+                    <div
+                        class="p-3 bg-primary-container/10 rounded-lg group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+                        <span class="material-symbols-outlined" data-icon="book_5">book_5</span>
+                    </div>
+                    <span class="text-xs font-bold text-error bg-error-container px-2 py-1 rounded">-0.8%</span>
+                </div>
+                <p class="text-secondary text-sm font-medium uppercase tracking-wider">Đang cho mượn</p>
+                <h3 class="text-3xl font-headline font-bold text-primary mt-1">856</h3>
+            </div>
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] border-none hover:scale-[1.02] transition-all duration-300 group">
+                <div class="flex justify-between items-start mb-4">
+                    <div
+                        class="p-3 bg-primary-container/10 rounded-lg group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+                        <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+                    </div>
+                    <div class="w-3 h-3 bg-error rounded-full animate-pulse"></div>
+                </div>
+                <p class="text-secondary text-sm font-medium uppercase tracking-wider">Yêu cầu mới</p>
+                <h3 class="text-3xl font-headline font-bold text-primary mt-1">12</h3>
+            </div>
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] border-none hover:scale-[1.02] transition-all duration-300 group">
+                <div class="flex justify-between items-start mb-4">
+                    <div
+                        class="p-3 bg-primary-container/10 rounded-lg group-hover:bg-primary-container group-hover:text-on-primary transition-colors">
+                        <span class="material-symbols-outlined" data-icon="person_celebrate">person_celebrate</span>
+                    </div>
+                    <span class="text-xs font-bold text-tertiary bg-tertiary-fixed px-2 py-1 rounded">+12%</span>
+                </div>
+                <p class="text-secondary text-sm font-medium uppercase tracking-wider">Độc giả tích cực</p>
+                <h3 class="text-3xl font-headline font-bold text-primary mt-1">1,204</h3>
+            </div>
+        </div>
+        <!-- Middle Section: Chart & Activities -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Activity Chart Placeholder -->
+            <div class="lg:col-span-2 bg-surface-container-low p-8 rounded-xl relative overflow-hidden flex flex-col">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-xl font-headline font-bold text-primary">Hoạt động mượn trả gần đây</h3>
+                    <div class="flex gap-2">
+                        <button
+                            class="bg-surface px-3 py-1.5 text-xs font-bold text-primary rounded-md border-none shadow-sm">Tuần
+                            này</button>
+                        <button class="px-3 py-1.5 text-xs font-medium text-secondary rounded-md">Tháng này</button>
+                    </div>
+                </div>
+                <!-- Simplified Visual Chart using pure Tailwind -->
+                <div class="flex-1 flex items-end gap-4 h-64 mt-4">
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
+                            <div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[65%]"></div>
+                        </div>
+                        <span class="text-[10px] text-secondary font-bold uppercase">Th2</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
+                            <div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[45%]"></div>
+                        </div>
+                        <span class="text-[10px] text-secondary font-bold uppercase">Th3</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
+                            <div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[85%]"></div>
+                        </div>
+                        <span class="text-[10px] text-secondary font-bold uppercase">Th4</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
+                            <div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[35%]"></div>
+                        </div>
+                        <span class="text-[10px] text-secondary font-bold uppercase">Th5</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
+                            <div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[95%]"></div>
+                        </div>
+                        <span class="text-[10px] text-secondary font-bold uppercase">Th6</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
+                            <div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[55%]"></div>
+                        </div>
+                        <span class="text-[10px] text-secondary font-bold uppercase">Th7</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div class="w-full bg-primary/10 rounded-t-lg relative group h-40">
+                            <div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[25%]"></div>
+                        </div>
+                        <span class="text-[10px] text-secondary font-bold uppercase">CN</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Latest Activity Feed -->
+            <div class="bg-surface-container-low p-8 rounded-xl">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-headline font-bold text-primary">Hoạt động mới nhất</h3>
+                    <a class="text-xs font-bold text-tertiary hover:underline" href="#">Xem tất cả</a>
+                </div>
+                <div class="space-y-6">
+                    <!-- Activity Item -->
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded-full bg-surface shrink-0 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary text-xl"
+                                data-icon="history_edu">history_edu</span>
+                        </div>
+                        <div>
+                            <p class="text-sm text-on-surface font-medium"><span class="font-bold">Nguyễn Văn A</span>
+                                đã mượn cuốn "Đắc Nhân Tâm"</p>
+                            <span class="text-[11px] text-secondary">2 phút trước</span>
+                        </div>
+                    </div>
+                    <!-- Activity Item -->
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded-full bg-surface shrink-0 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-tertiary text-xl"
+                                data-icon="assignment_return">assignment_return</span>
+                        </div>
+                        <div>
+                            <p class="text-sm text-on-surface font-medium"><span class="font-bold">Trần Thị B</span> đã
+                                trả cuốn "Nhà Giả Kim"</p>
+                            <span class="text-[11px] text-secondary">15 phút trước</span>
+                        </div>
+                    </div>
+                    <!-- Activity Item -->
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded-full bg-surface shrink-0 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-error text-xl"
+                                data-icon="warning">warning</span>
+                        </div>
+                        <div>
+                            <p class="text-sm text-on-surface font-medium"><span class="font-bold">Lê Văn C</span> quá
+                                hạn trả sách "Tâm Lý Học"</p>
+                            <span class="text-[11px] text-secondary">1 giờ trước</span>
+                        </div>
+                    </div>
+                    <!-- Activity Item -->
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded-full bg-surface shrink-0 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary text-xl"
+                                data-icon="person_add">person_add</span>
+                        </div>
+                        <div>
+                            <p class="text-sm text-on-surface font-medium">Độc giả mới: <span class="font-bold">Phạm
+                                    Minh D</span></p>
+                            <span class="text-[11px] text-secondary">3 giờ trước</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Asymmetric Bottom Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Top Readers Card -->
+            <div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)]">
+                <h3 class="text-xl font-headline font-bold text-primary mb-6">Độc giả tích cực nhất tháng</h3>
+                <div class="space-y-4">
+                    <div
+                        class="flex items-center justify-between p-4 hover:bg-surface-container-low rounded-lg transition-colors group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full overflow-hidden">
+                                <img alt="Độc giả" class="w-full h-full object-cover"
+                                    data-alt="portrait of a smiling young woman, academic library background, natural lighting"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtxs26xOcB51LH89AQFSL1_-RZdozBo9HVTwhakyyV3Vh3xtu3_jcil1arxBQQ-HRC5HMUOQgKojQNbZhFi0hBIOCtq35Vj62GBs-OZ846LE-Q8V0E54Wq_bDeKPt0oUtVs-lkIu1ZrZnz-Xk-WN59wuL801AxMcIG_MeNAiBv1JEr-Zl2VY3S1zITikrf2FoYgzQ8UX5Z0ILLNZE6NZ9v1CNOtJ6lnFGE0vjVEK3lHQGO7LACuQeDBGREEo15qz4PnunhLOnwf3D_" />
                             </div>
-</div>
-<button class="bg-on-primary text-primary px-4 py-2 rounded-lg text-xs font-bold hover:scale-105 transition-transform">Xem báo cáo</button>
-</div>
-</div>
-</div>
-</section>
+                            <div>
+                                <h4 class="text-sm font-bold text-on-surface">Hoàng Mỹ Linh</h4>
+                                <p class="text-xs text-secondary">ID: LIB-2024-001</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-lg font-headline font-bold text-primary">24</span>
+                            <p class="text-[10px] uppercase text-secondary font-bold">Cuốn sách</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex items-center justify-between p-4 hover:bg-surface-container-low rounded-lg transition-colors group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full overflow-hidden">
+                                <img alt="Độc giả" class="w-full h-full object-cover"
+                                    data-alt="portrait of a young man, studious look, neutral background, cinematic lighting"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUqewFqjBcXZfHCtVqQtTCSAIF--zIAIvi88ZTySdg6CNpspgNHzTsrjMmFArQr_Td-isvdxPXCqwEAd05zD1gqVpcy7bG-qwKuDytbVlV3diZxdeAqpFbcxCVJh1k9Upulkk28rucop_MdFU4edwgZ1ZKOtcFetGBPdWGoiiDThaRgBoCkuGNnmZ1IBnG-UXyYGCxnNnQkWmEmGDCrW1Nd6D2ua3PO6l8tNVeYqf1VDG4ertd5aSDMuGW2M0O6kMfRV9SV_ZcyuXm" />
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-on-surface">Đỗ Tiến Thành</h4>
+                                <p class="text-xs text-secondary">ID: LIB-2024-042</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-lg font-headline font-bold text-primary">18</span>
+                            <p class="text-[10px] uppercase text-secondary font-bold">Cuốn sách</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Trending Books Card -->
+            <div
+                class="bg-primary p-8 rounded-xl text-on-primary flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-primary-container rounded-bl-full opacity-20"></div>
+                <div>
+                    <span
+                        class="bg-tertiary text-on-tertiary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Sách
+                        nổi bật</span>
+                    <h3 class="text-2xl font-headline font-bold mt-4 leading-tight">Xu hướng đọc tuần này: Tâm lý học
+                        hành vi</h3>
+                    <p class="text-on-primary-container text-sm mt-2 opacity-80">Các đầu sách về tư duy và kỹ năng mềm
+                        đang có lượt mượn tăng 40% so với tuần trước.</p>
+                </div>
+                <div class="mt-8 flex items-center justify-between">
+                    <div class="flex -space-x-3">
+                        <div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
+                            <img alt="book cover" class="w-full h-full object-cover"
+                                data-alt="close up of a beautiful book cover design with artistic typography"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2FevJV6t66Hb23j6SDh45e2Lxb7oLK59AoMdtlHxAvCsfkpuXmp6lwFGz6vq0CwKfv2LHFsQjtaEnwLq7kB-pOidbkgwpB6w3J1v4N5h_IkRIE3QNrGftqtJFfFYd8FrUr9Hml3ty5c730WGeR9DzMCgL-f_TXEjIa28wZDkB_5nPAGVibfA_3aR57RH_M8fad9uHyrW3-zxuhAqAVIHd4UR-oVUvQ_euFacmDWAWAR4fAp9gduwm5lYm9iClZCr3mSh1DhVydEsR" />
+                        </div>
+                        <div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
+                            <img alt="book cover" class="w-full h-full object-cover"
+                                data-alt="minimalist aesthetic book cover on a shelf"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbLwH0VQtQDrgsf7fhJ0eSIdkrTA6XYnirGbG_7B8J2elEVciscYhOX2KAXnteNJbj7OjQS7yakgfPsSJKLqfpSBNKG7WAwdJ5hYscwNaFxEyN6NgYVGqLmTCdIXhvq4Nf8HUwSdOONurSkM5N5HRoBTAuXREKZYxt5uHa1K3fQyeKJLlD90pdQG72UKRm_1bQYKhtaShqDSTxuCA2CZ_owIEnRoRzCX7A6I14PmElEWYQ46aQSGWZdvxQlk5d_cPGwv0KdoS-82oz" />
+                        </div>
+                        <div
+                            class="w-10 h-10 rounded-full border-2 border-primary bg-primary-container flex items-center justify-center text-xs font-bold">
+                            +5
+                        </div>
+                    </div>
+                    <button
+                        class="bg-on-primary text-primary px-4 py-2 rounded-lg text-xs font-bold hover:scale-105 transition-transform">Xem
+                        báo cáo</button>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 {% endblock content%}

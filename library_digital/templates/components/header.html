@@ -3,22 +3,61 @@
     <div class="flex items-center gap-8">
         <span class="text-xl font-bold text-stone-900">Digital Library</span>
         <div class="hidden md:flex gap-6">
-            <a class="text-stone-900 border-b-2 border-stone-800 pb-1 duration-300 ease-in-out" href="#">Home</a>
-            <a class="text-stone-500 hover:text-stone-700 transition-colors duration-300 ease-in-out"
-                href="#">Categories</a>
-            <a class="text-stone-500 hover:text-stone-700 transition-colors duration-300 ease-in-out"
-                href="#">Featured</a>
+            <a href="{{ url_for('home') }}" class="pb-1 duration-300 ease-in-out
+               {% if request.endpoint == 'home' %}
+                   text-stone-900 border-b-2 border-stone-800 font-semibold
+               {% else %}
+                   text-stone-500 hover:text-stone-700
+               {% endif %}">
+                Trang chủ
+            </a>
+            <a href="{{ url_for('category_list') }}" class="duration-300 ease-in-out pb-1
+               {% if request.endpoint == 'category_list' %}
+                   text-stone-900 border-b-2 border-stone-800 font-semibold
+               {% else %}
+                   text-stone-500 hover:text-stone-700
+               {% endif %}">
+                Danh mục
+            </a>
+            <a href="#" class="duration-300 ease-in-out pb-1
+               {% if request.endpoint == 'featured' %}
+                   text-stone-900 border-b-2 border-stone-800 font-semibold
+               {% else %}
+                   text-stone-500 hover:text-stone-700
+               {% endif %}">
+                Nổi bật
+            </a>
         </div>
     </div>
     <div class="flex items-center gap-4">
         <div class="relative hidden sm:block">
-            <span
-                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400">search</span>
-            <input
-                class="bg-surface-container-high border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-tertiary transition-all duration-300 w-64"
-                placeholder="Tìm kiếm sách..." type="text" />
+            <a href="{{ url_for('book_searching') }}"
+                class="bg-surface-container-high rounded-lg px-4 py-2 text-sm flex items-center gap-2 hover:bg-stone-200 transition-all duration-300">
+                <span class="material-symbols-outlined text-stone-400">search</span>
+            </a>
         </div>
-        <button
-            class="px-5 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:scale-[1.03] transition-transform duration-200">Login</button>
+        {% if current_user.is_authenticated %}
+        <div class="flex items-center gap-3">
+            <a href="{{ url_for('user_detail', user_id=current_user.id) }}">
+                <img src="{{ current_user.avatar }}"
+                    class="w-9 h-9 rounded-full object-cover border border-gray-300 shadow-sm"
+                    alt="{{ current_user.last_name }}" />
+            </a>
+            <div class="flex flex-col leading-tight">
+                <span class="text-sm font-semibold text-gray-800">
+                    {{ current_user.first_name }} {{ current_user.last_name }}
+                </span>
+            </div>
+            <a href="{{ url_for('user_logout') }}"
+                class="ml-3 px-4 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:scale-[1.03] transition-transform duration-200">
+                Đăng xuất
+            </a>
+        </div>
+        {% else %}
+        <a href="{{ url_for('user_login') }}"
+            class="px-5 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:scale-[1.03] transition-transform duration-200 inline-block text-center">
+            Đăng nhập
+        </a>
+        {% endif %}
     </div>
 </nav>

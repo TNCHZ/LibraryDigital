@@ -53,7 +53,42 @@
                 <h3 class="text-3xl font-headline font-bold text-on-surface mb-2">Đăng ký tài khoản</h3>
                 <p class="text-on-surface-variant">Vui lòng điền thông tin để tạo tài khoản mới.</p>
             </div>
-            <form class="space-y-5">
+
+            {% if err_msg %}
+            <div class="mb-6 flex items-start gap-3 p-4 bg-error-container text-on-error-container rounded-lg border border-error/20 animate-in fade-in slide-in-from-top-2 duration-300">
+                <span class="material-symbols-outlined text-error" data-icon="error">error</span>
+                <div class="flex-1">
+                    <h4 class="text-sm font-bold uppercase tracking-wide">Thông báo</h4>
+                    <p class="text-sm opacity-90 leading-relaxed">{{ err_msg }}</p>
+                </div>
+                <button type="button" onclick="this.parentElement.remove()"
+                        class="text-on-error-container/50 hover:text-on-error-container transition-colors">
+                    <span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+                </button>
+            </div>
+            {% endif %}
+
+            <form method="post" action="{{ url_for('register') }}" class="space-y-5" enctype="multipart/form-data">
+                <!-- FirstName Field -->
+                <div class="space-y-1.5">
+                    <label class="text-sm font-semibold text-on-surface-variant flex items-center gap-2"
+                           for="first_name">
+                        <span class="material-symbols-outlined text-lg" data-icon="badge">badge</span>
+                        Họ và tên đệm
+                    </label>
+                    <input class="w-full bg-surface-container-high border-none focus:ring-2 focus:ring-tertiary rounded-lg px-4 py-3.5 text-on-surface placeholder:text-outline-variant transition-all duration-200"
+                           id="first_name" name="first_name" placeholder="Ví dụ: Nguyễn Văn" type="text" required/>
+                </div>
+                <!-- LastName Field -->
+                <div class="space-y-1.5">
+                    <label class="text-sm font-semibold text-on-surface-variant flex items-center gap-2"
+                           for="last_name">
+                        <span class="material-symbols-outlined text-lg" data-icon="badge">badge</span>
+                        Tên
+                    </label>
+                    <input class="w-full bg-surface-container-high border-none focus:ring-2 focus:ring-tertiary rounded-lg px-4 py-3.5 text-on-surface placeholder:text-outline-variant transition-all duration-200"
+                           id="last_name" name="last_name" placeholder="Ví dụ: A" type="text" required/>
+                </div>
                 <!-- Username Field -->
                 <div class="space-y-1.5">
                     <label class="text-sm font-semibold text-on-surface-variant flex items-center gap-2" for="username">
@@ -61,7 +96,37 @@
                         Tên đăng nhập
                     </label>
                     <input class="w-full bg-surface-container-high border-none focus:ring-2 focus:ring-tertiary rounded-lg px-4 py-3.5 text-on-surface placeholder:text-outline-variant transition-all duration-200"
-                           id="username" placeholder="Nhập tên người dùng" type="text"/>
+                           id="username" name="username" placeholder="Nhập tên người dùng" type="text" required/>
+                </div>
+                <!-- Phone & Gender Field -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-semibold text-on-surface-variant flex items-center gap-2"
+                               for="phone">
+                            <span class="material-symbols-outlined text-lg" data-icon="call">call</span>
+                            Số điện thoại
+                        </label>
+                        <input class="w-full bg-surface-container-high border-none focus:ring-2 focus:ring-tertiary rounded-lg px-4 py-3.5 text-on-surface placeholder:text-outline-variant"
+                               id="phone" name="phone" placeholder="09xx..." type="tel" required/>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-semibold text-on-surface-variant flex items-center gap-2"
+                               for="gender">
+                            <span class="material-symbols-outlined text-lg" data-icon="transgender">transgender</span>
+                            Giới tính
+                        </label>
+                        <div class="relative">
+                            <select class="w-full bg-surface-container-high border-none focus:ring-2 focus:ring-tertiary rounded-lg px-4 py-3.5 text-on-surface appearance-none"
+                                    id="gender" name="gender" required>
+                                <option value="MALE">Nam</option>
+                                <option value="FEMALE">Nữ</option>
+                                <option value="OTHER">Khác</option>
+                            </select>
+                            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline-variant pointer-events-none"
+                                  data-icon="expand_more">expand_more</span>
+                        </div>
+                    </div>
                 </div>
                 <!-- Email Field -->
                 <div class="space-y-1.5">
@@ -70,7 +135,7 @@
                         Email
                     </label>
                     <input class="w-full bg-surface-container-high border-none focus:ring-2 focus:ring-tertiary rounded-lg px-4 py-3.5 text-on-surface placeholder:text-outline-variant transition-all duration-200"
-                           id="email" placeholder="example@domain.com" type="email"/>
+                           id="email" name="email" placeholder="example@domain.com" type="email" required/>
                 </div>
                 <!-- Password Fields Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -81,23 +146,48 @@
                             Mật khẩu
                         </label>
                         <input class="w-full bg-surface-container-high border-none focus:ring-2 focus:ring-tertiary rounded-lg px-4 py-3.5 text-on-surface placeholder:text-outline-variant transition-all duration-200"
-                               id="password" placeholder="••••••••" type="password"/>
+                               id="password" name="password" placeholder="••••••••" type="password" required/>
                     </div>
                     <div class="space-y-1.5">
                         <label class="text-sm font-semibold text-on-surface-variant flex items-center gap-2"
-                               for="confirm-password">
+                               for="confirm_password">
                             <span class="material-symbols-outlined text-lg"
                                   data-icon="verified_user">verified_user</span>
                             Xác nhận
                         </label>
                         <input class="w-full bg-surface-container-high border-none focus:ring-2 focus:ring-tertiary rounded-lg px-4 py-3.5 text-on-surface placeholder:text-outline-variant transition-all duration-200"
-                               id="confirm-password" placeholder="••••••••" type="password"/>
+                               id="confirm_password" name="confirm_password" placeholder="••••••••" type="password"
+                               required/>
                     </div>
+                </div>
+                <!-- Avatar Field -->
+                <div class="space-y-2 flex flex-col items-center justify-center pb-4">
+                    <label class="text-sm font-semibold text-on-surface-variant self-start flex items-center gap-2"
+                           for="avatar">
+                        <span class="material-symbols-outlined text-lg" data-icon="add_a_photo">add_a_photo</span>
+                        Ảnh đại diện
+                    </label>
+                    <div class="relative group mt-2">
+                        <div id="avatar-preview"
+                             class="w-24 h-24 rounded-full bg-surface-container-highest border-2 border-dashed border-outline-variant flex items-center justify-center overflow-hidden transition-all group-hover:border-primary">
+                            <span class="material-symbols-outlined text-4xl text-outline" id="default-icon">account_circle</span>
+                            <img id="chosen-image" class="hidden w-full h-full object-cover">
+                        </div>
+
+                        <label for="avatar"
+                               class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full shadow-lg cursor-pointer hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+                        </label>
+
+                        <input type="file" id="avatar" name="avatar" accept="image/*" class="hidden"
+                               onchange="previewImage(event)">
+                    </div>
+                    <p class="text-[10px] text-outline italic">Định dạng: JPG, PNG (Tối đa 2MB)</p>
                 </div>
                 <!-- Terms checkbox -->
                 <div class="flex items-start gap-3 py-2">
                     <input class="mt-1 rounded text-primary focus:ring-primary-container border-outline-variant bg-surface-container-high"
-                           id="terms" type="checkbox"/>
+                           id="terms" type="checkbox" required/>
                     <label class="text-sm text-on-surface-variant leading-relaxed" for="terms">
                         Tôi đồng ý với các <a class="text-primary font-medium hover:underline" href="#">Điều khoản dịch
                         vụ</a> và <a class="text-primary font-medium hover:underline" href="#">Chính sách bảo mật</a>.
@@ -112,16 +202,35 @@
             <div class="mt-10 pt-8 border-t border-surface-variant text-center">
                 <p class="text-on-surface-variant">
                     Đã có tài khoản?
-                    <a class="text-primary font-bold hover:text-primary-container transition-colors inline-flex items-center gap-1"
-                       href="#">
-                        Đăng nhập ngay
-                        <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+                    <a href="{{ url_for('user_login') }}"
+                       class="text-primary font-bold hover:text-primary-container transition-colors inline-flex items-center gap-1">
+                        Đăng nhập
                     </a>
                 </p>
             </div>
         </div>
     </div>
 </main>
+
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        const imageField = document.getElementById("chosen-image");
+        const defaultIcon = document.getElementById("default-icon");
+        const previewContainer = document.getElementById("avatar-preview");
+
+        reader.onload = function() {
+            if (reader.readyState === 2) {
+                imageField.src = reader.result;
+                imageField.classList.remove("hidden");
+                defaultIcon.classList.add("hidden");
+                previewContainer.classList.remove("border-dashed");
+                previewContainer.classList.add("border-solid", "border-primary");
+            }
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
 
 
 {% endblock %}

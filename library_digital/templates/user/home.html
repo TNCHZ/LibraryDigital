@@ -81,69 +81,49 @@
     </div>
 </section>
 <!-- Featured Section (Carousel Style) -->
+{% if current_user.is_authenticated %}
 <section class="py-24 bg-surface-container-low">
     <div class="container mx-auto px-6">
         <div class="mb-12">
-            <h2 class="text-3xl font-headline font-bold text-on-surface tracking-tight">Sách nổi bật</h2>
-            <p class="text-on-surface-variant mt-2">Những tác phẩm được cộng đồng bạn đọc đánh giá cao nhất.</p>
+           <h2 class="text-3xl font-headline font-bold text-on-surface tracking-tight">
+        Sách gợi ý
+    </h2>
+</div>
+
+<div class="flex overflow-x-auto pb-8 gap-8 snap-x no-scrollbar">
+    {% for item in result %}
+    <div
+        class="min-w-[400px] md:min-w-[600px] bg-surface rounded-2xl flex flex-col md:flex-row overflow-hidden snap-center hover:shadow-2xl transition-shadow duration-500">
+
+        <!-- Image -->
+        <div class="w-full md:w-2/5 aspect-[3/4]">
+            <img class="w-full h-full object-cover"
+                 src="{{ item.book.image if item.book.image else 'https://via.placeholder.com/300x400' }}"
+                 alt="{{ item.book.title }}">
         </div>
-        <div class="flex overflow-x-auto pb-8 gap-8 snap-x no-scrollbar">
-            <!-- Featured Book 1 -->
-            <div
-                class="min-w-[400px] md:min-w-[600px] bg-surface rounded-2xl flex flex-col md:flex-row overflow-hidden snap-center hover:shadow-2xl transition-shadow duration-500">
-                <div class="w-full md:w-2/5 aspect-[3/4]">
-                    <img alt="Featured Book Cover" class="w-full h-full object-cover"
-                        data-alt="Modern book cover design for a minimalist poetry collection, clean white paper with elegant black serif typography"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBasZnsnBobU9SXW2F6pK6iJCThM9x2DYBLT_894zilF32RgF67k1msMq0r7o1_uwswY7kwv3MWJRi-O0mKutvdDnNP-kJFEroOOkCxeukNljENbqb--eiJ4_p6uqbPeLUC4twdc8pMNNl2_Wc3ZtjRTbFjFsLsJP9lqA4SIrJ8xg0gm5bB4aPcFa7JxtSzimqrH94qQ9uKdR_TIJr8p-NFbDaZZHTc3NHgjpEC-xuFEYTCK_i8teRBiuyuBi1YcVoeZYcrMmLYRWj1" />
-                </div>
-                <div class="w-full md:w-3/5 p-8 flex flex-col justify-center">
-                    <span class="text-xs font-bold tracking-widest text-tertiary uppercase mb-2">Editor's
-                        Choice</span>
-                    <h3 class="text-2xl font-headline font-bold text-on-surface mb-3 leading-tight">Nghệ thuật
-                        Tư duy Rành mạch</h3>
-                    <p class="text-on-surface-variant text-sm mb-6 line-clamp-3 leading-relaxed">
-                        Khám phá những bẫy tâm lý thường gặp và cách để đưa ra những quyết định sáng suốt hơn
-                        trong cuộc sống và công việc hàng ngày.
-                    </p>
-                    <div class="flex items-center gap-4 mt-auto">
-                        <button
-                            class="px-6 py-2 bg-primary text-on-primary rounded-lg font-medium hover:bg-primary-container transition-colors">Mượn
-                            sách</button>
-                        <button
-                            class="px-6 py-2 border border-outline-variant text-primary rounded-lg font-medium hover:bg-surface-container transition-colors">Chi
-                            tiết</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Featured Book 2 -->
-            <div
-                class="min-w-[400px] md:min-w-[600px] bg-surface rounded-2xl flex flex-col md:flex-row overflow-hidden snap-center hover:shadow-2xl transition-shadow duration-500">
-                <div class="w-full md:w-2/5 aspect-[3/4]">
-                    <img alt="Featured Book Cover" class="w-full h-full object-cover"
-                        data-alt="Close-up of a classic hardback book with embossed gold lettering and intricate vintage decorative border"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYGo040RAmFv_HO_6U6OHcxV_M-qJhjo3iDQ5tspDgMCJEk6u_5yqsWm0T9WgFEPEe_5PuUU8a2S8jntFGs5ug2xe5SkDf-Oqe-HqIA-tVSyHUJGBoljyWM2EA6FyBvljZyLU32cR9HKJSUYBdKL9uXw3-_e3_hCZMwUVjRH5tbLrNOTKcmpMTdeAZPaUVLaR7ZGghRmQ8XjihsO1tfvBpWDSMhRb6Wy8a_hOL7Hg_y6kn5T2zMU1ga91ijHT9RVIZlPpgrTY7796L" />
-                </div>
-                <div class="w-full md:w-3/5 p-8 flex flex-col justify-center">
-                    <span class="text-xs font-bold tracking-widest text-tertiary uppercase mb-2">Bán chạy
-                        nhất</span>
-                    <h3 class="text-2xl font-headline font-bold text-on-surface mb-3 leading-tight">Lịch sử của
-                        Tương lai</h3>
-                    <p class="text-on-surface-variant text-sm mb-6 line-clamp-3 leading-relaxed">
-                        Một cái nhìn sâu sắc về cách các cuộc cách mạng công nghiệp và xã hội trong quá khứ định
-                        hình thế giới của chúng ta ngày nay và ngày mai.
-                    </p>
-                    <div class="flex items-center gap-4 mt-auto">
-                        <button
-                            class="px-6 py-2 bg-primary text-on-primary rounded-lg font-medium hover:bg-primary-container transition-colors">Mượn
-                            sách</button>
-                        <button
-                            class="px-6 py-2 border border-outline-variant text-primary rounded-lg font-medium hover:bg-surface-container transition-colors">Chi
-                            tiết</button>
-                    </div>
-                </div>
+
+        <!-- Content -->
+        <div class="w-full md:w-3/5 p-8 flex flex-col justify-center">
+            <h3 class="text-2xl font-headline font-bold text-on-surface mb-3 leading-tight">
+                {{ item.book.title }}
+            </h3>
+
+            <!-- reason từ AI -->
+            <p class="text-on-surface-variant text-sm mb-6 line-clamp-3 leading-relaxed">
+                {{ item.reason }}
+            </p>
+
+            <div class="flex items-center gap-4 mt-auto">
+                <a href="/book/{{ item.book.id }}"
+                   class="px-6 py-2 border border-outline-variant text-primary rounded-lg font-medium hover:bg-surface-container transition-colors">
+                    Chi tiết
+                </a>
             </div>
         </div>
     </div>
+{% endfor %}
+    </div>
+</div>
 </section>
 <!-- Book Grid -->
 <section class="py-24">

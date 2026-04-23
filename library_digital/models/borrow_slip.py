@@ -9,6 +9,7 @@ class BorrowStatus(enum.Enum):
     LOST = "LOST"
     RESERVED = "RESERVED"
     DAMAGED = "DAMAGED"
+    REJECT = "REJECT"
 
 class BorrowSlip(BaseModel):
     __tablename__ = "borrow_slip"

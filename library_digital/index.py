@@ -27,7 +27,6 @@ def home():
 
 
     return render_template('user/home.html', cates=cates, result = result)
-    return render_template('user/home.html', cates=cates)
 
 @app.route('/book/<int:book_id>')
 def book_detail(book_id):

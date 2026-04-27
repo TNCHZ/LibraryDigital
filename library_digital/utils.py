@@ -1,5 +1,6 @@
 from library_digital.extensions import db
-from library_digital.models import User, Book, Category, CategoryBook, BorrowSlip, ViewHistory, ReaderCategoryfrom .models.user import GenderEnum, UserRole
+from library_digital.models import User, Book, Category, CategoryBook, BorrowSlip, ViewHistory, ReaderCategory
+from library_digital.models.user import GenderEnum, UserRole
 import hashlib
 from datetime import timedelta
 from sqlalchemy.orm import joinedload
@@ -121,13 +122,14 @@ def get_category_by_id(category_id):
     return Category.query.get(category_id)
 
 
-def add_book(title, description, publisher, published_date, price, author, isbn_10, isbn_13, image, language, category_ids, librarian_id=None):
+def add_book(title, description, publisher, published_date, price, quantity, author, isbn_10, isbn_13, image, language, category_ids, librarian_id=None):
     book = Book(
         title=title.strip(),
         description=description.strip(),
         publisher=publisher.strip(),
         published_date=published_date,
         price=price,
+        quantity=quantity if quantity is not None else 0,
         author=author.strip(),
         isbn_10=isbn_10.strip() if isbn_10 else None,
         isbn_13=isbn_13.strip() if isbn_13 else None,
@@ -151,7 +153,7 @@ def add_book(title, description, publisher, published_date, price, author, isbn_
     return book
 
 
-def update_book(book_id, title=None, description=None, publisher=None, published_date=None, price=None,
+def update_book(book_id, title=None, description=None, publisher=None, published_date=None, price=None, quantity=None,
                 author=None, isbn_10=None, isbn_13=None, image=None, language=None, is_active=None, category_ids=None):
     book = get_book_by_id(book_id)
     if not book:
@@ -167,6 +169,8 @@ def update_book(book_id, title=None, description=None, publisher=None, published
         book.published_date = published_date
     if price is not None:
         book.price = price
+    if quantity is not None:
+        book.quantity = quantity
     if author is not None:
         book.author = author.strip()
     if isbn_10 is not None:
@@ -783,6 +787,6 @@ def recommend_books(reader_id):
     final = map_to_books(ai_json, candidates)
 
     if not candidates:
-        return "No recommendation available"
+        return []
 
     return final

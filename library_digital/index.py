@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
-from future.backports.datetime import datetime
 from datetime import datetime
 
 from library_digital import create_app, login, utils
@@ -12,21 +11,24 @@ app = create_app()
 @app.route('/')
 def home():
     cates = utils.get_categories()
-    reader_id = current_user.id
-    notes = utils.recommend_books(reader_id)
     result = []
 
-    for item in notes:
-        book = utils.get_book_by_id(item['id'])
+    if current_user.is_authenticated:
+        reader_id = current_user.id
+        notes = utils.recommend_books(reader_id)
 
-        if book:
-            result.append({
-                "book": book,
-                "reason": item["reason"]
-            })
+        if isinstance(notes, list):
+            for item in notes:
+                if isinstance(item, dict) and 'id' in item:
+                    book = utils.get_book_by_id(item['id'])
 
+                    if book:
+                        result.append({
+                            "book": book,
+                            "reason": item.get("reason", "")
+                        })
 
-    return render_template('user/home.html', cates=cates, result = result)
+    return render_template('user/home.html', cates=cates, result=result)
 
 @app.route('/book/<int:book_id>')
 def book_detail(book_id):
@@ -366,7 +368,8 @@ def librarian_add_book():
         description = request.form.get('description', '').strip()
         publisher = request.form.get('publisher', '').strip()
         published_date = request.form.get('published_date', type=int)
-        price = request.form.get('price', type=float)
+        price = request.form.get('price', type=float),
+        quantity = request.form.get('quantity', type=int)
         author = request.form.get('author', '').strip()
         isbn_10 = request.form.get('isbn_10', '').strip()
         isbn_13 = request.form.get('isbn_13', '').strip()
@@ -386,7 +389,7 @@ def librarian_add_book():
 
         utils.add_book(
             title=title, description=description, publisher=publisher,
-            published_date=published_date, price=price, author=author,
+            published_date=published_date, price=price, quantity=quantity, author=author,
             isbn_10=isbn_10, isbn_13=isbn_13, image=image_url,
             language=language, category_ids=category_ids,
             librarian_id=librarian_id
@@ -405,6 +408,7 @@ def librarian_edit_book(book_id):
         publisher = request.form.get('publisher', '').strip()
         published_date = request.form.get('published_date', type=int)
         price = request.form.get('price', type=float)
+        quantity = request.form.get('quantity', type=int)
         author = request.form.get('author', '').strip()
         isbn_10 = request.form.get('isbn_10', '').strip()
         isbn_13 = request.form.get('isbn_13', '').strip()
@@ -421,7 +425,7 @@ def librarian_edit_book(book_id):
 
         utils.update_book(
             book_id=book_id, title=title, description=description,
-            publisher=publisher, published_date=published_date, price=price,
+            publisher=publisher, published_date=published_date, price=price, quantity=quantity,
             author=author, isbn_10=isbn_10, isbn_13=isbn_13, image=image_url,
             language=language, is_active=is_active, category_ids=category_ids
         )

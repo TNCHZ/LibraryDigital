@@ -30,8 +30,8 @@
             <span class="material-symbols-outlined" data-icon="group">group</span>
             Quản lý người dùng
         </a>
-        <a class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 {% if request.endpoint == 'admin_report' %}bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] shadow-sm font-bold{% else %}text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02]{% endif %}"
-            href="{{ url_for('admin_report') }}">
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 {% if request.endpoint == 'admin_statistics' %}bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-[#D9A066] shadow-sm font-bold{% else %}text-[#1c1c19]/70 dark:text-[#f7f3ef]/70 hover:bg-[#ffffff]/50 dark:hover:bg-stone-800/50 hover:scale-[1.02]{% endif %}"
+            href="{{ url_for('admin_statistics') }}">
             <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
             Báo cáo thống kê
         </a>

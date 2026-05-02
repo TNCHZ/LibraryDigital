@@ -62,19 +62,71 @@
                     {% endfor %}
                 </div>
             </div>
+            <!-- Semantic Search Toggle -->
+            <div class="flex flex-col gap-3 pt-2 border-t border-outline-variant/20">
+                <div class="flex items-center justify-between">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="semantic-toggle" name="use_semantic" 
+                               class="sr-only peer" onchange="toggleSemanticSearch()">
+                        <div class="relative w-11 h-6 bg-surface-container-high peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-tertiary/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-tertiary"></div>
+                        <span class="ms-3 text-sm font-medium text-on-surface font-body flex items-center gap-2">
+                            <span class="material-symbols-outlined text-tertiary">auto_awesome</span>
+                            Tìm kiếm thông minh (AI)
+                        </span>
+                    </label>
+                    <span class="text-xs text-on-surface-variant">Ví dụ: "trí tuệ nhân tạo" → AI, Machine Learning, Deep Learning...</span>
+                </div>
+                <!-- Hidden input for semantic query -->
+                <input type="hidden" name="semantic" id="semantic-input" value="">
+            </div>
             <div class="flex justify-end pt-2">
-                <button type="submit"
+                <button type="submit" id="search-btn"
                     class="bg-[#D9A066] text-[#2c1600] px-8 py-3 rounded font-semibold font-body hover:bg-tertiary-fixed-dim transition-colors duration-200 flex items-center gap-2">
                     <span class="material-symbols-outlined">search</span>
-                    Tìm kiếm
+                    <span id="search-btn-text">Tìm kiếm</span>
                 </button>
             </div>
+            <script>
+                function toggleSemanticSearch() {
+                    const toggle = document.getElementById('semantic-toggle');
+                    const titleInput = document.getElementById('book-title');
+                    const semanticInput = document.getElementById('semantic-input');
+                    const searchBtnText = document.getElementById('search-btn-text');
+                    
+                    if (toggle.checked) {
+                        semanticInput.value = titleInput.value;
+                        titleInput.name = 'semantic_title';  // Disable title search
+                        searchBtnText.textContent = 'Tìm kiếm thông minh';
+                    } else {
+                        semanticInput.value = '';
+                        titleInput.name = 'title';
+                        searchBtnText.textContent = 'Tìm kiếm';
+                    }
+                }
+                
+                // Update semantic value when title changes
+                document.getElementById('book-title').addEventListener('input', function() {
+                    const toggle = document.getElementById('semantic-toggle');
+                    const semanticInput = document.getElementById('semantic-input');
+                    if (toggle.checked) {
+                        semanticInput.value = this.value;
+                    }
+                });
+            </script>
         </form>
     </section>
     <!-- Results Grid -->
     <section class="flex flex-col gap-8 w-full mt-8">
         <div class="flex justify-between items-end border-b border-surface-container-low pb-4">
-            <h2 class="text-2xl font-headline font-semibold text-on-surface">Kết quả tìm kiếm</h2>
+            <div class="flex items-center gap-3">
+                <h2 class="text-2xl font-headline font-semibold text-on-surface">Kết quả tìm kiếm</h2>
+                {% if is_semantic %}
+                <span class="inline-flex items-center gap-1 px-3 py-1 bg-tertiary-container text-on-tertiary-container text-xs font-medium rounded-full">
+                    <span class="material-symbols-outlined text-sm">auto_awesome</span>
+                    Tìm kiếm thông minh
+                </span>
+                {% endif %}
+            </div>
             <span class="text-sm text-on-surface-variant font-body">Trang {{ pagination.page }} / {{ pagination.pages }} ({{ pagination.total }} kết quả)</span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -92,6 +144,12 @@
                     </span>
                     <h3 class="text-lg font-headline font-bold text-on-surface leading-tight">{{ book.title }}</h3>
                     <p class="text-sm text-on-surface-variant font-body flex-grow">{{ book.author }}</p>
+                    {% if is_semantic and semantic_reasons.get(book.id) %}
+                    <div class="mt-2 p-2 bg-tertiary-container/30 rounded text-xs text-on-surface-variant">
+                        <span class="material-symbols-outlined text-xs text-tertiary align-middle mr-1">lightbulb</span>
+                        {{ semantic_reasons[book.id] }}
+                    </div>
+                    {% endif %}
                     <a href="{{ url_for('book_detail', book_id=book.id) }}"
                         class="mt-4 w-full py-2 bg-surface-container-low text-on-surface font-medium rounded hover:bg-surface-container-high transition-colors font-body text-sm border border-outline-variant/30 text-center">
                         Chi tiết

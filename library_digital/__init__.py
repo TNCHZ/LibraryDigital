@@ -10,7 +10,7 @@ def create_app():
 
     app.config['SECRET_KEY'] = 'abc123'
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Admin%40123@localhost/librarydb'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:16102004@localhost/librarydb'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)

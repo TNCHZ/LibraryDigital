@@ -1,11 +1,14 @@
 from library_digital.extensions import db
-from library_digital.models import User, Book, Category, CategoryBook, BorrowSlip, ViewHistory, ReaderCategoryfrom .models.user import GenderEnum, UserRole
+from library_digital.models import User, Book, Category, CategoryBook, BorrowSlip, ViewHistory, ReaderCategory, Admin, \
+    Librarian, Reader
+from library_digital.models.user import GenderEnum, UserRole
 import hashlib
 from datetime import timedelta
 from sqlalchemy.orm import joinedload
 import json
 from library_digital.models.borrow_slip import BorrowStatus
-from .gemini_service import call_ai
+from .open_router import call_ai
+from sqlalchemy import func
 
 
 def add_user(first_name, last_name, username, password, email, phone, gender, **kwargs):
@@ -21,6 +24,12 @@ def add_user(first_name, last_name, username, password, email, phone, gender, **
                 avatar=kwargs.get('avatar'))
 
     db.session.add(user)
+    db.session.flush()
+
+    reader = Reader(user_id=user.id)
+    db.session.add(reader)
+
+
     db.session.commit()
 
 
@@ -115,6 +124,69 @@ def search_books(isbn_10=None, isbn_13=None, title=None, author=None, category_i
         query = query.join(CategoryBook).filter(CategoryBook.category_id.in_(category_ids))
 
     return query.paginate(page=page, per_page=per_page, error_out=False)
+
+
+def semantic_search_books(query, page=1, per_page=8):
+    """
+    Tìm kiếm sách dựa trên ngữ nghĩa (semantic search) sử dụng AI.
+    Query như "trí tuệ nhân tạo" sẽ tìm sách về AI, ML, Deep Learning...
+    """
+    from library_digital.open_router import semantic_search_books as ai_semantic_search
+    
+    # Get all books for AI to analyze
+    all_books = Book.query.all()
+    
+    # Prepare book data for AI
+    books_for_ai = []
+    for book in all_books:
+        category_names = [c.name for c in book.categories] if book.categories else []
+        books_for_ai.append({
+            'id': book.id,
+            'title': book.title,
+            'author': book.author or '',
+            'description': book.description or '',
+            'category': ', '.join(category_names) if category_names else 'N/A'
+        })
+    
+    # Call AI to find relevant books
+    ai_results = ai_semantic_search(query, books_for_ai)
+    
+    if not ai_results:
+        # Fallback to regular search if AI fails
+        return search_books(title=query, page=page, per_page=per_page)
+    
+    # Get book IDs from AI results, sorted by relevance
+    book_ids = [r['id'] for r in sorted(ai_results, key=lambda x: x.get('relevance_score', 0), reverse=True)]
+    
+    # Fetch actual book objects
+    books = []
+    reasons = {}
+    for result in ai_results:
+        book = Book.query.get(result['id'])
+        if book:
+            books.append(book)
+            reasons[book.id] = result.get('reason', '')
+    
+    # Manual pagination
+    total = len(books)
+    start = (page - 1) * per_page
+    end = start + per_page
+    paginated_books = books[start:end]
+    
+    # Create a simple pagination object
+    class SimplePagination:
+        def __init__(self, items, total, page, per_page):
+            self.items = items
+            self.total = total
+            self.page = page
+            self.per_page = per_page
+            self.pages = (total + per_page - 1) // per_page
+            self.has_prev = page > 1
+            self.has_next = page < self.pages
+            self.prev_num = page - 1 if self.has_prev else None
+            self.next_num = page + 1 if self.has_next else None
+    
+    return SimplePagination(paginated_books, total, page, per_page), reasons
 
 
 def get_category_by_id(category_id):
@@ -240,7 +312,12 @@ def can_borrow(reader_id, book_id):
     if not book:
         return False, "Sách không thấy"
 
-    if book.quantity <= 0:
+    active_count = db.session.query(func.count(BorrowSlip.id)).filter(
+        BorrowSlip.book_id == book_id,
+        BorrowSlip.status.in_([BorrowStatus.RESERVED, BorrowStatus.BORROWING])
+    ).scalar()
+
+    if active_count >= book.quantity:
         return False, "Sách đã hết"
 
     if latest_slip.status == BorrowStatus.BORROWING or latest_slip.status == BorrowStatus.RESERVED:
@@ -375,8 +452,19 @@ def admin_add_user(first_name, last_name, username, password, email, phone, gend
         avatar=kwargs.get('avatar')
     )
 
-
     db.session.add(user)
+    db.session.flush()
+
+    if role == "ADMIN":
+        admin = Admin(user_id=user.id)
+        db.session.add(admin)
+    elif role == "LIBRARIAN":
+        librarian = Librarian(user_id=user.id)
+        db.session.add(librarian)
+    elif role == "READER":
+        reader = Reader(user_id=user.id)
+        db.session.add(reader)
+
     db.session.commit()
 
 
@@ -783,6 +871,6 @@ def recommend_books(reader_id):
     final = map_to_books(ai_json, candidates)
 
     if not candidates:
-        return "No recommendation available"
+        return []
 
     return final

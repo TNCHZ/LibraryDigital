@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
-from future.backports.datetime import datetime
 from datetime import datetime
 
 from library_digital import create_app, login, utils
@@ -12,21 +11,24 @@ app = create_app()
 @app.route('/')
 def home():
     cates = utils.get_categories()
-    reader_id = current_user.id
-    notes = utils.recommend_books(reader_id)
     result = []
 
-    for item in notes:
-        book = utils.get_book_by_id(item['id'])
+    if current_user.is_authenticated:
+        reader_id = current_user.id
+        notes = utils.recommend_books(reader_id)
 
-        if book:
-            result.append({
-                "book": book,
-                "reason": item["reason"]
-            })
+        if isinstance(notes, list):
+            for item in notes:
+                if isinstance(item, dict) and 'id' in item:
+                    book = utils.get_book_by_id(item['id'])
 
+                    if book:
+                        result.append({
+                            "book": book,
+                            "reason": item.get("reason", "")
+                        })
 
-    return render_template('user/home.html', cates=cates, result = result)
+    return render_template('user/home.html', cates=cates, result=result)
 
 @app.route('/book/<int:book_id>')
 def book_detail(book_id):
@@ -191,10 +193,18 @@ def book_searching():
     author = request.args.get('author', '').strip()
     category_ids = request.args.getlist('category_ids', type=int)
     page = request.args.get('page', 1, type=int)
-
+    semantic = request.args.get('semantic', '').strip()  # Semantic search query
+    
     categories = utils.get_categories()
+    semantic_reasons = {}  # Lưu lý do tại sao sách liên quan (cho semantic search)
+    is_semantic = False
 
-    if title or author or category_ids or isbn_10 or isbn_13:
+    # Nếu có semantic query, dùng AI tìm kiếm ngữ nghĩa
+    if semantic:
+        is_semantic = True
+        pagination, semantic_reasons = utils.semantic_search_books(query=semantic, page=page, per_page=8)
+        title = semantic  # Hiển thị query trong ô tìm kiếm
+    elif title or author or category_ids or isbn_10 or isbn_13:
         pagination = utils.search_books(isbn_10=isbn_10 or None, isbn_13=isbn_13 or None, title=title or None, author=author or None, category_ids=category_ids or None, page=page, per_page=8)
     else:
         pagination = utils.search_books(page=page, per_page=8)
@@ -207,7 +217,9 @@ def book_searching():
                            search_author=author,
                            selected_category_ids=category_ids,
                            search_isbn_10=isbn_10,
-                           search_isbn_13=isbn_13)
+                           search_isbn_13=isbn_13,
+                           is_semantic=is_semantic,
+                           semantic_reasons=semantic_reasons)
 
 @app.route('/librarian/book-management/', methods=['GET'])
 def librarian_book_management():

@@ -1,7 +1,6 @@
-from future.backports.datetime import datetime
+from datetime import datetime
 
 from library_digital.extensions import db
-from .base import BaseModel
 
 class ReaderCategory(db.Model):
     __tablename__ = "reader_category"

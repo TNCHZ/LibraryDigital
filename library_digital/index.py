@@ -34,6 +34,11 @@ def home():
 def book_detail(book_id):
     book = utils.get_book_by_id(book_id)
 
+    if current_user.is_authenticated:
+        reader_id = current_user.id
+        utils.increase_view(reader_id, book_id)
+        db.session.commit()
+
     return render_template('user/book_detail.html', book=book)
 
 @app.route('/auth/login', methods=['get', 'post'])
@@ -54,7 +59,6 @@ def user_login():
                 return redirect(url_for('librarian_dashboard'))
             else:
                 return redirect(url_for('home'))
-            return redirect(url_for('home'))
         else:
             err_msg = "Sai tài khoản hoặc mật khẩu!!!"
 
@@ -701,4 +705,4 @@ def admin_statistics():
     
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)

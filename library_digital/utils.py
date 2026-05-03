@@ -1,3 +1,5 @@
+from sqlalchemy.dialects.mysql import insert
+
 from library_digital.extensions import db
 from library_digital.models import User, Book, Category, CategoryBook, BorrowSlip, ViewHistory, ReaderCategory, Admin, \
     Librarian, Reader
@@ -874,3 +876,16 @@ def recommend_books(reader_id):
         return []
 
     return final
+
+def increase_view(reader_id, book_id):
+    stmt = insert(ViewHistory).values(
+        reader_id=reader_id,
+        book_id=book_id,
+        count=1
+    )
+
+    stmt = stmt.on_duplicate_key_update(
+        count=ViewHistory.count + 1
+    )
+
+    db.session.execute(stmt)

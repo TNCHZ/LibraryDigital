@@ -16,6 +16,7 @@ class BorrowSlip(BaseModel):
 
     reader_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     librarian_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    book_id = db.Column(db.Integer, db.ForeignKey("book.id"), nullable=False)
     borrow_date = db.Column(db.DateTime)
     due_date = db.Column(db.DateTime)
     return_date = db.Column(db.DateTime)
@@ -27,3 +28,4 @@ class BorrowSlip(BaseModel):
 
     reader = db.relationship("User", foreign_keys=[reader_id], backref="borrow_slips")
     librarian = db.relationship("User", foreign_keys=[librarian_id], backref="managed_borrows")
+    book = db.relationship("Book", backref="book")

@@ -7,25 +7,25 @@
         <div class="mb-8 px-2">
             <div class="flex items-center gap-3 mb-1">
                 <span class="material-symbols-outlined text-[#533528] text-2xl"
-                      data-icon="library_books">library_books</span>
+                    data-icon="library_books">library_books</span>
                 <span class="text-lg font-black text-[#533528]">Thư viện số</span>
             </div>
             <p class="text-xs text-stone-500 uppercase tracking-widest pl-9">Private Archive</p>
         </div>
         <nav class="space-y-1">
-            <a class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 rounded-lg"
-               href="#">
+            <a href="{{ url_for('user_detail', user_id=current_user.id) }}"
+                class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 rounded-lg">
                 <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
                 <span>Hồ sơ người dùng</span>
             </a>
             <!-- Active Tab: Lịch sử mượn sách -->
-            <a class="flex items-center gap-3 px-4 py-3 bg-[#ffffff] text-[#533528] rounded-lg shadow-sm font-bold scale-[1.02] transition-all duration-200"
-               href="#">
+            <a href="{{ url_for('user_borrow_history') }}"
+                class="flex items-center gap-3 px-4 py-3 bg-[#ffffff] text-[#533528] rounded-lg shadow-sm font-bold scale-[1.02] transition-all duration-200">
                 <span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
                 <span>Lịch sử mượn sách</span>
             </a>
-            <a class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 rounded-lg"
-               href="#">
+            <a href="{{ url_for('borrow_status', user_id=current_user.id) }}"
+                class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 rounded-lg">
                 <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
                 <span>Trạng thái yêu cầu mượn</span>
             </a>
@@ -40,7 +40,7 @@
                         <nav class="flex gap-2 text-xs text-stone-500 mb-2 items-center">
                             <span>Trang chủ</span>
                             <span class="material-symbols-outlined text-[10px]"
-                                  data-icon="chevron_right">chevron_right</span>
+                                data-icon="chevron_right">chevron_right</span>
                             <span class="text-[#533528] font-semibold">Lịch sử mượn sách</span>
                         </nav>
                         <h1 class="text-4xl font-extrabold text-[#533528] tracking-tight mb-2">Lịch sử mượn sách</h1>
@@ -49,13 +49,16 @@
                             kho lưu trữ cá nhân của chúng tôi.</p>
                     </div>
                     <div class="flex gap-3">
-                        <button class="px-4 py-2 bg-surface-container-high text-on-surface rounded-lg text-sm font-semibold hover:bg-surface-container-highest transition-colors">
-                            <span class="material-symbols-outlined text-sm align-middle mr-1" data-icon="filter_list">filter_list</span>
+                        <button
+                            class="px-4 py-2 bg-surface-container-high text-on-surface rounded-lg text-sm font-semibold hover:bg-surface-container-highest transition-colors">
+                            <span class="material-symbols-outlined text-sm align-middle mr-1"
+                                data-icon="filter_list">filter_list</span>
                             Lọc kết quả
                         </button>
-                        <button class="px-4 py-2 bg-surface-container-high text-on-surface rounded-lg text-sm font-semibold hover:bg-surface-container-highest transition-colors">
-                        <span class="material-symbols-outlined text-sm align-middle mr-1"
-                              data-icon="download">download</span>
+                        <button
+                            class="px-4 py-2 bg-surface-container-high text-on-surface rounded-lg text-sm font-semibold hover:bg-surface-container-highest transition-colors">
+                            <span class="material-symbols-outlined text-sm align-middle mr-1"
+                                data-icon="download">download</span>
                             Xuất báo cáo
                         </button>
                     </div>
@@ -63,34 +66,31 @@
             </header>
             <!-- Stats Grid (Bento Style) -->
             <div class="grid grid-cols-4 gap-6 mb-10">
-                <div class="col-span-1 bg-surface-container-low p-6 rounded-xl hover:scale-[1.02] transition-all duration-300">
+                <div
+                    class="col-span-1 bg-surface-container-low p-6 rounded-xl hover:scale-[1.02] transition-all duration-300">
                     <p class="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Tổng số sách</p>
                     <div class="flex items-center justify-between">
-                        <span class="text-3xl font-black text-[#533528]">24</span>
-                        <span class="material-symbols-outlined text-primary/30 text-3xl" data-icon="auto_stories">auto_stories</span>
+                        <span class="text-3xl font-black text-[#533528]">{{ total_borrows }}</span>
+                        <span class="material-symbols-outlined text-primary/30 text-3xl"
+                            data-icon="auto_stories">auto_stories</span>
                     </div>
                 </div>
-                <div class="col-span-1 bg-surface-container-low p-6 rounded-xl hover:scale-[1.02] transition-all duration-300">
+                <div
+                    class="col-span-1 bg-surface-container-low p-6 rounded-xl hover:scale-[1.02] transition-all duration-300">
                     <p class="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Đang mượn</p>
                     <div class="flex items-center justify-between">
-                        <span class="text-3xl font-black text-[#533528]">03</span>
-                        <span class="material-symbols-outlined text-[#D9A066] text-3xl" data-icon="bookmark_manager">bookmark_manager</span>
+                        <span class="text-3xl font-black text-[#533528]">{{ current_borrows }}</span>
+                        <span class="material-symbols-outlined text-[#D9A066] text-3xl"
+                            data-icon="bookmark_manager">bookmark_manager</span>
                     </div>
                 </div>
-                <div class="col-span-1 bg-surface-container-low p-6 rounded-xl border-l-4 border-error/20 hover:scale-[1.02] transition-all duration-300">
+                <div
+                    class="col-span-1 bg-surface-container-low p-6 rounded-xl border-l-4 border-error/20 hover:scale-[1.02] transition-all duration-300">
                     <p class="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Quá hạn</p>
                     <div class="flex items-center justify-between">
-                        <span class="text-3xl font-black text-error">01</span>
+                        <span class="text-3xl font-black text-error">{{ overdue_borrows }}</span>
                         <span class="material-symbols-outlined text-error/30 text-3xl"
-                              data-icon="alarm_on">alarm_on</span>
-                    </div>
-                </div>
-                <div class="col-span-1 bg-primary text-on-primary p-6 rounded-xl shadow-lg shadow-primary/10 hover:scale-[1.02] transition-all duration-300">
-                    <p class="text-xs font-bold text-on-primary/60 uppercase tracking-widest mb-1">Hạng thành viên</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl font-black italic">Platinum</span>
-                        <span class="material-symbols-outlined text-on-primary/40 text-3xl" data-icon="verified"
-                              data-weight="fill">verified</span>
+                            data-icon="alarm_on">alarm_on</span>
                     </div>
                 </div>
             </div>
@@ -99,91 +99,92 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                        <tr class="bg-surface-container-high/50 text-stone-500 text-xs uppercase tracking-widest font-bold">
-                            <th class="px-8 py-5">Tên đầu sách</th>
-                            <th class="px-6 py-5">Ngày mượn</th>
-                            <th class="px-6 py-5">Hạn trả</th>
-                            <th class="px-6 py-5">Trạng thái</th>
-                            <th class="px-8 py-5 text-right">Thao tác</th>
-                        </tr>
+                            <tr
+                                class="bg-surface-container-high/50 text-stone-500 text-xs uppercase tracking-widest font-bold">
+                                <th class="px-8 py-5">Tên đầu sách</th>
+                                <th class="px-6 py-5">Ngày mượn</th>
+                                <th class="px-6 py-5">Hạn trả</th>
+                                <th class="px-6 py-5">Trạng thái</th>
+                                <th class="px-8 py-5 text-right">Thao tác</th>
+                            </tr>
                         </thead>
-                     <tbody class="divide-y divide-surface-container-low">
-{% for slip in data['items'] %}
-<tr class="hover:bg-surface-container-low transition-colors duration-200">
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-4">
-            <div class="w-12 h-16 bg-surface-container-high rounded shadow-sm overflow-hidden flex-shrink-0">
-                <img class="w-full h-full object-cover"
-                     src="{{ slip.book.image if slip.book else '' }}">
-            </div>
-            <div>
-                <p class="font-bold text-[#533528]">
-                    {{ slip.book.title if slip.book else 'Không có tên sách' }}
-                </p>
-                <p class="text-xs text-stone-400">ID: {{ slip.book_id }}</p>
-            </div>
-        </div>
-    </td>
+                        <tbody class="divide-y divide-surface-container-low">
+                            {% for slip in data['items'] %}
+                            <tr class="hover:bg-surface-container-low transition-colors duration-200">
+                                <td class="px-8 py-6">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-12 h-16 bg-surface-container-high rounded shadow-sm overflow-hidden flex-shrink-0">
+                                            <img class="w-full h-full object-cover"
+                                                src="{{ slip.book.image if slip.book else '' }}">
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-[#533528]">
+                                                {{ slip.book.title if slip.book else 'Không có tên sách' }}
+                                            </p>
+                                            <p class="text-xs text-stone-400">ID: {{ slip.book_id }}</p>
+                                        </div>
+                                    </div>
+                                </td>
 
-    <td class="px-6 py-6 text-sm text-stone-600">
-        {{ slip.borrow_date.strftime('%d/%m/%Y') if slip.borrow_date else '' }}
-    </td>
+                                <td class="px-6 py-6 text-sm text-stone-600">
+                                    {{ slip.borrow_date.strftime('%d/%m/%Y') if slip.borrow_date else '' }}
+                                </td>
 
-    <td class="px-6 py-6 text-sm font-medium
+                                <td class="px-6 py-6 text-sm font-medium
         {% if slip.status.value == 'OVERDUE' %} text-error {% else %} text-stone-600 {% endif %}">
-        {{ slip.due_date.strftime('%d/%m/%Y') if slip.due_date else '' }}
-    </td>
+                                    {{ slip.due_date.strftime('%d/%m/%Y') if slip.due_date else '' }}
+                                </td>
 
-    <td class="px-6 py-6">
-        {% if slip.status.value == 'OVERDUE' %}
-            <span class="px-2 py-1 text-xs font-bold bg-red-100 text-red-600 rounded">
-                Quá hạn
-            </span>
-        {% elif slip.status.value == 'RETURNED' %}
-            <span class="px-2 py-1 text-xs font-bold bg-green-100 text-green-600 rounded">
-                Hoàn thành
-            </span>
-        {% else %}
-            <span class="px-2 py-1 text-xs font-bold bg-yellow-100 text-yellow-600 rounded">
-                {{ slip.status.value }}
-            </span>
-        {% endif %}
-    </td>
+                                <td class="px-6 py-6">
+                                    {% if slip.status.value == 'OVERDUE' %}
+                                    <span class="px-2 py-1 text-xs font-bold bg-red-100 text-red-600 rounded">
+                                        Quá hạn
+                                    </span>
+                                    {% elif slip.status.value == 'RETURNED' %}
+                                    <span class="px-2 py-1 text-xs font-bold bg-green-100 text-green-600 rounded">
+                                        Hoàn thành
+                                    </span>
+                                    {% else %}
+                                    <span class="px-2 py-1 text-xs font-bold bg-yellow-100 text-yellow-600 rounded">
+                                        {{ slip.status.value }}
+                                    </span>
+                                    {% endif %}
+                                </td>
 
-    <td class="px-8 py-6 text-right">
-        <button class="text-stone-400 font-bold text-sm">Chi tiết</button>
-    </td>
-</tr>
-{% endfor %}
-</tbody>
+                                <td class="px-8 py-6 text-right">
+                                    <a href="{{ url_for('user_borrow_slip_detail', slip_id=slip.id) }}"
+                                        class="text-[#533528] font-bold text-sm hover:text-primary transition-colors">Chi
+                                        tiết</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
                     </table>
                 </div>
                 <!-- Pagination -->
-              <footer class="px-8 py-6 flex justify-between items-center">
-    <span class="text-xs text-stone-500">
-        Trang {{ data.page }} / {{ data.pages }} - Tổng {{ data.total }} bản ghi
-    </span>
+                <footer class="px-8 py-6 flex justify-between items-center">
+                    <span class="text-xs text-stone-500">
+                        Trang {{ data.page }} / {{ data.pages }} - Tổng {{ data.total }} bản ghi
+                    </span>
 
-    <div class="flex gap-2">
-        {% if data.has_prev %}
-            <a href="?page={{ data.page - 1 }}"
-               class="px-3 py-1 bg-gray-200 rounded">Prev</a>
-        {% endif %}
+                    <div class="flex gap-2">
+                        {% if data.has_prev %}
+                        <a href="?page={{ data.page - 1 }}" class="px-3 py-1 bg-gray-200 rounded">Prev</a>
+                        {% endif %}
 
-        {% for p in range(1, data.pages + 1) %}
-            <a href="?page={{ p }}"
-               class="px-3 py-1 rounded
+                        {% for p in range(1, data.pages + 1) %}
+                        <a href="?page={{ p }}" class="px-3 py-1 rounded
                {% if p == data.page %} bg-[#533528] text-white {% else %} bg-gray-200 {% endif %}">
-                {{ p }}
-            </a>
-        {% endfor %}
+                            {{ p }}
+                        </a>
+                        {% endfor %}
 
-        {% if data.has_next %}
-            <a href="?page={{ data.page + 1 }}"
-               class="px-3 py-1 bg-gray-200 rounded">Next</a>
-        {% endif %}
-    </div>
-</footer>
+                        {% if data.has_next %}
+                        <a href="?page={{ data.page + 1 }}" class="px-3 py-1 bg-gray-200 rounded">Next</a>
+                        {% endif %}
+                    </div>
+                </footer>
             </div>
             <!-- Secondary Content: Reading Tips / Archival Policy -->
             <section class="mt-12 grid grid-cols-3 gap-8">
@@ -193,18 +194,24 @@
                         <p class="text-on-primary/70 mb-6 max-w-md">Bạn có thể gia hạn thời gian mượn trực tuyến tối đa
                             2
                             lần cho mỗi đầu sách nếu không có người khác đang chờ.</p>
-                        <button class="px-6 py-2.5 bg-[#D9A066] text-primary font-bold rounded-lg hover:bg-[#eabdaa] transition-colors">
+                        <button
+                            class="px-6 py-2.5 bg-[#D9A066] text-primary font-bold rounded-lg hover:bg-[#eabdaa] transition-colors">
                             Tìm hiểu quy định
                         </button>
                     </div>
                     <!-- Abstract Decorative Element -->
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-[#6d4c3d] rounded-full translate-x-20 -translate-y-20 opacity-30 blur-3xl"></div>
-                    <div class="absolute bottom-0 right-0 w-32 h-32 bg-[#D9A066] rounded-full translate-x-10 translate-y-10 opacity-10 blur-2xl"></div>
+                    <div
+                        class="absolute top-0 right-0 w-64 h-64 bg-[#6d4c3d] rounded-full translate-x-20 -translate-y-20 opacity-30 blur-3xl">
+                    </div>
+                    <div
+                        class="absolute bottom-0 right-0 w-32 h-32 bg-[#D9A066] rounded-full translate-x-10 translate-y-10 opacity-10 blur-2xl">
+                    </div>
                 </div>
-                <div class="col-span-1 bg-tertiary-fixed text-on-tertiary-fixed p-8 rounded-2xl flex flex-col justify-between">
+                <div
+                    class="col-span-1 bg-tertiary-fixed text-on-tertiary-fixed p-8 rounded-2xl flex flex-col justify-between">
                     <div>
                         <span class="material-symbols-outlined text-3xl mb-4"
-                              data-icon="auto_awesome">auto_awesome</span>
+                            data-icon="auto_awesome">auto_awesome</span>
                         <h3 class="text-xl font-bold mb-2">Gợi ý dành riêng cho bạn</h3>
                         <p class="text-sm opacity-80">Dựa trên lịch sử mượn sác của bạn, chúng tôi đã tuyển chọn danh
                             sách
@@ -213,7 +220,7 @@
                     <a class="text-sm font-bold flex items-center gap-1 group" href="#">
                         Xem danh sách
                         <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform"
-                              data-icon="arrow_forward">arrow_forward</span>
+                            data-icon="arrow_forward">arrow_forward</span>
                     </a>
                 </div>
             </section>

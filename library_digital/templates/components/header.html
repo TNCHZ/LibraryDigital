@@ -39,14 +39,23 @@
         {% if current_user.is_authenticated %}
         <div class="flex items-center gap-3">
             <a href="{{ url_for('user_detail', user_id=current_user.id) }}">
+                {% if current_user.avatar %}
                 <img src="{{ current_user.avatar }}"
                     class="w-9 h-9 rounded-full object-cover border border-gray-300 shadow-sm"
-                    alt="{{ current_user.last_name }}" />
+                    alt="{{ current_user.first_name }} {{ current_user.last_name }}" />
+                {% else %}
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-tertiary flex items-center justify-center border border-gray-300 shadow-sm">
+                    <span class="text-white text-sm font-bold">
+                        {{ current_user.first_name[0] }}{{ current_user.last_name[0] }}
+                    </span>
+                </div>
+                {% endif %}
             </a>
             <div class="flex flex-col leading-tight">
                 <span class="text-sm font-semibold text-gray-800">
                     {{ current_user.first_name }} {{ current_user.last_name }}
                 </span>
+                <span class="text-xs text-gray-500">Độc giả</span>
             </div>
             <a href="{{ url_for('user_logout') }}"
                 class="ml-3 px-4 py-2 bg-primary text-on-primary rounded-lg font-semibold hover:scale-[1.03] transition-transform duration-200">

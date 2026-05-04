@@ -6,6 +6,7 @@ client = OpenAI(
     base_url="https://openrouter.ai/api/v1"
 )
 
+
 def call_ai(profile, candidates):
     candidate_text = "\n".join([f"- {c['title']}" for c in candidates])
 

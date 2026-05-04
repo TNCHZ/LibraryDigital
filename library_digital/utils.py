@@ -97,6 +97,10 @@ def get_user_by_id(user_id):
 def get_books():
     return Book.query.all()
 
+def get_new_books(limit=8):
+    """Get recently added books ordered by creation date"""
+    return Book.query.order_by(Book.created_at.desc()).limit(limit).all()
+
 def get_book_by_id(book_id):
     return Book.query.get(book_id)
 
@@ -195,7 +199,7 @@ def get_category_by_id(category_id):
     return Category.query.get(category_id)
 
 
-def add_book(title, description, publisher, published_date, price, author, isbn_10, isbn_13, image, language, category_ids, librarian_id=None):
+def add_book(title, description, publisher, published_date, price, author, isbn_10, isbn_13, image, language, category_ids, librarian_id=None, quantity=1):
     book = Book(
         title=title.strip(),
         description=description.strip(),
@@ -208,7 +212,8 @@ def add_book(title, description, publisher, published_date, price, author, isbn_
         image=image,
         is_active=True,
         language=language.strip() if language else None,
-        librarian_id=librarian_id
+        librarian_id=librarian_id,
+        quantity=quantity
     )
 
     db.session.add(book)
@@ -226,7 +231,7 @@ def add_book(title, description, publisher, published_date, price, author, isbn_
 
 
 def update_book(book_id, title=None, description=None, publisher=None, published_date=None, price=None,
-                author=None, isbn_10=None, isbn_13=None, image=None, language=None, is_active=None, category_ids=None):
+                author=None, isbn_10=None, isbn_13=None, image=None, language=None, is_active=None, category_ids=None, quantity=None):
     book = get_book_by_id(book_id)
     if not book:
         return None
@@ -253,6 +258,8 @@ def update_book(book_id, title=None, description=None, publisher=None, published
         book.language = language.strip() if language else None
     if is_active is not None:
         book.is_active = is_active
+    if quantity is not None:
+        book.quantity = quantity
 
     # Update categories
     if category_ids is not None:
@@ -331,17 +338,32 @@ def can_borrow(reader_id, book_id):
     return True, "OK"
 
 
-def get_borrow_slips_by_reader(reader_id, page=1, per_page=5):
-    query = BorrowSlip.query.filter_by(reader_id=reader_id).order_by(BorrowSlip.id.desc())
-    pagination = query.paginate(page=page, per_page=per_page, error_out=False)
+def get_borrow_slips_by_reader(reader_id, page=1, per_page=10):
+    query = BorrowSlip.query.filter_by(reader_id=reader_id).order_by(BorrowSlip.created_at.desc())
+    return query.paginate(page=page, per_page=per_page, error_out=False)
 
+
+def get_user_borrow_statistics(reader_id):
+    """Get borrowing statistics for a specific user"""
+    total_borrows = BorrowSlip.query.filter_by(reader_id=reader_id).count()
+    current_borrows = BorrowSlip.query.filter_by(reader_id=reader_id, status=BorrowStatus.BORROWING).count()
+    overdue_borrows = BorrowSlip.query.filter_by(reader_id=reader_id, status=BorrowStatus.OVERDUE).count()
+    
+    # Calculate membership tier based on total borrows
+    if total_borrows >= 50:
+        tier = "Platinum"
+    elif total_borrows >= 25:
+        tier = "Gold"
+    elif total_borrows >= 10:
+        tier = "Silver"
+    else:
+        tier = "Bronze"
+    
     return {
-        "items": list(pagination.items),
-        "total": pagination.total,
-        "page": pagination.page,
-        "pages": pagination.pages,
-        "has_next": bool(pagination.has_next),
-        "has_prev": bool(pagination.has_prev)
+        "total_borrows": total_borrows,
+        "current_borrows": current_borrows,
+        "overdue_borrows": overdue_borrows,
+        "membership_tier": tier
     }
 
 def get_reserved_slip_by_reader(reader_id):
@@ -380,7 +402,7 @@ def approve_borrow_slip(slip_id, librarian_id):
         slip.status = BorrowStatus.BORROWING
         slip.librarian_id = librarian_id
         slip.borrow_date = datetime.now()
-        slip.due_date = slip.borrow_date + timedelta(days=30)
+        slip.due_date = slip.borrow_date + timedelta(days=14)
 
         db.session.commit()
         return True, "Duyệt đơn mượn thành công"
@@ -423,6 +445,32 @@ def get_user_stats():
     }
 
 
+def get_book_statistics():
+    """Get book management statistics"""
+    total_books = Book.query.count()
+    active_books = Book.query.filter_by(is_active=True).count()
+    inactive_books = Book.query.filter_by(is_active=False).count()
+    
+    # Count books currently borrowed
+    from library_digital.models import BorrowSlip, BorrowStatus
+    borrowed_books = BorrowSlip.query.filter(
+        BorrowSlip.status.in_([BorrowStatus.BORROWING, BorrowStatus.OVERDUE])
+    ).count()
+    
+    # Count new books added this month
+    from datetime import datetime, timedelta
+    this_month_start = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    new_books_this_month = Book.query.filter(Book.created_at >= this_month_start).count()
+    
+    return {
+        "total_books": total_books,
+        "active_books": active_books,
+        "inactive_books": inactive_books,
+        "borrowed_books": borrowed_books,
+        "new_books_this_month": new_books_this_month
+    }
+
+
 def get_users(role=None, is_active=None):
     query = User.query
 
@@ -436,6 +484,29 @@ def get_users(role=None, is_active=None):
 
 
     return query.all()
+
+
+def get_users_paginated(role=None, is_active=None, page=1, per_page=10):
+    """Get users with pagination and optional filters"""
+    query = User.query
+
+    if role and role != "ALL":
+        query = query.filter(User.role == UserRole[role])
+
+    if is_active is not None:
+        query = query.filter(User.is_active == is_active)
+
+    return query.paginate(page=page, per_page=per_page, error_out=False)
+
+
+def get_readers_paginated(is_active=None, page=1, per_page=10):
+    """Get only readers with pagination and optional filters"""
+    query = User.query.filter(User.role == UserRole.READER)
+
+    if is_active is not None:
+        query = query.filter(User.is_active == is_active)
+
+    return query.paginate(page=page, per_page=per_page, error_out=False)
 
 
 def admin_add_user(first_name, last_name, username, password, email, phone, gender, role, **kwargs):
@@ -889,3 +960,48 @@ def increase_view(reader_id, book_id):
     )
 
     db.session.execute(stmt)
+    db.session.commit()
+
+
+def return_book(slip_id, librarian_id):
+    """Return a book - change status from BORROWING/OVERDUE to RETURNED"""
+    try:
+        slip = get_borrow_slip_by_id(slip_id)
+        if not slip:
+            return False, "Không tìm thấy đơn mượn"
+
+        if slip.status not in [BorrowStatus.BORROWING, BorrowStatus.OVERDUE]:
+            return False, "Đơn mượn không ở trạng thái có thể trả"
+
+        from datetime import datetime
+        slip.status = BorrowStatus.RETURNED
+        slip.librarian_id = librarian_id
+        slip.return_date = datetime.now()
+
+        db.session.commit()
+        return True, "Xác nhận trả sách thành công"
+    except Exception as e:
+        db.session.rollback()
+        return False, f"Lỗi: {str(e)}"
+
+
+def mark_book_lost(slip_id, librarian_id, note=None):
+    """Mark a book as lost - change status to LOST"""
+    try:
+        slip = get_borrow_slip_by_id(slip_id)
+        if not slip:
+            return False, "Không tìm thấy đơn mượn"
+
+        if slip.status not in [BorrowStatus.BORROWING, BorrowStatus.OVERDUE]:
+            return False, "Đơn mượn không ở trạng thái có thể đánh dấu mất"
+
+        slip.status = BorrowStatus.LOST
+        slip.librarian_id = librarian_id
+        if note:
+            slip.note = note if not slip.note else f"{slip.note}\n[Đánh dấu mất]: {note}"
+
+        db.session.commit()
+        return True, "Đánh dấu sách mất thành công"
+    except Exception as e:
+        db.session.rollback()
+        return False, f"Lỗi: {str(e)}"

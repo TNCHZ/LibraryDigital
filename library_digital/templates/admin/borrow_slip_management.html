@@ -5,44 +5,6 @@
 {% include 'components/sidebar_admin.html' %}
 <!-- Main Content Area -->
 <main class="ml-64 flex-1 flex flex-col min-h-screen">
-    <!-- TopNavBar Shell -->
-    <header
-        class="bg-[#fdf9f5]/80 dark:bg-stone-950/80 backdrop-blur-xl sticky top-0 z-40 w-full px-8 py-4 flex justify-between items-center font-['Plus_Jakarta_Sans'] tracking-tight">
-        <div class="flex items-center space-x-6 flex-1">
-            <h2 class="text-xl font-bold text-[#533528] dark:text-[#f7f3ef] mr-8">Quản lý đơn mượn</h2>
-            <div class="relative w-full max-w-md group">
-                <span
-                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/50 group-focus-within:text-tertiary transition-colors"
-                    data-icon="search">search</span>
-                <input
-                    class="w-full bg-surface-container-high border-none rounded-full py-2.5 pl-12 pr-4 text-sm focus:ring-2 focus:ring-tertiary/20 placeholder-on-surface-variant/40 transition-all"
-                    placeholder="Tìm kiếm đơn mượn, tên bạn đọc..." type="text" />
-            </div>
-        </div>
-        <div class="flex items-center space-x-6">
-            <div class="flex items-center space-x-2">
-                <button class="p-2 rounded-full hover:bg-surface-container transition-colors relative">
-                    <span class="material-symbols-outlined text-[#6d4c3d]"
-                        data-icon="notifications">notifications</span>
-                    <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
-                </button>
-                <button class="p-2 rounded-full hover:bg-surface-container transition-colors">
-                    <span class="material-symbols-outlined text-[#6d4c3d]" data-icon="settings">settings</span>
-                </button>
-            </div>
-            <div class="h-10 w-[1px] bg-outline-variant/30"></div>
-            <div class="flex items-center space-x-3">
-                <div class="text-right hidden sm:block">
-                    <p class="text-xs font-bold text-[#533528]">Admin Profile</p>
-                    <p class="text-[10px] text-on-surface-variant">Librarian Senior</p>
-                </div>
-                <img alt="Admin Profile"
-                    class="w-10 h-10 rounded-full object-cover border-2 border-primary-container/20 shadow-sm"
-                    data-alt="portrait of a professional male librarian in a crisp white shirt with soft studio lighting and warm tones"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5VgVMCP_wLriguGsAEhG6nTP5BaxXIiI2XXQ_N3tJOPiywx1z1NzT761P6Wzz-UFAPi5yoJ3Ef33G4STSYY-uRsaEgkQyZUHX57uAA7zkCKMKEvdRn1ZHbAUffN5Is5ic5hqP-8B_B8KVastpXKMXUZEi75BEFyII_O0s8fYnJbxloCI2ZgdH2x_6zeZx-ZVtDtUBtoK228JAXF1QarD8W8RZHuKvz_Pm6ovqqKXlkVYZ9UD0MLxmT_X0gVMKDDw8glR0tOl8LAp7" />
-            </div>
-        </div>
-    </header>
     <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -77,7 +39,7 @@
                     <span class="text-xs font-medium text-on-surface-variant">+12 hôm nay</span>
                 </div>
                 <h3 class="text-on-surface-variant text-sm font-medium">Đang chờ duyệt</h3>
-                <p class="text-3xl font-black text-primary mt-1">24</p>
+                <p class="text-3xl font-black text-primary mt-1">{{ "{:,}".format(stats.pending_loans if stats else 0) }}</p>
             </div>
             <div
                 class="bg-surface-container-lowest p-6 rounded-xl shadow-[4px_0_24px_rgba(28,28,25,0.04)] border-b-2 border-primary-container/10 transition-transform duration-300 hover:scale-[1.02]">
@@ -89,7 +51,7 @@
                     <span class="text-xs font-medium text-on-surface-variant">Tháng này</span>
                 </div>
                 <h3 class="text-on-surface-variant text-sm font-medium">Đã phê duyệt</h3>
-                <p class="text-3xl font-black text-primary mt-1">156</p>
+                <p class="text-3xl font-black text-primary mt-1">{{ "{:,}".format(stats.active_loans if stats else 0) }}</p>
             </div>
             <div
                 class="bg-surface-container-lowest p-6 rounded-xl shadow-[4px_0_24px_rgba(28,28,25,0.04)] border-b-2 border-primary-container/10 transition-transform duration-300 hover:scale-[1.02]">
@@ -101,7 +63,7 @@
                     <span class="text-xs font-medium text-on-surface-variant">Tỷ lệ 92%</span>
                 </div>
                 <h3 class="text-on-surface-variant text-sm font-medium">Đã trả sách</h3>
-                <p class="text-3xl font-black text-primary mt-1">1,204</p>
+                <p class="text-3xl font-black text-primary mt-1">{{ "{:,}".format(stats.returned_loans if stats else 0) }}</p>
             </div>
         </div>
         <!-- Table Section -->
@@ -218,10 +180,27 @@
                                         class="p-2 text-on-surface-variant hover:text-error transition-colors" title="Từ chối">
                                         <span class="material-symbols-outlined text-lg">cancel</span>
                                     </button>
-                                    {% endif %}
-                                    <button class="p-2 text-on-surface-variant hover:text-primary-container transition-colors" title="Xem chi tiết">
-                                        <span class="material-symbols-outlined text-lg">visibility</span>
+                                    {% elif slip.status.value == 'BORROWING' %}
+                                    <button data-slip-id="{{ slip.id }}" data-reader="{{ slip.reader.full_name if slip.reader else 'Unknown' }}" data-book="{{ slip.book.title if slip.book else 'Unknown' }}"
+                                        onclick="openReturnModal(this)"
+                                        class="p-2 text-on-surface-variant hover:text-secondary transition-colors" title="Xác nhận trả">
+                                        <span class="material-symbols-outlined text-lg">assignment_return</span>
                                     </button>
+                                    {% elif slip.status.value == 'OVERDUE' %}
+                                    <button data-slip-id="{{ slip.id }}" data-reader="{{ slip.reader.full_name if slip.reader else 'Unknown' }}" data-book="{{ slip.book.title if slip.book else 'Unknown' }}"
+                                        onclick="openReturnModal(this)"
+                                        class="p-2 text-on-surface-variant hover:text-secondary transition-colors" title="Xác nhận trả">
+                                        <span class="material-symbols-outlined text-lg">assignment_return</span>
+                                    </button>
+                                    <button data-slip-id="{{ slip.id }}" data-reader="{{ slip.reader.full_name if slip.reader else 'Unknown' }}" data-book="{{ slip.book.title if slip.book else 'Unknown' }}"
+                                        onclick="openMarkLostModal(this)"
+                                        class="p-2 text-on-surface-variant hover:text-error transition-colors" title="Đánh dấu mất">
+                                        <span class="material-symbols-outlined text-lg">report_problem</span>
+                                    </button>
+                                    {% endif %}
+                                    <a href="{{ url_for('admin_borrow_slip_detail', slip_id=slip.id) }}" class="p-2 text-on-surface-variant hover:text-primary-container transition-colors" title="Xem chi tiết">
+                                        <span class="material-symbols-outlined text-lg">visibility</span>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
@@ -312,14 +291,16 @@
                     <p class="text-xs text-on-primary-container mt-1 opacity-80">Danh sách sách quá hạn trên 14 ngày</p>
                 </div>
                 <div class="mt-6 space-y-4">
+                    {% for overdue in overdue_books %}
                     <div class="flex justify-between items-center bg-white/5 p-3 rounded-lg border border-white/10">
-                        <span class="text-sm font-medium">Chiến Tranh và Hòa Bình</span>
+                        <span class="text-sm font-medium">{{ overdue.book.title if overdue.book else 'Unknown' }}</span>
                         <span class="text-xs font-bold bg-error px-2 py-0.5 rounded">QUÁ HẠN</span>
                     </div>
-                    <div class="flex justify-between items-center bg-white/5 p-3 rounded-lg border border-white/10">
-                        <span class="text-sm font-medium">Bắt Trẻ Đồng Xanh</span>
-                        <span class="text-xs font-bold bg-error px-2 py-0.5 rounded">QUÁ HẠN</span>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <p class="text-sm text-on-primary/70">Không có sách quá hạn</p>
                     </div>
+                    {% endfor %}
                 </div>
                 <button
                     class="w-full mt-6 py-3 bg-[#eabdaa] text-[#2d1509] rounded-lg font-bold text-sm hover:bg-[#ffdbcc] transition-colors">
@@ -401,6 +382,67 @@
     </div>
 </div>
 
+<!-- Return Modal -->
+<div id="returnModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+    <div class="bg-surface-container-low rounded-2xl p-8 w-full max-w-md shadow-2xl">
+        <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-3xl text-secondary">assignment_return</span>
+            </div>
+            <h2 class="text-2xl font-headline font-bold text-primary mb-2">Xác nhận trả sách</h2>
+            <p class="text-on-surface-variant mb-2">Bạn có chắc chắn muốn xác nhận trả sách này?</p>
+            <div class="bg-surface-container-high rounded-lg p-4 mb-6 text-left w-full">
+                <p class="text-sm"><strong>Độc giả:</strong> <span id="returnReader"></span></p>
+                <p class="text-sm"><strong>Sách:</strong> <span id="returnBook"></span></p>
+            </div>
+            <form id="returnForm" method="POST" action="">
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeReturnModal()" class="px-6 py-2 rounded-lg font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        Hủy
+                    </button>
+                    <button type="submit" class="bg-secondary text-on-secondary px-6 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] transition-transform">
+                        <span class="material-symbols-outlined text-sm">done</span>
+                        Xác nhận trả
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Mark Lost Modal -->
+<div id="markLostModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+    <div class="bg-surface-container-low rounded-2xl p-8 w-full max-w-md shadow-2xl">
+        <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 bg-error-container rounded-full flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-3xl text-error">report_problem</span>
+            </div>
+            <h2 class="text-2xl font-headline font-bold text-primary mb-2">Đánh dấu sách mất</h2>
+            <p class="text-on-surface-variant mb-2">Bạn có chắc chắn muốn đánh dấu sách này là mất?</p>
+            <div class="bg-surface-container-high rounded-lg p-4 mb-4 text-left w-full">
+                <p class="text-sm"><strong>Độc giả:</strong> <span id="markLostReader"></span></p>
+                <p class="text-sm"><strong>Sách:</strong> <span id="markLostBook"></span></p>
+            </div>
+            <form id="markLostForm" method="POST" action="" class="w-full">
+                <div class="mb-4 text-left">
+                    <label class="block text-sm font-semibold text-on-surface mb-2">Ghi chú:</label>
+                    <textarea id="markLostNote" name="note" rows="3" placeholder="Nhập ghi chú về việc sách bị mất..."
+                        class="w-full bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-error resize-none"></textarea>
+                </div>
+                <div class="flex gap-3 justify-center">
+                    <button type="button" onclick="closeMarkLostModal()" class="px-6 py-2 rounded-lg font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        Hủy
+                    </button>
+                    <button type="submit" class="bg-error text-on-error px-6 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-[1.02] transition-transform">
+                        <span class="material-symbols-outlined text-sm">warning</span>
+                        Đánh dấu mất
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
 function openApproveModal(button) {
     const slipId = button.dataset.slipId;
@@ -428,6 +470,37 @@ function openRejectModal(button) {
     document.getElementById('rejectModal').classList.remove('hidden');
 }
 
+function openReturnModal(button) {
+    const slipId = button.dataset.slipId;
+    const reader = button.dataset.reader;
+    const book = button.dataset.book;
+
+    document.getElementById('returnReader').textContent = reader;
+    document.getElementById('returnBook').textContent = book;
+    document.getElementById('returnForm').action = `/admin/borrow-slip/${slipId}/return/`;
+    document.getElementById('returnModal').classList.remove('hidden');
+}
+
+function closeReturnModal() {
+    document.getElementById('returnModal').classList.add('hidden');
+}
+
+function openMarkLostModal(button) {
+    const slipId = button.dataset.slipId;
+    const reader = button.dataset.reader;
+    const book = button.dataset.book;
+
+    document.getElementById('markLostReader').textContent = reader;
+    document.getElementById('markLostBook').textContent = book;
+    document.getElementById('markLostForm').action = `/admin/borrow-slip/${slipId}/mark-lost/`;
+    document.getElementById('markLostModal').classList.remove('hidden');
+}
+
+function closeMarkLostModal() {
+    document.getElementById('markLostModal').classList.add('hidden');
+    document.getElementById('markLostNote').value = '';
+}
+
 function closeRejectModal() {
     document.getElementById('rejectModal').classList.add('hidden');
     document.getElementById('rejectNote').value = '';
@@ -440,6 +513,12 @@ window.onclick = function(event) {
     }
     if (event.target.id === 'rejectModal') {
         closeRejectModal();
+    }
+    if (event.target.id === 'returnModal') {
+        closeReturnModal();
+    }
+    if (event.target.id === 'markLostModal') {
+        closeMarkLostModal();
     }
 }
 </script>

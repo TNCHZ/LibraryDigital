@@ -1,0 +1,223 @@
+{% extends 'user/layout.html' %}
+
+{% block content %}
+<div class="flex min-h-screen">
+    <!-- Sidebar Navigation -->
+    <aside class="w-72 bg-[#f7f3ef] p-6 pt-24">
+        <div class="mb-8 px-2">
+            <div class="flex items-center gap-3 mb-1">
+                <span class="material-symbols-outlined text-[#533528] text-2xl" data-icon="library_books">library_books</span>
+                <span class="text-lg font-black text-[#533528]">Thư viện số</span>
+            </div>
+            <p class="text-xs text-stone-500 uppercase tracking-widest pl-9">Private Archive</p>
+        </div>
+        <nav class="space-y-1">
+            <a href="{{ url_for('user_borrow_history') }}" class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 rounded-lg">
+                <span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+                <span>Lịch sử mượn sách</span>
+            </a>
+            <a href="{{ url_for('borrow_status', user_id=current_user.id) }}" class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 rounded-lg">
+                <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+                <span>Trạng thái yêu cầu mượn</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex flex-col flex-1">
+        <main class="pt-24 px-12 flex-1">
+            <header class="mb-10">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <nav class="flex gap-2 text-xs text-stone-500 mb-2 items-center">
+                            <a href="{{ url_for('user_borrow_history') }}" class="hover:text-[#533528] transition-colors">Lịch sử mượn sách</a>
+                            <span class="material-symbols-outlined text-[10px]" data-icon="chevron_right">chevron_right</span>
+                            <span class="text-[#533528] font-semibold">Chi tiết đơn mượn #{{ slip.id }}</span>
+                        </nav>
+                        <h1 class="text-4xl font-extrabold text-[#533528] tracking-tight mb-2">Chi tiết đơn mượn</h1>
+                        <p class="text-on-surface-variant max-w-md">Xem thông tin chi tiết về đơn mượn sách của bạn</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Status Badge -->
+            <div class="flex items-center gap-4 mb-8">
+                <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-bold
+                    {% if slip.status.value == 'RESERVED' %}bg-warning/20 text-warning
+                    {% elif slip.status.value == 'BORROWING' %}bg-tertiary/20 text-tertiary
+                    {% elif slip.status.value == 'OVERDUE' %}bg-error/20 text-error
+                    {% elif slip.status.value == 'RETURNED' %}bg-success/20 text-success
+                    {% elif slip.status.value == 'REJECTED' %}bg-error/20 text-error
+                    {% else %}bg-surface-container-high text-on-surface-variant{% endif %}">
+                    <span class="w-2 h-2 rounded-full mr-2
+                        {% if slip.status.value == 'RESERVED' %}bg-warning
+                        {% elif slip.status.value == 'BORROWING' %}bg-tertiary
+                        {% elif slip.status.value == 'OVERDUE' %}bg-error
+                        {% elif slip.status.value == 'RETURNED' %}bg-success
+                        {% elif slip.status.value == 'REJECTED' %}bg-error
+                        {% else %}bg-surface-container-highest{% endif %}"></span>
+                    {{ slip.status.value }}
+                </span>
+                <span class="text-sm text-on-surface-variant">Mã đơn: #{{ slip.id }}</span>
+                <span class="text-sm text-on-surface-variant">Ngày tạo: {{ slip.created_at.strftime('%d/%m/%Y %H:%M') if slip.created_at else '' }}</span>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column - Book Info -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Book Information -->
+                    <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-surface-container-low/50 px-8 py-4 border-b border-surface-container-low">
+                            <h3 class="text-lg font-bold text-primary flex items-center gap-2">
+                                <span class="material-symbols-outlined text-xl" data-icon="menu_book">menu_book</span>
+                                Thông tin sách
+                            </h3>
+                        </div>
+                        <div class="p-8">
+                            <div class="flex gap-6">
+                                <div class="w-32 h-48 bg-surface-container-high rounded-lg overflow-hidden flex-shrink-0">
+                                    <img src="{{ slip.book.image if slip.book else '' }}" alt="{{ slip.book.title if slip.book else 'Không có ảnh' }}" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1 space-y-4">
+                                    <div>
+                                        <h4 class="text-xl font-bold text-primary mb-2">{{ slip.book.title if slip.book else 'Không có tên sách' }}</h4>
+                                        <p class="text-on-surface-variant">Tác giả: {{ slip.book.author if slip.book else 'Không có tác giả' }}</p>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-1">ISBN</p>
+                                            <p class="text-sm text-on-surface">{{ slip.book.isbn_13 or slip.book.isbn_10 or 'N/A' }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-1">Thể loại</p>
+                                            <p class="text-sm text-on-surface">
+                                                {% if slip.book and slip.book.categories %}
+                                                    {% for cat in slip.book.categories %}
+                                                        {{ cat.name }}{% if not loop.last %}, {% endif %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                    Chưa phân loại
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {% if slip.book.description %}
+                                    <div>
+                                        <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-2">Mô tả</p>
+                                        <p class="text-sm text-on-surface line-clamp-3">{{ slip.book.description }}</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Timeline & Status -->
+                <div class="space-y-8">
+                    <!-- Borrow Timeline -->
+                    <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-surface-container-low/50 px-8 py-4 border-b border-surface-container-low">
+                            <h3 class="text-lg font-bold text-primary flex items-center gap-2">
+                                <span class="material-symbols-outlined text-xl" data-icon="schedule">schedule</span>
+                                Lịch sử đơn mượn
+                            </h3>
+                        </div>
+                        <div class="p-8 space-y-6">
+                            <div class="flex gap-4">
+                                <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined text-primary text-sm" data-icon="calendar_today">calendar_today</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-on-surface">Ngày tạo đơn</p>
+                                    <p class="text-xs text-on-surface-variant">{{ slip.created_at.strftime('%d/%m/%Y %H:%M') if slip.created_at else '' }}</p>
+                                </div>
+                            </div>
+                            
+                            {% if slip.borrow_date %}
+                            <div class="flex gap-4">
+                                <div class="w-10 h-10 bg-tertiary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined text-tertiary text-sm" data-icon="library_books">library_books</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-on-surface">Ngày mượn sách</p>
+                                    <p class="text-xs text-on-surface-variant">{{ slip.borrow_date.strftime('%d/%m/%Y %H:%M') }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if slip.due_date %}
+                            <div class="flex gap-4">
+                                <div class="w-10 h-10 {% if slip.status.value == 'OVERDUE' %}bg-error/10{% else %}bg-warning/10{% endif %} rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined {% if slip.status.value == 'OVERDUE' %}text-error{% else %}text-warning{% endif %} text-sm" data-icon="event">event</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-on-surface">Hạn trả sách</p>
+                                    <p class="text-xs text-on-surface-variant">{{ slip.due_date.strftime('%d/%m/%Y %H:%M') }}</p>
+                                    {% if slip.status.value == 'OVERDUE' %}
+                                    <p class="text-xs text-error font-medium">Quá hạn {{ (current_user.date() - slip.due_date.date()).days if current_user.date() > slip.due_date.date() else 0 }} ngày</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if slip.return_date %}
+                            <div class="flex gap-4">
+                                <div class="w-10 h-10 bg-success/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined text-success text-sm" data-icon="task_alt">task_alt</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-on-surface">Ngày trả sách</p>
+                                    <p class="text-xs text-on-surface-variant">{{ slip.return_date.strftime('%d/%m/%Y %H:%M') }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Notes Section -->
+                    {% if slip.note %}
+                    <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-surface-container-low/50 px-8 py-4 border-b border-surface-container-low">
+                            <h3 class="text-lg font-bold text-primary flex items-center gap-2">
+                                <span class="material-symbols-outlined text-xl" data-icon="note">note</span>
+                                Ghi chú
+                            </h3>
+                        </div>
+                        <div class="p-8">
+                            <p class="text-sm text-on-surface">{{ slip.note }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Action Buttons -->
+                    {% if slip.status.value == 'BORROWING' %}
+                    <div class="bg-primary-container rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-primary mb-4">Yêu cầu gia hạn</h3>
+                        <p class="text-sm text-on-primary-container mb-4">Bạn có thể yêu cầu gia hạn thời gian mượn sách thêm 7 ngày.</p>
+                        <button class="w-full px-6 py-3 bg-primary text-on-primary font-bold rounded-lg hover:scale-[1.03] transition-all shadow-lg">
+                            <span class="material-symbols-outlined mr-2 text-sm" data-icon="update">update</span>
+                            Yêu cầu gia hạn
+                        </button>
+                    </div>
+                    {% endif %}
+
+                    {% if slip.status.value == 'OVERDUE' %}
+                    <div class="bg-error-container rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-error mb-4">Cảnh báo quá hạn</h3>
+                        <p class="text-sm text-on-error-container mb-4">Sách đã quá hạn {{ (current_user.date() - slip.due_date.date()).days if current_user.date() > slip.due_date.date() else 0 }} ngày. Vui lòng trả sách ngay để tránh phí phạt.</p>
+                        <button class="w-full px-6 py-3 bg-error text-on-error font-bold rounded-lg hover:scale-[1.03] transition-all shadow-lg">
+                            <span class="material-symbols-outlined mr-2 text-sm" data-icon="warning">warning</span>
+                            Liên hệ thư viện
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+{% endblock content %}

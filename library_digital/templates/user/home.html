@@ -142,132 +142,41 @@
             </div>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
-            <!-- Book Card 1 -->
+            {% for book in new_books %}
             <div class="group">
                 <div class="aspect-[3/4] bg-surface-container-low rounded-lg overflow-hidden mb-4 relative">
-                    <img alt="Book Cover"
+                    <img alt="{{ book.title }}"
                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        data-alt="Top view of an open old book with yellowed pages and elegant classic typography"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA16kc1t2-R1ZHbHt4tNtm_KORmu_qSPkc00Y3qTad3mb1xkwbHAOp0QtvagyxrOJpsPh9H-q39tAfRjQB4f_qiO2b_ByBrS2qt1JQRVge7Z8EIbXZ_p81Sbi03UyInvYZx9SBH1vgqgec3Oa-KranCv2-Eqcp_ZdOuMzC0_MGXRn7puJIvl6DqHcRIjSAY7zeBKMRLgYjWWHNldABS8tVoLDGG2AiXjmKAROcsf2WHEvjTGsBtW2OUPeKWigfd014FuVI6j2o5hozG" />
+                        src="{{ book.image }}" />
                     <div
                         class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <button
+                        <a href="{{ url_for('book_detail', book_id=book.id) }}"
                             class="p-3 bg-surface-bright rounded-full text-primary shadow-lg hover:scale-110 transition-transform">
                             <span class="material-symbols-outlined">visibility</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <h4
-                    class="font-headline font-bold text-on-surface leading-snug group-hover:text-primary transition-colors mb-1">
-                    Kiến tạo tương lai</h4>
-                <p class="text-on-surface-variant text-xs mb-3">Nguyễn Nhật Ánh</p>
-                <button
-                    class="w-full py-2 border border-outline-variant text-primary text-sm font-semibold rounded hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-300">
-                    Details
-                </button>
+                    class="font-headline font-bold text-on-surface leading-snug group-hover:text-primary transition-colors mb-1 line-clamp-2">
+                    {{ book.title }}</h4>
+                <p class="text-on-surface-variant text-xs mb-3">{{ book.author }}</p>
+                <a href="{{ url_for('book_detail', book_id=book.id) }}"
+                    class="w-full block text-center py-2 border border-outline-variant text-primary text-sm font-semibold rounded hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-300">
+                    Xem chi tiết
+                </a>
             </div>
-            <!-- Book Card 2 -->
-            <div class="group">
-                <div class="aspect-[3/4] bg-surface-container-low rounded-lg overflow-hidden mb-4 relative">
-                    <img alt="Book Cover"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        data-alt="Beautifully illustrated book cover showing a surreal forest scene with golden light filtering through leaves"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCld1XA1r_lVjBXt_g3DHlIY8HJftN0vooCNEyBprmoYm0haB697fZTiuESc5gHQDpp0Uqb6GBQgR8iIZ94NK6nC39USfIqz1RM_jwYFQLZHgMybLhx32mqmZEbpAbJd97Vil1UUlv0pfxyAEQOojAtNWAS-2ETy5FP0fHKnU3UbYVHiT36TCkbuweCf-Uhaxg_njMPj-mx7WyY-tUwFHFwB7WUaGdDWykOA4-xr_Xq9xeOSctKkFiR9eOP2-kYHmamxG3fuOyYPm12" />
-                    <div
-                        class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <button
-                            class="p-3 bg-surface-bright rounded-full text-primary shadow-lg hover:scale-110 transition-transform">
-                            <span class="material-symbols-outlined">visibility</span>
-                        </button>
-                    </div>
-                </div>
-                <h4
-                    class="font-headline font-bold text-on-surface leading-snug group-hover:text-primary transition-colors mb-1">
-                    Rừng Nauy</h4>
-                <p class="text-on-surface-variant text-xs mb-3">Haruki Murakami</p>
-                <button
-                    class="w-full py-2 border border-outline-variant text-primary text-sm font-semibold rounded hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-300">
-                    Details
-                </button>
+            {% else %}
+            <div class="col-span-full text-center py-12">
+                <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">menu_book</span>
+                <p class="text-on-surface-variant">Chưa có sách nào được thêm.</p>
             </div>
-            <!-- Book Card 3 -->
-            <div class="group">
-                <div class="aspect-[3/4] bg-surface-container-low rounded-lg overflow-hidden mb-4 relative">
-                    <img alt="Book Cover"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        data-alt="Scientific textbook cover with abstract geometric patterns and deep blue and copper metallic accents"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY0wpz8q9dVY2I03l_NhUVtdFpgIjFom8uhkilWTlY8h1ltNTW5b-08Fq3xbugTQpqYeciMLMUEj1wU7uBTjCLRmKdn51hpUbj03YJbqtYUU23-ntT7eqoRFa55_icuzTQwnU07MB2O-O2zH4jL8zSMVctiUy1gX9cM8RByRDUZDXZm31Pt4ixJQXQUmZ7lzckhq2C39j6ARsDdToNBYjf2ay_63ZhGiqC5OrvmjjVTE8qYiDgYjXPlsXCgNmBDvnK1v6f2c4QL8SC" />
-                    <div
-                        class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <button
-                            class="p-3 bg-surface-bright rounded-full text-primary shadow-lg hover:scale-110 transition-transform">
-                            <span class="material-symbols-outlined">visibility</span>
-                        </button>
-                    </div>
-                </div>
-                <h4
-                    class="font-headline font-bold text-on-surface leading-snug group-hover:text-primary transition-colors mb-1">
-                    Trí tuệ nhân tạo</h4>
-                <p class="text-on-surface-variant text-xs mb-3">John McCarthy</p>
-                <button
-                    class="w-full py-2 border border-outline-variant text-primary text-sm font-semibold rounded hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-300">
-                    Details
-                </button>
-            </div>
-            <!-- Book Card 4 -->
-            <div class="group">
-                <div class="aspect-[3/4] bg-surface-container-low rounded-lg overflow-hidden mb-4 relative">
-                    <img alt="Book Cover"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        data-alt="Collection of classic leather-bound books on a shelf with warm atmospheric study lighting"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAniATBoS_IJTcvNKlo8JicLEwkwdz5QfE6cnGWEmKXITVNfzJ3-ovCQQiFScULloBYSeR43Avkz4gTyzuClVq_N1yTo1W2GQoj7C0YyPNsid3DnODwhudEAZUGOOBV7RfCvPHG7_p_92JQH_DazaJvVwLyf5x5Lqsv8a9cnbz45-wtzcAVStbWVA-CB3JcuF4XQzlOTELzLx5vXrYUVg5JkHjK7Psn04EexV90JR9tgSgpdAgb6CziFBzxb_WZW5JWS8kyTVMolQLs" />
-                    <div
-                        class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <button
-                            class="p-3 bg-surface-bright rounded-full text-primary shadow-lg hover:scale-110 transition-transform">
-                            <span class="material-symbols-outlined">visibility</span>
-                        </button>
-                    </div>
-                </div>
-                <h4
-                    class="font-headline font-bold text-on-surface leading-snug group-hover:text-primary transition-colors mb-1">
-                    Suối nguồn</h4>
-                <p class="text-on-surface-variant text-xs mb-3">Ayn Rand</p>
-                <button
-                    class="w-full py-2 border border-outline-variant text-primary text-sm font-semibold rounded hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-300">
-                    Details
-                </button>
-            </div>
-            <!-- Book Card 5 -->
-            <div class="group">
-                <div class="aspect-[3/4] bg-surface-container-low rounded-lg overflow-hidden mb-4 relative">
-                    <img alt="Book Cover"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        data-alt="Modern tech book cover with vibrant neon circuit patterns against a dark charcoal background"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPjJFzceQYISri4c_eyFEJ2BBxJZMRNqeN-94Esv5_YFNpzk87591QVPs9Fl-9c3dwNrVX-QzEqX0DVNirFRbAevSiR-cLGSZA0fGyRhOLHVYN2aXPTGHdxPT5XDyVK0Gcit4lYpBx0jQgT2dEHGx_1mzGuM3NBrZwMuYW9pkq3YSweZ2ihBDVwTS7ZdlAgDJBiubgt2YEPLd7euAEO1wXWJsnE0r6FRo23WEswmxCyQb7xoJAKj1I0MrfMUNIx2uMP1SboBzmvmAU" />
-                    <div
-                        class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <button
-                            class="p-3 bg-surface-bright rounded-full text-primary shadow-lg hover:scale-110 transition-transform">
-                            <span class="material-symbols-outlined">visibility</span>
-                        </button>
-                    </div>
-                </div>
-                <h4
-                    class="font-headline font-bold text-on-surface leading-snug group-hover:text-primary transition-colors mb-1">
-                    Mã sạch</h4>
-                <p class="text-on-surface-variant text-xs mb-3">Robert C. Martin</p>
-                <button
-                    class="w-full py-2 border border-outline-variant text-primary text-sm font-semibold rounded hover:bg-primary hover:text-on-primary hover:border-primary transition-all duration-300">
-                    Details
-                </button>
-            </div>
+            {% endfor %}
         </div>
         <div class="mt-16 text-center">
-            <button
-                class="px-12 py-4 bg-surface-container-high text-primary font-bold rounded-lg hover:bg-surface-container-highest transition-colors">
-                Xem tất cả 5,000+ đầu sách
-            </button>
+            <a href="{{ url_for('category_list') }}"
+                class="inline-block px-12 py-4 bg-surface-container-high text-primary font-bold rounded-lg hover:bg-surface-container-highest transition-colors">
+                Xem tất cả {{ total_books }}+ đầu sách
+            </a>
         </div>
     </div>
 </section>

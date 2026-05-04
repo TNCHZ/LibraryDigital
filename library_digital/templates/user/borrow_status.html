@@ -15,20 +15,17 @@
         </div>
         <nav class="flex flex-col gap-2 flex-grow">
             <!-- Inactive: Hồ sơ người dùng -->
-            <a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 dark:hover:bg-stone-800 font-['Plus_Jakarta_Sans'] text-sm font-medium"
-               href="#">
+            <a href="{{ url_for('user_detail', user_id=current_user.id) }}" class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 dark:hover:bg-stone-800 font-['Plus_Jakarta_Sans'] text-sm font-medium">
                 <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
                 Hồ sơ người dùng
             </a>
             <!-- Inactive: Lịch sử mượn sách -->
-            <a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 dark:hover:bg-stone-800 font-['Plus_Jakarta_Sans'] text-sm font-medium"
-               href="#">
+            <a href="{{ url_for('user_borrow_history') }}" class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#6D4C3D] hover:scale-[1.02] transition-all duration-200 hover:bg-stone-100 dark:hover:bg-stone-800 font-['Plus_Jakarta_Sans'] text-sm font-medium">
                 <span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
                 Lịch sử mượn sách
             </a>
             <!-- Active: Trạng thái yêu cầu mượn -->
-            <a class="flex items-center gap-3 px-4 py-3 bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-white rounded-lg shadow-sm font-['Plus_Jakarta_Sans'] text-sm font-medium"
-               href="#">
+            <a href="{{ url_for('borrow_status', user_id=current_user.id) }}" class="flex items-center gap-3 px-4 py-3 bg-[#ffffff] dark:bg-stone-800 text-[#533528] dark:text-white rounded-lg shadow-sm font-['Plus_Jakarta_Sans'] text-sm font-medium">
                 <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
                 Trạng thái yêu cầu mượn
             </a>
@@ -42,19 +39,17 @@
                 <section class="mb-12 flex items-end justify-between">
                     <div class="max-w-2xl">
                         <span class="text-tertiary font-bold tracking-widest text-xs uppercase mb-2 block">Thư viện riêng của bạn</span>
-                        <h2 class="text-4xl font-extrabold text-primary mb-4 leading-tight">Yêu cầu mượn sách đang được
-                            xử lý</h2>
-                        <p class="text-on-surface-variant leading-relaxed">Theo dõi tiến độ các yêu cầu mượn sách của
-                            bạn. Các yêu cầu thường được thủ thư phê duyệt trong vòng 24 giờ làm việc.</p>
+                        <h2 class="text-4xl font-extrabold text-primary mb-4 leading-tight">Yêu cầu mượn sách đang được xử lý</h2>
+                        <p class="text-on-surface-variant leading-relaxed">Theo dõi tiến độ các yêu cầu mượn sách của bạn. Các yêu cầu thường được thủ thư phê duyệt trong vòng 24 giờ làm việc.</p>
                     </div>
-                    <div class="flex gap-4">
+                    <div class="flex gap-6">
                         <div class="bg-surface-container-low p-6 rounded-xl flex flex-col items-center">
-                            <span class="text-3xl font-black text-primary">03</span>
-                            <span class="text-xs text-stone-500 font-medium">Đang chờ</span>
+                            <span class="text-3xl font-black text-primary">{{ current_borrows }}</span>
+                            <span class="text-xs text-stone-500 font-medium">Đang mượn</span>
                         </div>
                         <div class="bg-surface-container-low p-6 rounded-xl flex flex-col items-center">
-                            <span class="text-3xl font-black text-tertiary">12</span>
-                            <span class="text-xs text-stone-500 font-medium">Hoàn tất</span>
+                            <span class="text-3xl font-black text-tertiary">{{ total_borrows - current_borrows }}</span>
+                            <span class="text-xs text-stone-500 font-medium">Đã trả</span>
                         </div>
                     </div>
                 </section>

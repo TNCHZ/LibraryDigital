@@ -9,7 +9,7 @@
         <div class="flex justify-between items-end">
             <div>
                 <h2 class="text-3xl font-headline font-extrabold tracking-tight text-primary">Tổng quan hệ thống</h2>
-                <p class="text-secondary mt-1">Chào mừng trở lại, hôm nay có 12 yêu cầu mượn mới đang chờ xử lý.</p>
+                <p class="text-secondary mt-1">Chào mừng trở lại, hôm nay có {{ stats.pending_requests or 0 }} yêu cầu mượn mới đang chờ xử lý.</p>
             </div>
             <button
                 class="bg-primary text-on-primary px-6 py-2.5 rounded-lg flex items-center gap-2 hover:scale-[1.03] transition-all duration-300 font-medium text-sm">
@@ -29,7 +29,7 @@
                     <span class="text-xs font-bold text-tertiary bg-tertiary-fixed px-2 py-1 rounded">+2.4%</span>
                 </div>
                 <p class="text-secondary text-sm font-medium uppercase tracking-wider">Tổng số sách</p>
-                <h3 class="text-3xl font-headline font-bold text-primary mt-1">12,842</h3>
+                <h3 class="text-3xl font-headline font-bold text-primary mt-1">{{ stats.total_books or 0 }}</h3>
             </div>
             <div
                 class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] border-none hover:scale-[1.02] transition-all duration-300 group">
@@ -41,7 +41,7 @@
                     <span class="text-xs font-bold text-error bg-error-container px-2 py-1 rounded">-0.8%</span>
                 </div>
                 <p class="text-secondary text-sm font-medium uppercase tracking-wider">Đang cho mượn</p>
-                <h3 class="text-3xl font-headline font-bold text-primary mt-1">856</h3>
+                <h3 class="text-3xl font-headline font-bold text-primary mt-1">{{ stats.active_loans or 0 }}</h3>
             </div>
             <div
                 class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] border-none hover:scale-[1.02] transition-all duration-300 group">
@@ -53,7 +53,7 @@
                     <div class="w-3 h-3 bg-error rounded-full animate-pulse"></div>
                 </div>
                 <p class="text-secondary text-sm font-medium uppercase tracking-wider">Yêu cầu mới</p>
-                <h3 class="text-3xl font-headline font-bold text-primary mt-1">12</h3>
+                <h3 class="text-3xl font-headline font-bold text-primary mt-1">{{ stats.pending_requests or 0 }}</h3>
             </div>
             <div
                 class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)] border-none hover:scale-[1.02] transition-all duration-300 group">
@@ -65,7 +65,7 @@
                     <span class="text-xs font-bold text-tertiary bg-tertiary-fixed px-2 py-1 rounded">+12%</span>
                 </div>
                 <p class="text-secondary text-sm font-medium uppercase tracking-wider">Độc giả tích cực</p>
-                <h3 class="text-3xl font-headline font-bold text-primary mt-1">1,204</h3>
+                <h3 class="text-3xl font-headline font-bold text-primary mt-1">{{ stats.active_users or 0 }}</h3>
             </div>
         </div>
         <!-- Middle Section: Chart & Activities -->
@@ -134,54 +134,44 @@
                     <a class="text-xs font-bold text-tertiary hover:underline" href="#">Xem tất cả</a>
                 </div>
                 <div class="space-y-6">
-                    <!-- Activity Item -->
+                    {% for activity in recent_activities %}
                     <div class="flex gap-4">
                         <div class="w-10 h-10 rounded-full bg-surface shrink-0 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-primary text-xl"
-                                data-icon="history_edu">history_edu</span>
+                            {% if activity.type == 'borrow' %}
+                                <span class="material-symbols-outlined text-primary text-xl"
+                                    data-icon="history_edu">history_edu</span>
+                            {% elif activity.type == 'return' %}
+                                <span class="material-symbols-outlined text-tertiary text-xl"
+                                    data-icon="assignment_return">assignment_return</span>
+                            {% elif activity.type == 'overdue' %}
+                                <span class="material-symbols-outlined text-error text-xl"
+                                    data-icon="warning">warning</span>
+                            {% else %}
+                                <span class="material-symbols-outlined text-primary text-xl"
+                                    data-icon="person_add">person_add</span>
+                            {% endif %}
                         </div>
                         <div>
-                            <p class="text-sm text-on-surface font-medium"><span class="font-bold">Nguyễn Văn A</span>
-                                đã mượn cuốn "Đắc Nhân Tâm"</p>
-                            <span class="text-[11px] text-secondary">2 phút trước</span>
+                            <p class="text-sm text-on-surface font-medium">
+                                {% if activity.type == 'borrow' %}
+                                    <span class="font-bold">{{ activity.user_name }}</span> đã mượn cuốn "{{ activity.book_title }}"
+                                {% elif activity.type == 'return' %}
+                                    <span class="font-bold">{{ activity.user_name }}</span> đã trả cuốn "{{ activity.book_title }}"
+                                {% elif activity.type == 'overdue' %}
+                                    <span class="font-bold">{{ activity.user_name }}</span> quá hạn trả sách "{{ activity.book_title }}"
+                                {% else %}
+                                    Độc giả mới: <span class="font-bold">{{ activity.user_name }}</span>
+                                {% endif %}
+                            </p>
+                            <span class="text-[11px] text-secondary">{{ activity.time_ago or 'Vừa xong' }}</span>
                         </div>
                     </div>
-                    <!-- Activity Item -->
-                    <div class="flex gap-4">
-                        <div class="w-10 h-10 rounded-full bg-surface shrink-0 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-tertiary text-xl"
-                                data-icon="assignment_return">assignment_return</span>
-                        </div>
-                        <div>
-                            <p class="text-sm text-on-surface font-medium"><span class="font-bold">Trần Thị B</span> đã
-                                trả cuốn "Nhà Giả Kim"</p>
-                            <span class="text-[11px] text-secondary">15 phút trước</span>
-                        </div>
+                    {% else %}
+                    <div class="text-center text-secondary py-8">
+                        <span class="material-symbols-outlined text-4xl mb-2">inbox</span>
+                        <p class="text-sm">Chưa có hoạt động nào</p>
                     </div>
-                    <!-- Activity Item -->
-                    <div class="flex gap-4">
-                        <div class="w-10 h-10 rounded-full bg-surface shrink-0 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-error text-xl"
-                                data-icon="warning">warning</span>
-                        </div>
-                        <div>
-                            <p class="text-sm text-on-surface font-medium"><span class="font-bold">Lê Văn C</span> quá
-                                hạn trả sách "Tâm Lý Học"</p>
-                            <span class="text-[11px] text-secondary">1 giờ trước</span>
-                        </div>
-                    </div>
-                    <!-- Activity Item -->
-                    <div class="flex gap-4">
-                        <div class="w-10 h-10 rounded-full bg-surface shrink-0 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-primary text-xl"
-                                data-icon="person_add">person_add</span>
-                        </div>
-                        <div>
-                            <p class="text-sm text-on-surface font-medium">Độc giả mới: <span class="font-bold">Phạm
-                                    Minh D</span></p>
-                            <span class="text-[11px] text-secondary">3 giờ trước</span>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -190,44 +180,6 @@
             <!-- Top Readers Card -->
             <div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)]">
                 <h3 class="text-xl font-headline font-bold text-primary mb-6">Độc giả tích cực nhất tháng</h3>
-                <div class="space-y-4">
-                    <div
-                        class="flex items-center justify-between p-4 hover:bg-surface-container-low rounded-lg transition-colors group">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-full overflow-hidden">
-                                <img alt="Độc giả" class="w-full h-full object-cover"
-                                    data-alt="portrait of a smiling young woman, academic library background, natural lighting"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtxs26xOcB51LH89AQFSL1_-RZdozBo9HVTwhakyyV3Vh3xtu3_jcil1arxBQQ-HRC5HMUOQgKojQNbZhFi0hBIOCtq35Vj62GBs-OZ846LE-Q8V0E54Wq_bDeKPt0oUtVs-lkIu1ZrZnz-Xk-WN59wuL801AxMcIG_MeNAiBv1JEr-Zl2VY3S1zITikrf2FoYgzQ8UX5Z0ILLNZE6NZ9v1CNOtJ6lnFGE0vjVEK3lHQGO7LACuQeDBGREEo15qz4PnunhLOnwf3D_" />
-                            </div>
-                            <div>
-                                <h4 class="text-sm font-bold text-on-surface">Hoàng Mỹ Linh</h4>
-                                <p class="text-xs text-secondary">ID: LIB-2024-001</p>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-lg font-headline font-bold text-primary">24</span>
-                            <p class="text-[10px] uppercase text-secondary font-bold">Cuốn sách</p>
-                        </div>
-                    </div>
-                    <div
-                        class="flex items-center justify-between p-4 hover:bg-surface-container-low rounded-lg transition-colors group">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-full overflow-hidden">
-                                <img alt="Độc giả" class="w-full h-full object-cover"
-                                    data-alt="portrait of a young man, studious look, neutral background, cinematic lighting"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUqewFqjBcXZfHCtVqQtTCSAIF--zIAIvi88ZTySdg6CNpspgNHzTsrjMmFArQr_Td-isvdxPXCqwEAd05zD1gqVpcy7bG-qwKuDytbVlV3diZxdeAqpFbcxCVJh1k9Upulkk28rucop_MdFU4edwgZ1ZKOtcFetGBPdWGoiiDThaRgBoCkuGNnmZ1IBnG-UXyYGCxnNnQkWmEmGDCrW1Nd6D2ua3PO6l8tNVeYqf1VDG4ertd5aSDMuGW2M0O6kMfRV9SV_ZcyuXm" />
-                            </div>
-                            <div>
-                                <h4 class="text-sm font-bold text-on-surface">Đỗ Tiến Thành</h4>
-                                <p class="text-xs text-secondary">ID: LIB-2024-042</p>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-lg font-headline font-bold text-primary">18</span>
-                            <p class="text-[10px] uppercase text-secondary font-bold">Cuốn sách</p>
-                        </div>
-                    </div>
-                </div>
             </div>
             <!-- Trending Books Card -->
             <div
@@ -263,6 +215,39 @@
                         class="bg-on-primary text-primary px-4 py-2 rounded-lg text-xs font-bold hover:scale-105 transition-transform">Xem
                         báo cáo</button>
                 </div>
+            </div>
+        </div>
+        <!-- New Books Section -->
+        <div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0_24px_40px_rgba(28,28,25,0.04)]">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-headline font-bold text-primary">Sách mới thêm gần đây</h3>
+                <a href="{{ url_for('librarian_book_management') }}" class="text-xs font-bold text-tertiary hover:underline">Xem tất cả</a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                {% for book in new_books %}
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden rounded-lg mb-3">
+                        <img src="{{ book.image or 'https://via.placeholder.com/200x300?text=No+Cover' }}" 
+                             alt="{{ book.title }}" 
+                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-2 right-2">
+                            {% if book.is_active %}
+                                <span class="bg-emerald-500 text-white text-xs px-2 py-1 rounded-full">Có sẵn</span>
+                            {% else %}
+                                <span class="bg-amber-500 text-white text-xs px-2 py-1 rounded-full">Ngừng bán</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-sm text-primary group-hover:text-tertiary transition-colors line-clamp-2">{{ book.title }}</h4>
+                    <p class="text-xs text-secondary mt-1">{{ book.author }}</p>
+                    <p class="text-xs font-bold text-tertiary mt-2">{{ "{:,.0f}".format(book.price) }} VNĐ</p>
+                </div>
+                {% else %}
+                <div class="col-span-full text-center text-secondary py-8">
+                    <span class="material-symbols-outlined text-4xl mb-2">library_books</span>
+                    <p class="text-sm">Chưa có sách nào được thêm mới</p>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </section>

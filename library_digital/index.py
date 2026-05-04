@@ -12,6 +12,10 @@ app = create_app()
 def home():
     cates = utils.get_categories()
     result = []
+    
+    # Get new books for display
+    new_books = utils.get_new_books(limit=8)
+    total_books = len(utils.get_books())
 
     if current_user.is_authenticated:
         reader_id = current_user.id
@@ -28,7 +32,7 @@ def home():
                             "reason": item.get("reason", "")
                         })
 
-    return render_template('user/home.html', cates=cates, result=result)
+    return render_template('user/home.html', cates=cates, result=result, new_books=new_books, total_books=total_books)
 
 @app.route('/book/<int:book_id>')
 def book_detail(book_id):
@@ -40,6 +44,17 @@ def book_detail(book_id):
         db.session.commit()
 
     return render_template('user/book_detail.html', book=book)
+
+
+@app.route('/user/borrow-slip/<int:slip_id>/')
+@login_required
+def user_borrow_slip_detail(slip_id):
+    slip = utils.get_borrow_slip_by_id(slip_id)
+    if not slip or slip.reader_id != current_user.id:
+        flash('Không tìm thấy đơn mượn', 'error')
+        return redirect(url_for('user_borrow_history'))
+    
+    return render_template('user/borrow_slip_detail.html', slip=slip)
 
 @app.route('/auth/login', methods=['get', 'post'])
 def user_login():
@@ -175,6 +190,18 @@ def category_list():
 def user_detail(user_id):
     return render_template('user/user_detail.html', user_id=user_id)
 
+@app.route('/user/borrow-history/')
+@login_required
+def user_borrow_history():
+    reader_id = current_user.id
+    page = request.args.get("page", 1, type=int)
+
+    data = utils.get_borrow_slips_by_reader(reader_id, page)
+    stats = utils.get_user_borrow_statistics(reader_id)
+    
+    return render_template('user/borrow_history.html', data=data, user_id=reader_id, **stats)
+
+
 @app.route('/user/<int:user_id>/borrow-history')
 def borrow_history(user_id):
     reader_id = request.args.get("reader_id", user_id, type=int)
@@ -186,8 +213,9 @@ def borrow_history(user_id):
 @app.route('/user/<int:user_id>/borrow-status')
 def borrow_status(user_id):
     slip = utils.get_reserved_slip_by_reader(user_id)
-
-    return render_template('user/borrow_status.html', slip=slip)
+    stats = utils.get_user_borrow_statistics(user_id)
+    
+    return render_template('user/borrow_status.html', slip=slip, user_id=user_id, **stats)
 
 @app.route('/book/searching-book/', methods=['GET'])
 def book_searching():
@@ -248,12 +276,24 @@ def librarian_book_management():
                            search_isbn_13=isbn_13)
 
 @app.route('/librarian/dashboard/')
+@login_required
 def librarian_dashboard():
-    return render_template('librarian/dashboard.html')
+    # Get dashboard statistics
+    stats = utils.get_dashboard_statistics()
+    
+    # Get recent activities for librarian
+    recent_activities = utils.get_recent_activities(limit=5)
+    
+    # Get new books (recently added)
+    new_books = utils.get_books()[:5]  # Get 5 most recent books
+    
+    return render_template(
+        'librarian/dashboard.html',
+        stats=stats,
+        recent_activities=recent_activities,
+        new_books=new_books
+    )
 
-@app.route('/librarian/reader_management/')
-def librarian_reader_management():
-    return render_template('librarian/reader_management.html')
 
 
 @app.route('/librarian/borrow-slip-management/')
@@ -263,12 +303,47 @@ def librarian_borrow_slip_management():
     page = request.args.get('page', 1, type=int)
 
     borrow_slips = utils.get_borrow_slips(status=status if status else None, page=page, per_page=10)
+    stats = utils.get_dashboard_statistics()
+
+    from library_digital.models import BorrowSlip, BorrowStatus
+    from datetime import datetime, timedelta
+    overdue_date = datetime.now() - timedelta(days=14)
+    overdue_books = BorrowSlip.query.filter(
+        BorrowSlip.status == BorrowStatus.OVERDUE,
+        BorrowSlip.due_date <= overdue_date
+    ).limit(5).all()
 
     return render_template(
         'librarian/borrow_slip_management.html',
         borrow_slips=borrow_slips,
         status_filter=status,
-        BorrowStatus=utils.BorrowStatus
+        BorrowStatus=utils.BorrowStatus,
+        stats=stats,
+        overdue_books=overdue_books
+    )
+
+
+@app.route('/librarian/reader_management/')
+@login_required
+def librarian_reader_management():
+    status = request.args.get('status')  # active / inactive
+    page = request.args.get('page', 1, type=int)
+
+    is_active = None
+    if status == "active":
+        is_active = True
+    elif status == "inactive":
+        is_active = False
+
+    # Only get readers (not admin or librarian)
+    readers = utils.get_readers_paginated(is_active=is_active, page=page, per_page=10)
+    stats = utils.get_user_stats()
+
+    return render_template(
+        'librarian/reader_management.html',
+        readers=readers,
+        status_filter=status,
+        **stats
     )
 
 
@@ -289,6 +364,34 @@ def librarian_reject_borrow_slip(slip_id):
     return redirect(url_for('librarian_borrow_slip_management'))
 
 
+@app.route('/librarian/borrow-slip/<int:slip_id>/return/', methods=['POST'])
+@login_required
+def librarian_return_book(slip_id):
+    success, message = utils.return_book(slip_id, current_user.id)
+    flash(message, 'success' if success else 'error')
+    return redirect(url_for('librarian_borrow_slip_management'))
+
+
+@app.route('/librarian/borrow-slip/<int:slip_id>/mark-lost/', methods=['POST'])
+@login_required
+def librarian_mark_book_lost(slip_id):
+    note = request.form.get('note', '').strip()
+    success, message = utils.mark_book_lost(slip_id, current_user.id, note)
+    flash(message, 'success' if success else 'error')
+    return redirect(url_for('librarian_borrow_slip_management'))
+
+
+@app.route('/librarian/borrow-slip/<int:slip_id>/')
+@login_required
+def librarian_borrow_slip_detail(slip_id):
+    slip = utils.get_borrow_slip_by_id(slip_id)
+    if not slip:
+        flash('Không tìm thấy đơn mượn', 'error')
+        return redirect(url_for('librarian_borrow_slip_management'))
+    
+    return render_template('librarian/borrow_slip_detail.html', slip=slip)
+
+
 @app.route('/admin/borrow-slip-management/')
 @login_required
 def admin_borrow_slip_management():
@@ -296,12 +399,26 @@ def admin_borrow_slip_management():
     page = request.args.get('page', 1, type=int)
 
     borrow_slips = utils.get_borrow_slips(status=status if status else None, page=page, per_page=10)
+    
+    # Get statistics for summary cards
+    stats = utils.get_dashboard_statistics()
+    
+    # Get overdue books for alert section
+    from library_digital.models import BorrowSlip, BorrowStatus
+    from datetime import datetime, timedelta
+    overdue_date = datetime.now() - timedelta(days=14)
+    overdue_books = BorrowSlip.query.filter(
+        BorrowSlip.status == BorrowStatus.OVERDUE,
+        BorrowSlip.due_date <= overdue_date
+    ).limit(5).all()
 
     return render_template(
         'admin/borrow_slip_management.html',
         borrow_slips=borrow_slips,
         status_filter=status,
-        BorrowStatus=utils.BorrowStatus
+        BorrowStatus=utils.BorrowStatus,
+        stats=stats,
+        overdue_books=overdue_books
     )
 
 
@@ -322,10 +439,39 @@ def admin_reject_borrow_slip(slip_id):
     return redirect(url_for('admin_borrow_slip_management'))
 
 
+@app.route('/admin/borrow-slip/<int:slip_id>/return/', methods=['POST'])
+@login_required
+def admin_return_book(slip_id):
+    success, message = utils.return_book(slip_id, current_user.id)
+    flash(message, 'success' if success else 'error')
+    return redirect(url_for('admin_borrow_slip_management'))
+
+
+@app.route('/admin/borrow-slip/<int:slip_id>/mark-lost/', methods=['POST'])
+@login_required
+def admin_mark_book_lost(slip_id):
+    note = request.form.get('note', '').strip()
+    success, message = utils.mark_book_lost(slip_id, current_user.id, note)
+    flash(message, 'success' if success else 'error')
+    return redirect(url_for('admin_borrow_slip_management'))
+
+
+@app.route('/admin/borrow-slip/<int:slip_id>/')
+@login_required
+def admin_borrow_slip_detail(slip_id):
+    slip = utils.get_borrow_slip_by_id(slip_id)
+    if not slip:
+        flash('Không tìm thấy đơn mượn', 'error')
+        return redirect(url_for('admin_borrow_slip_management'))
+    
+    return render_template('admin/borrow_slip_detail.html', slip=slip)
+
+
 @app.route('/admin/user_management/')
 def admin_user_management():
     role = request.args.get('role')  # ADMIN / LIBRARIAN / READER
     status = request.args.get('status')  # active / inactive
+    page = request.args.get('page', 1, type=int)
 
     is_active = None
     if status == "active":
@@ -333,19 +479,32 @@ def admin_user_management():
     elif status == "inactive":
         is_active = False
 
-    users = utils.get_users(role=role, is_active=is_active)
+    users = utils.get_users_paginated(role=role, is_active=is_active, page=page, per_page=10)
     stats = utils.get_user_stats()
 
     return render_template(
         'admin/user_management.html',
         users=users,
+        role_filter=role,
+        status_filter=status,
         **stats
     )
 
 
 @app.route('/admin/dashboard/')
 def admin_dashboard():
-    return render_template('admin/dashboard.html')
+    # Get real statistics data
+    stats = utils.get_dashboard_statistics()
+    recent_activities = utils.get_recent_activities(10)
+    
+    # Get recently added books (last 5 books)
+    new_books = utils.get_books()[-5:] if len(utils.get_books()) >= 5 else utils.get_books()
+    new_books.reverse()  # Show newest first
+    
+    return render_template('admin/dashboard.html', 
+                         stats=stats,
+                         recent_activities=recent_activities,
+                         new_books=new_books)
 
 @app.route('/admin/book-management/', methods=['GET'])
 def admin_book_management():
@@ -359,6 +518,9 @@ def admin_book_management():
     categories = utils.get_categories()
     pagination = utils.search_books(isbn_10=isbn_10 or None, isbn_13=isbn_13 or None, title=title or None, author=author or None, category_ids=category_ids or None, page=page, per_page=10)
 
+    # Get book statistics
+    book_stats = utils.get_book_statistics()
+    
     return render_template('admin/book_management.html',
                            books=pagination.items,
                            pagination=pagination,
@@ -367,7 +529,8 @@ def admin_book_management():
                            search_author=author,
                            selected_category_ids=category_ids,
                            search_isbn_10=isbn_10,
-                           search_isbn_13=isbn_13)
+                           search_isbn_13=isbn_13,
+                           **book_stats)
 
 @app.route('/admin/report/')
 def admin_report():
@@ -388,6 +551,7 @@ def librarian_add_book():
         isbn_13 = request.form.get('isbn_13', '').strip()
         language = request.form.get('language', '').strip()
         category_ids = request.form.getlist('category_ids', type=int)
+        quantity = request.form.get('quantity', type=int, default=1)
 
         # Handle image upload
         image = request.files.get('image')
@@ -405,7 +569,7 @@ def librarian_add_book():
             published_date=published_date, price=price, author=author,
             isbn_10=isbn_10, isbn_13=isbn_13, image=image_url,
             language=language, category_ids=category_ids,
-            librarian_id=librarian_id
+            librarian_id=librarian_id, quantity=quantity
         )
 
         return redirect(url_for('librarian_book_management'))
@@ -427,6 +591,7 @@ def librarian_edit_book(book_id):
         language = request.form.get('language', '').strip()
         is_active = request.form.get('is_active') == 'on'
         category_ids = request.form.getlist('category_ids', type=int)
+        quantity = request.form.get('quantity', type=int, default=1)
 
         # Handle image upload
         image = request.files.get('image')
@@ -439,7 +604,7 @@ def librarian_edit_book(book_id):
             book_id=book_id, title=title, description=description,
             publisher=publisher, published_date=published_date, price=price,
             author=author, isbn_10=isbn_10, isbn_13=isbn_13, image=image_url,
-            language=language, is_active=is_active, category_ids=category_ids
+            language=language, is_active=is_active, category_ids=category_ids, quantity=quantity
         )
 
         return redirect(url_for('librarian_book_management'))
@@ -473,6 +638,7 @@ def admin_add_book():
         isbn_13 = request.form.get('isbn_13', '').strip()
         language = request.form.get('language', '').strip()
         category_ids = request.form.getlist('category_ids', type=int)
+        quantity = request.form.get('quantity', type=int, default=1)
 
         # Handle image upload
         image = request.files.get('image')
@@ -487,7 +653,7 @@ def admin_add_book():
             title=title, description=description, publisher=publisher,
             published_date=published_date, price=price, author=author,
             isbn_10=isbn_10, isbn_13=isbn_13, image=image_url,
-            language=language, category_ids=category_ids
+            language=language, category_ids=category_ids, quantity=quantity
         )
 
         return redirect(url_for('admin_book_management'))
@@ -509,6 +675,7 @@ def admin_edit_book(book_id):
         language = request.form.get('language', '').strip()
         is_active = request.form.get('is_active') == 'on'
         category_ids = request.form.getlist('category_ids', type=int)
+        quantity = request.form.get('quantity', type=int, default=1)
 
         # Handle image upload
         image = request.files.get('image')
@@ -521,7 +688,7 @@ def admin_edit_book(book_id):
             book_id=book_id, title=title, description=description,
             publisher=publisher, published_date=published_date, price=price,
             author=author, isbn_10=isbn_10, isbn_13=isbn_13, image=image_url,
-            language=language, is_active=is_active, category_ids=category_ids
+            language=language, is_active=is_active, category_ids=category_ids, quantity=quantity
         )
 
         return redirect(url_for('admin_book_management'))

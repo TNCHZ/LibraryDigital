@@ -8,4 +8,4 @@ from .category import Category
 from .category_book import CategoryBook
 from .reader_category import ReaderCategory
 from .view_history import ViewHistory
-from .borrow_slip import BorrowSlip
+from .borrow_slip import BorrowSlip, BorrowStatus

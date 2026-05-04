@@ -20,23 +20,23 @@
         <div class="grid grid-cols-4 gap-6">
             <div class="col-span-1 p-6 bg-surface-container-low rounded-xl space-y-2">
                 <p class="text-xs font-bold text-primary-container tracking-widest uppercase">Phát hành mới</p>
-                <p class="text-3xl font-black text-primary font-headline">24</p>
+                <p class="text-3xl font-black text-primary font-headline">{{ new_books_this_month }}</p>
                 <div class="flex items-center text-xs text-tertiary-container font-semibold">
                     <span class="material-symbols-outlined text-sm mr-1" data-icon="trending_up">trending_up</span>
-                    +12% so với tháng trước
+                    +{{ ((new_books_this_month / ((total_books - new_books_this_month) if (total_books - new_books_this_month) > 0 else 1)) * 100) | round(0) }}% so với tháng trước
                 </div>
             </div>
             <div class="col-span-1 p-6 bg-surface-container-low rounded-xl space-y-2">
                 <p class="text-xs font-bold text-primary-container tracking-widest uppercase">Đang cho mượn</p>
-                <p class="text-3xl font-black text-primary font-headline">412</p>
+                <p class="text-3xl font-black text-primary font-headline">{{ borrowed_books }}</p>
                 <div class="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden mt-4">
-                    <div class="bg-primary-container h-full w-[65%]"></div>
+                    <div class="bg-primary-container h-full w-[{{ (borrowed_books / (total_books if total_books > 0 else 1)) * 100 }}%]"></div>
                 </div>
             </div>
             <div class="col-span-2 p-6 bg-primary-container rounded-xl flex items-center justify-between text-on-primary-container">
                 <div class="space-y-1">
-                    <h3 class="text-xl font-bold font-headline text-surface">Bản ghi lưu trữ 2024</h3>
-                    <p class="text-sm opacity-80 max-w-[200px]">Cập nhật báo cáo tồn kho hàng quý cho ban quản trị.</p>
+                    <h3 class="text-xl font-bold font-headline text-surface">Tổng quan thư mục</h3>
+                    <p class="text-sm opacity-80 max-w-[200px]">{{ total_books }} đầu sách, {{ active_books }} đang hoạt động, {{ inactive_books }} đã ngừng.</p>
                 </div>
                 <button class="px-4 py-2 bg-surface text-primary font-bold text-sm rounded hover:bg-surface-bright transition-colors">
                     Xem báo cáo
@@ -144,9 +144,18 @@
                             </td>
                             <td class="px-8 py-6 text-sm font-medium text-on-surface">{{ book.author }}</td>
                             <td class="px-8 py-6">
-                                <span class="px-3 py-1 bg-surface-container-high rounded-full text-[11px] font-bold text-primary-container">
-                                    {{ book.categories[0].name if book.categories else 'Chưa phân loại' }}
-                                </span>
+                                <div class="flex flex-wrap gap-1">
+                                    {% for category in book.categories %}
+                                    <span class="px-2 py-1 bg-surface-container-high rounded-full text-[10px] font-bold text-primary-container">
+                                        {{ category.name }}
+                                    </span>
+                                    {% endfor %}
+                                    {% if not book.categories %}
+                                    <span class="px-3 py-1 bg-surface-container-high rounded-full text-[11px] font-bold text-primary-container">
+                                        Chưa phân loại
+                                    </span>
+                                    {% endif %}
+                                </div>
                             </td>
                             <td class="px-8 py-6">
                                 <div class="flex items-center">
@@ -159,10 +168,10 @@
                                     {% endif %}
                                 </div>
                             </td>
-                            <td class="px-8 py-6 text-sm font-bold text-primary">{{ book.stock or 'N/A' }}</td>
+                            <td class="px-8 py-6 text-sm font-bold text-primary">{{ book.quantity or 'N/A' }}</td>
                             <td class="px-8 py-6 text-right">
                                 <div class="flex items-center justify-end space-x-2">
-                                    <button data-book='{"id": {{ book.id }}, "title": {{ book.title|tojson }}, "author": {{ book.author|tojson }}, "description": {{ book.description|tojson }}, "publisher": {{ book.publisher|tojson }}, "published_date": {{ book.published_date }}, "price": {{ book.price }}, "isbn_10": {{ (book.isbn_10 or '')|tojson }}, "isbn_13": {{ (book.isbn_13 or '')|tojson }}, "language": {{ (book.language or '')|tojson }}, "is_active": {{ book.is_active|lower }}, "category_ids": [{% for cat in book.categories %}{{ cat.id }}{% if not loop.last %},{% endif %}{% endfor %}], "image": {{ book.image|tojson }}}'
+                                    <button data-book='{"id": {{ book.id }}, "title": {{ book.title|tojson }}, "author": {{ book.author|tojson }}, "description": {{ book.description|tojson }}, "publisher": {{ book.publisher|tojson }}, "published_date": {{ book.published_date }}, "price": {{ book.price }}, "isbn_10": {{ (book.isbn_10 or '')|tojson }}, "isbn_13": {{ (book.isbn_13 or '')|tojson }}, "language": {{ (book.language or '')|tojson }}, "is_active": {{ book.is_active|lower }}, "quantity": {{ book.quantity or 1 }}, "category_ids": [{% for cat in book.categories %}{{ cat.id }}{% if not loop.last %},{% endif %}{% endfor %}], "image": {{ book.image|tojson }}}'
                                         onclick="openEditModalFromButton(this)"
                                         class="p-2 hover:bg-surface-container-high rounded-lg text-primary transition-colors">
                                         <span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
@@ -320,6 +329,11 @@
                         id="add-price" name="price" type="number" step="0.01" placeholder="100000..." />
                 </div>
                 <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="add-quantity">Số lượng <span class="text-error">*</span></label>
+                    <input required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="add-quantity" name="quantity" type="number" min="1" value="1" />
+                </div>
+                <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold text-on-surface" for="add-language">Ngôn ngữ</label>
                     <input class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
                         id="add-language" name="language" type="text" placeholder="Tiếng Việt, English..." />
@@ -405,6 +419,11 @@
                     <label class="text-sm font-semibold text-on-surface" for="edit-price">Giá (VNĐ) <span class="text-error">*</span></label>
                     <input required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
                         id="edit-price" name="price" type="number" step="0.01" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-on-surface" for="edit-quantity">Số lượng <span class="text-error">*</span></label>
+                    <input required class="bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary"
+                        id="edit-quantity" name="quantity" type="number" min="1" />
                 </div>
                 <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold text-on-surface" for="edit-language">Ngôn ngữ</label>
@@ -506,6 +525,7 @@ function openEditModalFromButton(button) {
     document.getElementById('edit-publisher').value = book.publisher;
     document.getElementById('edit-published_date').value = book.published_date;
     document.getElementById('edit-price').value = book.price;
+    document.getElementById('edit-quantity').value = book.quantity || 1;
     document.getElementById('edit-isbn_10').value = book.isbn_10;
     document.getElementById('edit-isbn_13').value = book.isbn_13;
     document.getElementById('edit-language').value = book.language;

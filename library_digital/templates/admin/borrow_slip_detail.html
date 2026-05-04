@@ -1,0 +1,336 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+<!-- Main Content Canvas -->
+<main class="flex-grow ml-72 min-h-screen bg-surface flex flex-col">
+    <!-- Content Area -->
+    <div class="p-8 max-w-7xl w-full mx-auto space-y-8">
+        <!-- Page Header -->
+        <div class="flex items-center justify-between">
+            <div class="space-y-1">
+                <nav class="flex gap-2 text-xs text-on-surface-variant/60 items-center">
+                    <a href="{{ url_for('admin_borrow_slip_management') }}" class="hover:text-primary transition-colors">Quản lý đơn mượn</a>
+                    <span class="material-symbols-outlined text-[10px]" data-icon="chevron_right">chevron_right</span>
+                    <span class="text-primary font-semibold">Chi tiết đơn mượn #{{ slip.id }}</span>
+                </nav>
+                <h2 class="text-4xl font-extrabold tracking-tight text-primary font-headline">Chi tiết đơn mượn</h2>
+                <p class="text-on-surface-variant font-medium">Xem và quản lý thông tin chi tiết của đơn mượn #{{ slip.id }}</p>
+            </div>
+            <div class="flex gap-3">
+                {% if slip.status.value == 'RESERVED' %}
+                <form method="POST" action="{{ url_for('admin_approve_borrow_slip', slip_id=slip.id) }}" class="inline">
+                    <button type="submit" class="flex items-center px-6 py-3 bg-success text-on-success font-bold rounded-lg hover:scale-[1.03] transition-all shadow-xl">
+                        <span class="material-symbols-outlined mr-2" data-icon="check_circle">check_circle</span>
+                        Phê duyệt
+                    </button>
+                </form>
+                <button onclick="openRejectModal()" class="flex items-center px-6 py-3 bg-error text-on-error font-bold rounded-lg hover:scale-[1.03] transition-all shadow-xl">
+                    <span class="material-symbols-outlined mr-2" data-icon="cancel">cancel</span>
+                    Từ chối
+                </button>
+                {% elif slip.status.value == 'BORROWING' %}
+                <form method="POST" action="{{ url_for('admin_return_book', slip_id=slip.id) }}" class="inline">
+                    <button type="submit" class="flex items-center px-6 py-3 bg-tertiary text-on-tertiary font-bold rounded-lg hover:scale-[1.03] transition-all shadow-xl">
+                        <span class="material-symbols-outlined mr-2" data-icon="assignment_return">assignment_return</span>
+                        Xác nhận trả
+                    </button>
+                </form>
+                <button onclick="openMarkLostModal()" class="flex items-center px-6 py-3 bg-error text-on-error font-bold rounded-lg hover:scale-[1.03] transition-all shadow-xl">
+                    <span class="material-symbols-outlined mr-2" data-icon="report_problem">report_problem</span>
+                    Đánh dấu thất lạc
+                </button>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Status Badge -->
+        <div class="flex items-center gap-4">
+            <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-bold
+                {% if slip.status.value == 'RESERVED' %}bg-warning/20 text-warning
+                {% elif slip.status.value == 'BORROWING' %}bg-tertiary/20 text-tertiary
+                {% elif slip.status.value == 'OVERDUE' %}bg-error/20 text-error
+                {% elif slip.status.value == 'RETURNED' %}bg-success/20 text-success
+                {% elif slip.status.value == 'REJECTED' %}bg-error/20 text-error
+                {% else %}bg-surface-container-high text-on-surface-variant{% endif %}">
+                <span class="w-2 h-2 rounded-full mr-2
+                    {% if slip.status.value == 'RESERVED' %}bg-warning
+                    {% elif slip.status.value == 'BORROWING' %}bg-tertiary
+                    {% elif slip.status.value == 'OVERDUE' %}bg-error
+                    {% elif slip.status.value == 'RETURNED' %}bg-success
+                    {% elif slip.status.value == 'REJECTED' %}bg-error
+                    {% else %}bg-surface-container-highest{% endif %}"></span>
+                {{ slip.status.value }}
+            </span>
+            <span class="text-sm text-on-surface-variant">Mã đơn: #{{ slip.id }}</span>
+            <span class="text-sm text-on-surface-variant">Ngày tạo: {{ slip.created_at.strftime('%d/%m/%Y %H:%M') if slip.created_at else '' }}</span>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column - Book & Reader Info -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Book Information -->
+                <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_40px_rgba(28,28,25,0.02)]">
+                    <div class="bg-surface-container-low/50 px-8 py-4 border-b border-surface-container-low">
+                        <h3 class="text-lg font-bold text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-xl" data-icon="menu_book">menu_book</span>
+                            Thông tin sách
+                        </h3>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex gap-6">
+                            <div class="w-32 h-48 bg-surface-container-high rounded-lg overflow-hidden flex-shrink-0">
+                                <img src="{{ slip.book.image if slip.book else '' }}" alt="{{ slip.book.title if slip.book else 'Không có ảnh' }}" 
+                                     class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 space-y-4">
+                                <div>
+                                    <h4 class="text-xl font-bold text-primary mb-2">{{ slip.book.title if slip.book else 'Không có tên sách' }}</h4>
+                                    <p class="text-on-surface-variant">Tác giả: {{ slip.book.author if slip.book else 'Không có tác giả' }}</p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-1">ISBN</p>
+                                        <p class="text-sm text-on-surface">{{ slip.book.isbn_13 or slip.book.isbn_10 or 'N/A' }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-1">Thể loại</p>
+                                        <p class="text-sm text-on-surface">
+                                            {% if slip.book and slip.book.categories %}
+                                                {% for cat in slip.book.categories %}
+                                                    {{ cat.name }}{% if not loop.last %}, {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                Chưa phân loại
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                                {% if slip.book.description %}
+                                <div>
+                                    <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-2">Mô tả</p>
+                                    <p class="text-sm text-on-surface line-clamp-3">{{ slip.book.description }}</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reader Information -->
+                <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_40px_rgba(28,28,25,0.02)]">
+                    <div class="bg-surface-container-low/50 px-8 py-4 border-b border-surface-container-low">
+                        <h3 class="text-lg font-bold text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-xl" data-icon="person">person</span>
+                            Thông tin độc giả
+                        </h3>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex gap-6">
+                            <div class="w-20 h-20 bg-surface-container-high rounded-full overflow-hidden flex-shrink-0">
+                                {% if slip.reader.avatar %}
+                                <img src="{{ slip.reader.avatar }}" alt="{{ slip.reader.first_name }} {{ slip.reader.last_name }}" 
+                                     class="w-full h-full object-cover">
+                                {% else %}
+                                <div class="w-full h-full bg-gradient-to-br from-primary to-tertiary flex items-center justify-center">
+                                    <span class="text-white text-2xl font-bold">
+                                        {{ slip.reader.first_name[0] }}{{ slip.reader.last_name[0] }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="flex-1 space-y-4">
+                                <div>
+                                    <h4 class="text-lg font-bold text-primary mb-1">
+                                        {{ slip.reader.first_name }} {{ slip.reader.last_name }}
+                                    </h4>
+                                    <p class="text-on-surface-variant">ID: LIB-{{ slip.reader.id }}</p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-1">Email</p>
+                                        <p class="text-sm text-on-surface">{{ slip.reader.email }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-1">Điện thoại</p>
+                                        <p class="text-sm text-on-surface">{{ slip.reader.phone }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-1">Ngày tham gia</p>
+                                        <p class="text-sm text-on-surface">{{ slip.reader.created_at.strftime('%d/%m/%Y') if slip.reader.created_at else '' }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-1">Trạng thái</p>
+                                        <p class="text-sm text-on-surface">
+                                            {% if slip.reader.is_active %}
+                                                <span class="text-success font-medium">Hoạt động</span>
+                                            {% else %}
+                                                <span class="text-error font-medium">Đã khóa</span>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Timeline & Actions -->
+            <div class="space-y-8">
+                <!-- Borrow Timeline -->
+                <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_40px_rgba(28,28,25,0.02)]">
+                    <div class="bg-surface-container-low/50 px-8 py-4 border-b border-surface-container-low">
+                        <h3 class="text-lg font-bold text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-xl" data-icon="schedule">schedule</span>
+                            Lịch sử đơn mượn
+                        </h3>
+                    </div>
+                    <div class="p-8 space-y-6">
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined text-primary text-sm" data-icon="calendar_today">calendar_today</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-on-surface">Ngày tạo đơn</p>
+                                <p class="text-xs text-on-surface-variant">{{ slip.created_at.strftime('%d/%m/%Y %H:%M') if slip.created_at else '' }}</p>
+                            </div>
+                        </div>
+                        
+                        {% if slip.borrow_date %}
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-tertiary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined text-tertiary text-sm" data-icon="library_books">library_books</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-on-surface">Ngày mượn sách</p>
+                                <p class="text-xs text-on-surface-variant">{{ slip.borrow_date.strftime('%d/%m/%Y %H:%M') }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if slip.due_date %}
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 {% if slip.status.value == 'OVERDUE' %}bg-error/10{% else %}bg-warning/10{% endif %} rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined {% if slip.status.value == 'OVERDUE' %}text-error{% else %}text-warning{% endif %} text-sm" data-icon="event">event</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-on-surface">Hạn trả sách</p>
+                                <p class="text-xs text-on-surface-variant">{{ slip.due_date.strftime('%d/%m/%Y %H:%M') }}</p>
+                                {% if slip.status.value == 'OVERDUE' %}
+                                <p class="text-xs text-error font-medium">Quá hạn {{ (current_user.date() - slip.due_date.date()).days if current_user.date() > slip.due_date.date() else 0 }} ngày</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if slip.return_date %}
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-success/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined text-success text-sm" data-icon="task_alt">task_alt</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-on-surface">Ngày trả sách</p>
+                                <p class="text-xs text-on-surface-variant">{{ slip.return_date.strftime('%d/%m/%Y %H:%M') }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Notes Section -->
+                {% if slip.note %}
+                <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_40px_rgba(28,28,25,0.02)]">
+                    <div class="bg-surface-container-low/50 px-8 py-4 border-b border-surface-container-low">
+                        <h3 class="text-lg font-bold text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-xl" data-icon="note">note</span>
+                            Ghi chú
+                        </h3>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-sm text-on-surface">{{ slip.note }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Librarian Info -->
+                {% if slip.librarian %}
+                <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_40px_rgba(28,28,25,0.02)]">
+                    <div class="bg-surface-container-low/50 px-8 py-4 border-b border-surface-container-low">
+                        <h3 class="text-lg font-bold text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-xl" data-icon="support_agent">support_agent</span>
+                            Thủ thư xử lý
+                        </h3>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-sm font-bold text-on-surface">{{ slip.librarian.first_name }} {{ slip.librarian.last_name }}</p>
+                        <p class="text-xs text-on-surface-variant">ID: LIB-{{ slip.librarian.id }}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Reject Modal -->
+<div id="rejectModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+    <div class="bg-surface rounded-xl p-8 max-w-md w-full mx-4">
+        <h3 class="text-xl font-bold text-primary mb-4">Từ chối đơn mượn</h3>
+        <form method="POST" action="{{ url_for('admin_reject_borrow_slip', slip_id=slip.id) }}">
+            <div class="mb-4">
+                <label class="block text-sm font-bold text-on-surface mb-2">Lý do từ chối</label>
+                <textarea name="reject_note" rows="4" class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Nhập lý do từ chối..."></textarea>
+            </div>
+            <div class="flex gap-4 justify-end">
+                <button type="button" onclick="closeRejectModal()" class="px-6 py-2 bg-surface-container-high text-on-surface rounded-lg hover:bg-surface-container-highest transition-colors">
+                    Hủy
+                </button>
+                <button type="submit" class="px-6 py-2 bg-error text-on-error rounded-lg hover:bg-error/90 transition-colors">
+                    Xác nhận từ chối
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Mark Lost Modal -->
+<div id="markLostModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+    <div class="bg-surface rounded-xl p-8 max-w-md w-full mx-4">
+        <h3 class="text-xl font-bold text-primary mb-4">Đánh dấu sách thất lạc</h3>
+        <form method="POST" action="{{ url_for('admin_mark_book_lost', slip_id=slip.id) }}">
+            <div class="mb-4">
+                <label class="block text-sm font-bold text-on-surface mb-2">Ghi chú</label>
+                <textarea name="note" rows="4" class="w-full px-4 py-2 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Nhập ghi chú về sách thất lạc..."></textarea>
+            </div>
+            <div class="flex gap-4 justify-end">
+                <button type="button" onclick="closeMarkLostModal()" class="px-6 py-2 bg-surface-container-high text-on-surface rounded-lg hover:bg-surface-container-highest transition-colors">
+                    Hủy
+                </button>
+                <button type="submit" class="px-6 py-2 bg-error text-on-error rounded-lg hover:bg-error/90 transition-colors">
+                    Xác nhận thất lạc
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openRejectModal() {
+    document.getElementById('rejectModal').classList.remove('hidden');
+}
+
+function closeRejectModal() {
+    document.getElementById('rejectModal').classList.add('hidden');
+}
+
+function openMarkLostModal() {
+    document.getElementById('markLostModal').classList.remove('hidden');
+}
+
+function closeMarkLostModal() {
+    document.getElementById('markLostModal').classList.add('hidden');
+}
+</script>
+
+{% endblock content %}

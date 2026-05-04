@@ -31,13 +31,26 @@
             Quản lý độc giả
         </a>
     </nav>
+    <div class="mt-4 border-t border-gray-300 pt-4">
+        <a href="{{ url_for('user_logout') }}" class="flex items-center gap-3 px-3 py-3 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-all font-medium">
+            <span class="material-symbols-outlined">logout</span>
+            <span>Đăng xuất</span>
+        </a>
+    </div>
     <div class="mt-auto p-3 bg-surface-container rounded-lg flex items-center gap-3">
-        <img alt="Ảnh đại diện Thủ thư" class="w-8 h-8 rounded-full object-cover"
-            data-alt="Close-up portrait of a professional librarian woman with glasses and a warm smile in a brightly lit modern library"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTz7vqaxB3J2gL1nZaODeKQSScm800305f1294TCcVOLnKWtCv5FM1NxSXKpUI-xl5Mu035ybvVxsdBCEQpG1BRV-Zvp-3qVqXZFnSwU3IbeG1mvGSUlTBo6o2n2VFIUJWqLhge3uumiCES-fOTgT3OWBKaatFW2ghpPRasPlOLmaeDeyMDsq-oWfyeeJFoFioeruGbGNBX4CeqdwHendMeSTFUZ8Vumimx4g8C5uLZ7HskX1Zok1WBj-pnmTRQChYspu4o5j1p4Yq" />
+        {% if current_user.avatar %}
+        <img alt="Ảnh đại diện" class="w-8 h-8 rounded-full object-cover"
+            src="{{ current_user.avatar }}" />
+        {% else %}
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-tertiary flex items-center justify-center">
+            <span class="text-white text-sm font-bold">
+                {{ current_user.first_name[0] }}{{ current_user.last_name[0] }}
+            </span>
+        </div>
+        {% endif %}
         <div class="overflow-hidden">
-            <p class="text-xs font-bold truncate">Nguyễn Thư Kỳ</p>
-            <p class="text-[10px] opacity-60">Thủ thư trưởng</p>
+            <p class="text-xs font-bold truncate">{{ current_user.first_name }} {{ current_user.last_name }}</p>
+            <p class="text-[10px] opacity-60">Thủ thư</p>
         </div>
     </div>
 </aside>

@@ -1,305 +1,200 @@
 {% extends 'librarian/layout.html' %}
 
 {% block content %}
-<!-- SideNavBar -->
-<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f7f3ef] font-['Plus_Jakarta_Sans'] text-sm antialiased flex flex-col p-4 gap-4 z-40">
-<div class="flex items-center gap-3 px-2 py-4">
-<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-on-primary">
-<span class="material-symbols-outlined" data-icon="local_library">local_library</span>
-</div>
-<div>
-<h2 class="text-lg font-black tracking-tighter text-[#533528]">Thủ Thư</h2>
-<p class="text-[10px] uppercase tracking-widest text-[#533528]/60">Hệ thống quản lý</p>
-</div>
-</div>
-<nav class="flex-1 space-y-2">
-<a class="flex items-center gap-3 px-3 py-2.5 text-[#1c1c19]/70 hover:bg-[#ffffff]/50 hover:scale-[1.02] transition-all duration-200 rounded-md" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-                Dashboard
-            </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-[#1c1c19]/70 hover:bg-[#ffffff]/50 hover:scale-[1.02] transition-all duration-200 rounded-md" href="#">
-<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
-                Quản lý sách
-            </a>
-<a class="flex items-center gap-3 px-3 py-2.5 text-[#1c1c19]/70 hover:bg-[#ffffff]/50 hover:scale-[1.02] transition-all duration-200 rounded-md" href="#">
-<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
-                Quản lý đơn mượn
-            </a>
-<a class="flex items-center gap-3 px-3 py-2.5 bg-[#ffffff] text-[#533528] rounded-md shadow-sm font-bold" href="#">
-<span class="material-symbols-outlined" data-icon="group">group</span>
-                Quản lý người dùng
-            </a>
-</nav>
-<div class="mt-auto p-3 bg-surface-container rounded-lg flex items-center gap-3">
-<img alt="Ảnh đại diện Thủ thư" class="w-8 h-8 rounded-full object-cover" data-alt="Close up portrait of a professional librarian, confident expression, soft warm indoor lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVc4yzUDqRH5_Z6jMD0DQINHp-9j5ej4JnmNGjfuK09Wwf6RStKpAcJc-5BK_9HgQR09idIkWyFl5wZ56qMcgVWK_tGcrWxWrJOxzoIG7ftNM7gYpyJSoNtPvDzk6oXEL6r23BxFnQCPq3VrROwMEdXJltgqClXBKrc37EZ5Ara88VyD2t2JuJLXE2vE8seT0ZHUuPrT0rIRp6ozbvQlKvCbxiuoFaOAEM7K57w59kKnanO1FQ-MlSXvsAn04XVNZG23f25WFH4ejr"/>
-<div class="overflow-hidden">
-<p class="text-xs font-bold truncate">Nguyễn Thư Kỳ</p>
-<p class="text-[10px] opacity-60">Thủ thư trưởng</p>
-</div>
-</div>
-</aside>
-<!-- Main Content Area -->
 <main class="ml-64 flex-1 flex flex-col min-h-screen">
-<!-- TopNavBar -->
-<header class="bg-[#fdf9f5] backdrop-blur-md opacity-90 text-[#533528] font-['Plus_Jakarta_Sans'] font-semibold tracking-tight docked full-width top-0 sticky z-50 shadow-sm flex justify-between items-center w-full px-8 py-4">
-<div class="flex items-center gap-6">
-<h1 class="text-xl font-bold text-[#533528]">Quản lý người dùng</h1>
-<div class="relative group">
-<span class="absolute inset-y-0 left-3 flex items-center text-on-surface-variant/50">
-<span class="material-symbols-outlined text-lg" data-icon="search">search</span>
-</span>
-<input class="pl-10 pr-4 py-2 bg-surface-container-high border-none rounded-lg text-sm w-64 focus:ring-2 focus:ring-tertiary transition-all" placeholder="Tìm kiếm độc giả..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<button class="p-2 hover:bg-[#f7f3ef] transition-colors rounded-full relative">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
-</button>
-<button class="p-2 hover:bg-[#f7f3ef] transition-colors rounded-full">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-</button>
-<div class="h-8 w-[1px] bg-outline-variant/30 mx-2"></div>
-<div class="flex items-center gap-3">
-<div class="text-right hidden sm:block">
-<p class="text-xs font-bold">Thủ thư Trưởng</p>
-<p class="text-[10px] text-on-surface-variant/60">admin@thuvien.vn</p>
-</div>
-<img alt="Ảnh đại diện Thủ thư" class="w-10 h-10 rounded-full object-cover ring-2 ring-surface-container-high" data-alt="Close up portrait of a professional librarian, confident expression, soft warm indoor lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVc4yzUDqRH5_Z6jMD0DQINHp-9j5ej4JnmNGjfuK09Wwf6RStKpAcJc-5BK_9HgQR09idIkWyFl5wZ56qMcgVWK_tGcrWxWrJOxzoIG7ftNM7gYpyJSoNtPvDzk6oXEL6r23BxFnQCPq3VrROwMEdXJltgqClXBKrc37EZ5Ara88VyD2t2JuJLXE2vE8seT0ZHUuPrT0rIRp6ozbvQlKvCbxiuoFaOAEM7K57w59kKnanO1FQ-MlSXvsAn04XVNZG23f25WFH4ejr"/>
-</div>
-</div>
-</header>
-<!-- Page Content -->
-<div class="p-8 max-w-7xl w-full mx-auto flex-1">
-<!-- Hero Action Area -->
-<div class="flex justify-between items-end mb-10">
-<div>
-<h2 class="text-3xl font-extrabold tracking-tight text-primary mb-2">Danh sách Độc giả</h2>
-<p class="text-on-surface-variant/70 max-w-md">Quản lý và cập nhật thông tin thành viên của Thư viện Archival. Tìm kiếm theo tên hoặc mã thẻ thành viên.</p>
-</div>
-<button class="flex items-center gap-2 bg-primary text-on-primary px-6 py-3 rounded-xl font-semibold shadow-lg shadow-primary/20 hover:scale-105 transition-transform duration-300">
-<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
-<span>Thêm người dùng mới</span>
-</button>
-</div>
-<!-- Stats Grid -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
-<p class="text-xs uppercase tracking-widest text-on-surface-variant/60 font-semibold mb-4">Tổng số độc giả</p>
-<div class="flex items-baseline gap-2">
-<span class="text-4xl font-black text-primary">1,284</span>
-<span class="text-xs text-green-600 font-bold">+12%</span>
-</div>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
-<p class="text-xs uppercase tracking-widest text-on-surface-variant/60 font-semibold mb-4">Đang hoạt động</p>
-<div class="flex items-baseline gap-2">
-<span class="text-4xl font-black text-primary">856</span>
-</div>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
-<p class="text-xs uppercase tracking-widest text-on-surface-variant/60 font-semibold mb-4">Thẻ mới tháng này</p>
-<div class="flex items-baseline gap-2">
-<span class="text-4xl font-black text-primary">42</span>
-</div>
-</div>
-<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
-<p class="text-xs uppercase tracking-widest text-on-surface-variant/60 font-semibold mb-4">Vi phạm/Khóa</p>
-<div class="flex items-baseline gap-2">
-<span class="text-4xl font-black text-error">12</span>
-</div>
-</div>
-</div>
-<!-- Table Container -->
-<div class="bg-surface-container-lowest rounded-3xl shadow-sm overflow-hidden border border-outline-variant/5">
-<div class="px-8 py-6 border-b border-surface-container flex justify-between items-center bg-surface-container-low/30">
-<div class="flex gap-4">
-<button class="px-4 py-2 bg-primary text-on-primary text-xs font-bold rounded-lg">Tất cả</button>
-<button class="px-4 py-2 text-on-surface-variant/60 hover:text-primary text-xs font-bold rounded-lg transition-colors">Đang hoạt động</button>
-<button class="px-4 py-2 text-on-surface-variant/60 hover:text-primary text-xs font-bold rounded-lg transition-colors">Đã khóa</button>
-</div>
-<button class="flex items-center gap-2 text-xs font-bold text-on-surface-variant/70 hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
-                        Bộ lọc nâng cao
+    <!-- Page Content -->
+    <div class="p-8 max-w-7xl w-full mx-auto flex-1">
+        <!-- Hero Action Area -->
+        <div class="flex justify-between items-end mb-10">
+            <div>
+                <h2 class="text-3xl font-extrabold tracking-tight text-primary mb-2">Danh sách Độc giả</h2>
+                <p class="text-on-surface-variant/70 max-w-md">Quản lý và cập nhật thông tin thành viên của Thư viện
+                    Archival. Tìm kiếm theo tên hoặc mã thẻ thành viên.</p>
+            </div>
+            <button
+                class="flex items-center gap-2 bg-primary text-on-primary px-6 py-3 rounded-xl font-semibold shadow-lg shadow-primary/20 hover:scale-105 transition-transform duration-300">
+                <span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+                <span>Thêm người dùng mới</span>
+            </button>
+        </div>
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+            <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
+                <p class="text-xs uppercase tracking-widest text-on-surface-variant/60 font-semibold mb-4">Tổng số độc
+                    giả</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-4xl font-black text-primary">{{ "{:,}".format(total_users) }}</span>
+                    <span class="text-xs text-green-600 font-bold">+12%</span>
+                </div>
+            </div>
+            <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
+                <p class="text-xs uppercase tracking-widest text-on-surface-variant/60 font-semibold mb-4">Đang hoạt
+                    động</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-4xl font-black text-primary">{{ "{:,}".format(active_users) }}</span>
+                </div>
+            </div>
+            <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
+                <p class="text-xs uppercase tracking-widest text-on-surface-variant/60 font-semibold mb-4">Thẻ mới tháng
+                    này</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-4xl font-black text-primary">42</span>
+                </div>
+            </div>
+            <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
+                <p class="text-xs uppercase tracking-widest text-on-surface-variant/60 font-semibold mb-4">Vi phạm/Khóa
+                </p>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-4xl font-black text-error">{{ "{:,}".format(inactive_users) }}</span>
+                </div>
+            </div>
+        </div>
+        <!-- Table Container -->
+        <div class="bg-surface-container-lowest rounded-3xl shadow-sm overflow-hidden border border-outline-variant/5">
+            <div
+                class="px-8 py-6 border-b border-surface-container flex justify-between items-center bg-surface-container-low/30">
+                <div class="flex gap-4">
+                    <a href="{{ url_for('librarian_reader_management') }}" 
+                       class="px-4 py-2 {% if not status_filter %}bg-primary text-on-primary{% else %}text-on-surface-variant/60 hover:text-primary{% endif %} text-xs font-bold rounded-lg transition-colors">Tất cả</a>
+                    <a href="{{ url_for('librarian_reader_management', status='active') }}"
+                       class="px-4 py-2 {% if status_filter == 'active' %}bg-primary text-on-primary{% else %}text-on-surface-variant/60 hover:text-primary{% endif %} text-xs font-bold rounded-lg transition-colors">Đang hoạt động</a>
+                    <a href="{{ url_for('librarian_reader_management', status='inactive') }}"
+                       class="px-4 py-2 {% if status_filter == 'inactive' %}bg-primary text-on-primary{% else %}text-on-surface-variant/60 hover:text-primary{% endif %} text-xs font-bold rounded-lg transition-colors">Đã khóa</a>
+                </div>
+                <button
+                    class="flex items-center gap-2 text-xs font-bold text-on-surface-variant/70 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+                    Bộ lọc nâng cao
+                </button>
+            </div>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-surface-container-low/50">
+                        <th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant/50">Tên
+                            &amp; Thông tin</th>
+                        <th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant/50">Mã
+                            thẻ</th>
+                        <th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant/50">Vai
+                            trò</th>
+                        <th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant/50">
+                            Ngày tham gia</th>
+                        <th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant/50">
+                            Trạng thái</th>
+                        <th
+                            class="px-8 py-5 text-right text-xs font-bold uppercase tracking-widest text-on-surface-variant/50">
+                            Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-surface-container">
+                    {% for reader in readers.items %}
+                    <tr class="hover:bg-surface-container-low/40 transition-colors group {% if not reader.is_active %}bg-red-50/10{% endif %}">
+                        <td class="px-8 py-5">
+                            <div class="flex items-center gap-4">
+                                {% if reader.avatar %}
+                                <img alt="Avatar Độc giả" class="w-10 h-10 rounded-full object-cover {% if not reader.is_active %}grayscale{% endif %}"
+                                    src="{{ reader.avatar }}" />
+                                {% else %}
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-tertiary flex items-center justify-center font-bold text-white text-sm shrink-0 {% if not reader.is_active %}grayscale{% endif %}">
+                                    {{ reader.first_name[0]|upper }}{{ reader.last_name[0]|upper }}
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <p class="font-bold text-on-surface">{{ reader.first_name }} {{ reader.last_name }}</p>
+                                    <p class="text-xs text-on-surface-variant/60">{{ reader.email }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-5">
+                            <code class="text-xs bg-surface-container px-2 py-1 rounded font-mono text-primary-container">LIB-{{ reader.id }}</code>
+                        </td>
+                        <td class="px-6 py-5">
+                            <span class="text-sm">Độc giả</span>
+                        </td>
+                        <td class="px-6 py-5">
+                            <p class="text-sm">{{ reader.created_at.strftime('%d/%m/%Y') if reader.created_at else 'N/A' }}</p>
+                        </td>
+                        <td class="px-6 py-5">
+                            {% if reader.is_active %}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Hoạt động
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                Đã khóa
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-8 py-5 text-right">
+                            <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button class="p-2 hover:bg-tertiary-fixed rounded-lg text-tertiary transition-colors"
+                                    title="Sửa">
+                                    <span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+                                </button>
+                                <button class="p-2 hover:bg-error-container rounded-lg text-error transition-colors"
+                                    title="Xóa">
+                                    <span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="px-8 py-12 text-center">
+                            <span class="material-symbols-outlined text-4xl text-outline-variant mb-2">person_off</span>
+                            <p class="text-on-surface-variant">Không có độc giả nào.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div
+                class="px-8 py-6 bg-surface-container-low/30 border-t border-surface-container flex items-center justify-between">
+                <p class="text-xs text-on-surface-variant/60 font-medium">
+                    Đang hiển thị <span class="font-bold text-primary">
+                        {{ (readers.page - 1) * readers.per_page + 1 if readers.items else 0 }} -
+                        {{ [readers.page * readers.per_page, readers.total] | min }}
+                    </span> của {{ readers.total }} độc giả
+                </p>
+                <div class="flex gap-2">
+                    {% if readers.has_prev %}
+                    <a href="{{ url_for('librarian_reader_management', page=readers.prev_num, status=status_filter) }}"
+                        class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface-variant/60 hover:border-primary hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+                    </a>
+                    {% else %}
+                    <button disabled
+                        class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface-variant/30 cursor-not-allowed">
+                        <span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
                     </button>
-</div>
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container-low/50">
-<th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant/50">Tên &amp; Thông tin</th>
-<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant/50">Mã thẻ</th>
-<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant/50">Vai trò</th>
-<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant/50">Ngày tham gia</th>
-<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant/50">Trạng thái</th>
-<th class="px-8 py-5 text-right text-xs font-bold uppercase tracking-widest text-on-surface-variant/50">Thao tác</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-surface-container">
-<!-- Row 1 -->
-<tr class="hover:bg-surface-container-low/40 transition-colors group">
-<td class="px-8 py-5">
-<div class="flex items-center gap-4">
-<img alt="Avatar Độc giả" class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of a young adult male student with glasses, smiling friendly, studio lighting with neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTBc2SkK0flRWH4reGQ3zq04nR50MAMbiLdKkklB30eyHBKlCqvVFjJ6-Wy3VDcSr1OdtAIn0yNC3u0FxJ1tDMcsO9b8lH3yKRt8uLqm6dM38Ugkw6DcFCRnKRt85YV_RoPbgcJQ6Jt-mRTwjIZR1q5kEdqepAXylMBpWlZ_CcFXeumv1ht2qnWPf5XzNbwnVjjknPaktfbojU1xT-0oL4gW4KuveTT_Z2vKIAHc0h0Gfvb6zKwzAv-3TB82Tup4MXB7qyA3omf8Zp"/>
-<div>
-<p class="font-bold text-on-surface">Nguyễn Văn An</p>
-<p class="text-xs text-on-surface-variant/60">an.nv@email.com</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<code class="text-xs bg-surface-container px-2 py-1 rounded font-mono text-primary-container">LIB-2024-001</code>
-</td>
-<td class="px-6 py-5">
-<span class="text-sm">Sinh viên</span>
-</td>
-<td class="px-6 py-5">
-<p class="text-sm">12/01/2024</p>
-</td>
-<td class="px-6 py-5">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    Hoạt động
-                                </span>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 hover:bg-tertiary-fixed rounded-lg text-tertiary transition-colors" title="Sửa">
-<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
-</button>
-<button class="p-2 hover:bg-error-container rounded-lg text-error transition-colors" title="Xóa">
-<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface-container-low/40 transition-colors group">
-<td class="px-8 py-5">
-<div class="flex items-center gap-4">
-<img alt="Avatar Độc giả" class="w-10 h-10 rounded-full object-cover" data-alt="Close up of a middle-aged woman with professional attire, soft lighting, library background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHcynkyvUUmSB44POXNWLc83KmauDgDXOtcT6OyjrmUeILHJveukr9D8Dx-2sHEAAUis5WJCVVp5cJWDiqFf985PfJpZKoqRNlsJT6lA8hXq92xI2bDrOHni_fFZvTvrCntsoD-xiC36NIvIQMjFRcmskNa7asYAojj2EJXiWLCF22WNwGJ_1uUy8zliYohsoSaySQLL-epPA-rrjej68PXQK5OYteWXwfA0V3O1jhnfF39x-7L4ZA4qlZi1B9k2qLFYAQ0rswi5_-"/>
-<div>
-<p class="font-bold text-on-surface">Trần Thị Bích</p>
-<p class="text-xs text-on-surface-variant/60">bich.tt@email.com</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<code class="text-xs bg-surface-container px-2 py-1 rounded font-mono text-primary-container">LIB-2023-452</code>
-</td>
-<td class="px-6 py-5">
-<span class="text-sm">Giảng viên</span>
-</td>
-<td class="px-6 py-5">
-<p class="text-sm">05/11/2023</p>
-</td>
-<td class="px-6 py-5">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    Hoạt động
-                                </span>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 hover:bg-tertiary-fixed rounded-lg text-tertiary transition-colors" title="Sửa">
-<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
-</button>
-<button class="p-2 hover:bg-error-container rounded-lg text-error transition-colors" title="Xóa">
-<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 3 (Locked State) -->
-<tr class="hover:bg-surface-container-low/40 transition-colors group bg-red-50/10">
-<td class="px-8 py-5">
-<div class="flex items-center gap-4">
-<img alt="Avatar Độc giả" class="w-10 h-10 rounded-full object-cover grayscale" data-alt="Teenage boy with casual clothes, slightly messy hair, neutral expression, outdoor natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaralo8fQJ_0pz7gjGo-awAE11dAR6dYGuV_S77_146qnKpwMvIpvpf7Shoxa0eD46DvkIe1Em562VCKeLzXq7qiAFL_CRqJ_1tg_L9Wl7xsWkxM2Iq8acggBHBQtRFltzoR28_9qPwXAOZa4r71zubxOXuxZC88DSgSVlITWPaWwt2UqhZxgjrW6YO9XUB473d7M2ISL1YyUdvac69ThLBBxwOVzHwr7t14kzh4QAT1ozdUjDW1POlmHxL59JeeKY65msu6qz9d8R"/>
-<div>
-<p class="font-bold text-on-surface">Lê Hoàng Nam</p>
-<p class="text-xs text-on-surface-variant/60">nam.lh@email.com</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<code class="text-xs bg-surface-container px-2 py-1 rounded font-mono text-primary-container">LIB-2024-118</code>
-</td>
-<td class="px-6 py-5">
-<span class="text-sm">Sinh viên</span>
-</td>
-<td class="px-6 py-5">
-<p class="text-sm">15/02/2024</p>
-</td>
-<td class="px-6 py-5">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                    Đã khóa
-                                </span>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 hover:bg-tertiary-fixed rounded-lg text-tertiary transition-colors" title="Mở khóa">
-<span class="material-symbols-outlined text-xl" data-icon="lock_open">lock_open</span>
-</button>
-<button class="p-2 hover:bg-tertiary-fixed rounded-lg text-tertiary transition-colors" title="Sửa">
-<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
-</button>
-<button class="p-2 hover:bg-error-container rounded-lg text-error transition-colors" title="Xóa">
-<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 4 -->
-<tr class="hover:bg-surface-container-low/40 transition-colors group">
-<td class="px-8 py-5">
-<div class="flex items-center gap-4">
-<img alt="Avatar Độc giả" class="w-10 h-10 rounded-full object-cover" data-alt="Young professional woman with ethnic features, smiling, high-end corporate office setting in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnyGYU5sE-3OT-E9Fpe2kTTFErZvxxWoBiR8wyvWiBfb7mjyqtHQsvYiIkmqTFJWHp6C07IKteF1cIoHwl0h1ap4DjIWUMyh-1svWgJOwj2eKJTmZmFXJxrgegjjPEM3aU0qduANBcHLhCnxiaoI1f_De6tNUTS9MmujELWU4IwvL8kKgtYzNkSQEN-dE9PIxTL0yRqpcLmaoWGOLhUxT59qxUliPGFeNAoqqgnhkJ_PPqhVG7kG9Ivt6XVKsH03uB4f9lrWS0nJh6"/>
-<div>
-<p class="font-bold text-on-surface">Phạm Thanh Thủy</p>
-<p class="text-xs text-on-surface-variant/60">thuy.pt@email.com</p>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<code class="text-xs bg-surface-container px-2 py-1 rounded font-mono text-primary-container">LIB-2022-882</code>
-</td>
-<td class="px-6 py-5">
-<span class="text-sm">Nghiên cứu sinh</span>
-</td>
-<td class="px-6 py-5">
-<p class="text-sm">20/08/2022</p>
-</td>
-<td class="px-6 py-5">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    Hoạt động
-                                </span>
-</td>
-<td class="px-8 py-5 text-right">
-<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-<button class="p-2 hover:bg-tertiary-fixed rounded-lg text-tertiary transition-colors" title="Sửa">
-<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
-</button>
-<button class="p-2 hover:bg-error-container rounded-lg text-error transition-colors" title="Xóa">
-<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
-</button>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="px-8 py-6 bg-surface-container-low/30 border-t border-surface-container flex items-center justify-between">
-<p class="text-xs text-on-surface-variant/60 font-medium">Hiển thị 1 - 4 trên 1,284 độc giả</p>
-<div class="flex gap-2">
-<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface-variant/60 hover:border-primary hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
-</button>
-<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary font-bold text-xs">1</button>
-<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface-variant/60 hover:border-primary hover:text-primary transition-colors text-xs">2</button>
-<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface-variant/60 hover:border-primary hover:text-primary transition-colors text-xs">3</button>
-<span class="px-2 self-center text-on-surface-variant/30">...</span>
-<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface-variant/60 hover:border-primary hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
-</button>
-</div>
-</div>
-</div>
-</div>
+                    {% endif %}
+
+                    {% for page_num in readers.iter_pages(left_edge=1, left_current=2, right_current=2, right_edge=1) %}
+                        {% if page_num %}
+                            {% if page_num == readers.page %}
+                            <button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary font-bold text-xs">{{ page_num }}</button>
+                            {% else %}
+                            <a href="{{ url_for('librarian_reader_management', page=page_num, status=status_filter) }}"
+                                class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface-variant/60 hover:border-primary hover:text-primary transition-colors text-xs">{{ page_num }}</a>
+                            {% endif %}
+                        {% else %}
+                        <span class="px-2 self-center text-on-surface-variant/30">...</span>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if readers.has_next %}
+                    <a href="{{ url_for('librarian_reader_management', page=readers.next_num, status=status_filter) }}"
+                        class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface-variant/60 hover:border-primary hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+                    </a>
+                    {% else %}
+                    <button disabled
+                        class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface-variant/30 cursor-not-allowed">
+                        <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 {% endblock content%}

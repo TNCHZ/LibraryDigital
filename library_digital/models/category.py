@@ -5,3 +5,6 @@ class Category(BaseModel):
     __tablename__ = "category"
 
     name = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+    updated_at = db.Column(db.DateTime, nullable=False)
+    

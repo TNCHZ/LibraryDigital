@@ -5,4 +5,3 @@ class Reader(BaseModel):
     __tablename__ = "reader"
 
     id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
-    is_member = db.Column(db.Boolean, nullable=False)

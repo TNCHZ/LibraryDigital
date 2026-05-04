@@ -1,290 +1,224 @@
 {% extends 'admin/layout.html' %}
 
 {% block content %}
-<body class="bg-surface text-on-surface antialiased">
-<!-- SideNavBar Shell -->
-<aside class="h-screen w-72 flex flex-col fixed left-0 top-0 bg-[#f7f3ef] dark:bg-stone-900 shadow-[4px_0_24px_rgba(28,28,25,0.04)] z-50">
-<div class="flex flex-col h-full py-8 px-6 space-y-6">
-<!-- Brand Anchor -->
-<div class="px-2 mb-4">
-<div class="flex items-center gap-3 mb-2">
-<div class="w-10 h-10 bg-primary-container rounded flex items-center justify-center text-on-primary shadow-sm">
-<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
-</div>
-<div>
-<h1 class="text-lg font-black tracking-tighter text-[#533528] dark:text-[#f7f3ef] leading-tight">Library Admin</h1>
-<p class="font-['Plus_Jakarta_Sans'] text-xs font-medium text-[#6d4c3d]/60">Management Portal</p>
-</div>
-</div>
-</div>
-<!-- Primary Nav -->
-<nav class="flex-1 space-y-1">
-<!-- Dashboard Active -->
-<a class="flex items-center gap-3 px-4 py-3 text-[#533528] dark:text-[#fdf9f5] font-bold border-r-4 border-[#6d4c3d] bg-surface-container-highest/30 transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-<span class="font-['Plus_Jakarta_Sans'] text-sm">Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-[#fdf9f5] dark:hover:bg-stone-800 hover:translate-x-1 transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
-<span class="font-['Plus_Jakarta_Sans'] text-sm">Quản lý sách</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-[#fdf9f5] dark:hover:bg-stone-800 hover:translate-x-1 transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
-<span class="font-['Plus_Jakarta_Sans'] text-sm">Quản lý đơn mượn</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-[#fdf9f5] dark:hover:bg-stone-800 hover:translate-x-1 transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="group">group</span>
-<span class="font-['Plus_Jakarta_Sans'] text-sm">Quản lý người dùng</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-[#fdf9f5] dark:hover:bg-stone-800 hover:translate-x-1 transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
-<span class="font-['Plus_Jakarta_Sans'] text-sm">Báo cáo thống kê</span>
-</a>
-</nav>
-<!-- CTA -->
-<button class="w-full flex items-center justify-center gap-2 bg-primary text-on-primary py-3 px-4 rounded-lg font-bold text-sm transition-transform hover:scale-105 active:scale-95 shadow-lg shadow-primary/10">
-<span class="material-symbols-outlined" style="font-size: 18px">add</span>
-                Thêm mục mới
-            </button>
-<!-- Footer Nav -->
-<div class="pt-6 border-t border-outline-variant/10">
-<a class="flex items-center gap-3 px-4 py-3 text-[#6d4c3d]/70 dark:text-stone-400 hover:bg-[#fdf9f5] dark:hover:bg-stone-800 transition-all duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="logout">logout</span>
-<span class="font-['Plus_Jakarta_Sans'] text-sm">Đăng xuất</span>
-</a>
-</div>
-</div>
-</aside>
-<!-- Main Content Area -->
 <main class="ml-72 min-h-screen">
-<!-- TopNavBar Shell -->
-<header class="bg-[#fdf9f5]/80 dark:bg-stone-950/80 backdrop-blur-xl sticky top-0 z-40 w-full px-8 py-4 flex justify-between items-center transition-all">
-<div class="flex items-center gap-8 flex-1">
-<div class="relative w-full max-w-md">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50" data-icon="search">search</span>
-<input class="w-full pl-10 pr-4 py-2 bg-surface-container-high border-none rounded-full text-sm focus:ring-2 focus:ring-tertiary transition-all placeholder:text-on-surface-variant/40" placeholder="Search the archive..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-6">
-<div class="flex gap-4">
-<button class="text-[#6d4c3d] dark:text-[#d9a066] hover:text-[#533528] transition-colors duration-200 p-1">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<button class="text-[#6d4c3d] dark:text-[#d9a066] hover:text-[#533528] transition-colors duration-200 p-1">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-</button>
-</div>
-<div class="h-10 w-10 rounded-full bg-surface-container-highest overflow-hidden border-2 border-surface-container-low transition-transform hover:scale-105 duration-300">
-<img alt="Admin Profile" class="w-full h-full object-cover" data-alt="Close up portrait of a sophisticated middle-aged man in a charcoal suit against a minimal library background, soft editorial lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdq83AC2JuhWpeChj4mcTX1_ludat7FWmq3dVL_w--_sN2EQ7RqeqUnQdUrhWOcsX6ZnMsHVJQeTiEaiVc7nhxc0P_AeAtb9gapMhAnpN9vO3pN475cDnxT_dFOvNrVnxVEivGqiuoAfUe_pv68lP7s1QrmLWYUoLB3e5GJf94e0WIRIRiPbNy1K7QjU_LV-yLj42Op0LaoRc5nqorJt2HYhsprblM102DhIF6lTVb0x-rafh6HUd1UfzQmhgqsz1uMuvKX5J2jJ--"/>
-</div>
-</div>
-</header>
-<!-- Canvas -->
-<div class="p-8 max-w-7xl mx-auto space-y-10">
-<!-- Welcome Header -->
-<section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-<div>
-<h2 class="text-3xl font-extrabold tracking-tight text-primary">Dashboard</h2>
-<p class="text-on-surface-variant text-lg mt-1 italic opacity-80">Welcome back, Curator. The archive is flourishing.</p>
-</div>
-<div class="flex gap-3">
-<div class="px-4 py-2 bg-surface-container-lowest rounded shadow-sm flex items-center gap-2 text-sm font-medium border-l-4 border-tertiary">
-<span class="material-symbols-outlined text-tertiary text-lg" data-icon="calendar_today">calendar_today</span>
-                        October 24, 2023
+    <!-- TopNavBar Shell -->
+    <header
+        class="bg-[#fdf9f5]/80 dark:bg-stone-950/80 backdrop-blur-xl sticky top-0 z-40 w-full px-8 py-4 flex justify-between items-center transition-all">
+        <div class="flex items-center gap-8 flex-1">
+            <div class="relative w-full max-w-md">
+                <span
+                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50"
+                    data-icon="search">search</span>
+                <input
+                    class="w-full pl-10 pr-4 py-2 bg-surface-container-high border-none rounded-full text-sm focus:ring-2 focus:ring-tertiary transition-all placeholder:text-on-surface-variant/40"
+                    placeholder="Search the archive..." type="text" />
+            </div>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="flex gap-4">
+                <button
+                    class="text-[#6d4c3d] dark:text-[#d9a066] hover:text-[#533528] transition-colors duration-200 p-1">
+                    <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                </button>
+                <button
+                    class="text-[#6d4c3d] dark:text-[#d9a066] hover:text-[#533528] transition-colors duration-200 p-1">
+                    <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                </button>
+            </div>
+            <div
+                class="h-10 w-10 rounded-full bg-surface-container-highest overflow-hidden border-2 border-surface-container-low transition-transform hover:scale-105 duration-300">
+                <img alt="Admin Profile" class="w-full h-full object-cover"
+                    data-alt="Close up portrait of a sophisticated middle-aged man in a charcoal suit against a minimal library background, soft editorial lighting"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdq83AC2JuhWpeChj4mcTX1_ludat7FWmq3dVL_w--_sN2EQ7RqeqUnQdUrhWOcsX6ZnMsHVJQeTiEaiVc7nhxc0P_AeAtb9gapMhAnpN9vO3pN475cDnxT_dFOvNrVnxVEivGqiuoAfUe_pv68lP7s1QrmLWYUoLB3e5GJf94e0WIRIRiPbNy1K7QjU_LV-yLj42Op0LaoRc5nqorJt2HYhsprblM102DhIF6lTVb0x-rafh6HUd1UfzQmhgqsz1uMuvKX5J2jJ--" />
+            </div>
+        </div>
+    </header>
+    <!-- Canvas -->
+    <div class="p-8 max-w-7xl mx-auto space-y-10">
+        <!-- Welcome Header -->
+        <section class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <h2 class="text-3xl font-extrabold tracking-tight text-primary">Dashboard</h2>
+                <p class="text-on-surface-variant text-lg mt-1 italic opacity-80">Welcome back, Curator. The archive
+                    is flourishing.</p>
+            </div>
+            <div class="flex gap-3">
+                <div
+                    class="px-4 py-2 bg-surface-container-lowest rounded shadow-sm flex items-center gap-2 text-sm font-medium border-l-4 border-tertiary">
+                    <span class="material-symbols-outlined text-tertiary text-lg"
+                        data-icon="calendar_today">calendar_today</span>
+                    October 24, 2023
+                </div>
+            </div>
+        </section>
+        <!-- Stats Bento Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1 -->
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl hover:bg-surface-container-highest transition-all duration-300 group cursor-default">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 bg-primary/5 rounded-lg group-hover:bg-primary/10 transition-colors">
+                        <span class="material-symbols-outlined text-primary" data-icon="menu_book">menu_book</span>
                     </div>
-</div>
-</section>
-<!-- Stats Bento Grid -->
-<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-<!-- Card 1 -->
-<div class="bg-surface-container-lowest p-6 rounded-xl hover:bg-surface-container-highest transition-all duration-300 group cursor-default">
-<div class="flex justify-between items-start mb-4">
-<div class="p-3 bg-primary/5 rounded-lg group-hover:bg-primary/10 transition-colors">
-<span class="material-symbols-outlined text-primary" data-icon="menu_book">menu_book</span>
-</div>
-<span class="text-xs font-bold text-tertiary bg-tertiary-fixed px-2 py-1 rounded">+12%</span>
-</div>
-<p class="text-sm font-medium text-on-surface-variant/70 mb-1">Total Books</p>
-<h3 class="text-3xl font-extrabold text-primary">12,482</h3>
-</div>
-<!-- Card 2 -->
-<div class="bg-surface-container-lowest p-6 rounded-xl hover:bg-surface-container-highest transition-all duration-300 group cursor-default">
-<div class="flex justify-between items-start mb-4">
-<div class="p-3 bg-primary/5 rounded-lg group-hover:bg-primary/10 transition-colors">
-<span class="material-symbols-outlined text-primary" data-icon="assignment_return">assignment_return</span>
-</div>
-<span class="text-xs font-bold text-error bg-error-container px-2 py-1 rounded">-2%</span>
-</div>
-<p class="text-sm font-medium text-on-surface-variant/70 mb-1">Active Loans</p>
-<h3 class="text-3xl font-extrabold text-primary">1,154</h3>
-</div>
-<!-- Card 3 -->
-<div class="bg-surface-container-lowest p-6 rounded-xl hover:bg-surface-container-highest transition-all duration-300 group cursor-default">
-<div class="flex justify-between items-start mb-4">
-<div class="p-3 bg-primary/5 rounded-lg group-hover:bg-primary/10 transition-colors">
-<span class="material-symbols-outlined text-primary" data-icon="person">person</span>
-</div>
-<span class="text-xs font-bold text-tertiary bg-tertiary-fixed px-2 py-1 rounded">+8%</span>
-</div>
-<p class="text-sm font-medium text-on-surface-variant/70 mb-1">Active Users</p>
-<h3 class="text-3xl font-extrabold text-primary">3,892</h3>
-</div>
-<!-- Card 4 -->
-<div class="bg-surface-container-lowest p-6 rounded-xl hover:bg-surface-container-highest transition-all duration-300 group cursor-default">
-<div class="flex justify-between items-start mb-4">
-<div class="p-3 bg-primary/5 rounded-lg group-hover:bg-primary/10 transition-colors">
-<span class="material-symbols-outlined text-primary" data-icon="pending_actions">pending_actions</span>
-</div>
-<span class="text-xs font-bold text-primary-container bg-primary-fixed px-2 py-1 rounded">24 New</span>
-</div>
-<p class="text-sm font-medium text-on-surface-variant/70 mb-1">Pending Requests</p>
-<h3 class="text-3xl font-extrabold text-primary">186</h3>
-</div>
-</section>
-<!-- Main Insights Layout -->
-<section class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-<!-- Recent Activity (Asymmetric Table Pattern) -->
-<div class="lg:col-span-2 space-y-6">
-<div class="flex justify-between items-center px-2">
-<h3 class="text-xl font-bold text-primary flex items-center gap-2">
-<span class="material-symbols-outlined" data-icon="history">history</span>
-                            Recent Activity
-                        </h3>
-<a class="text-sm font-semibold text-tertiary-container hover:underline" href="#">View archive</a>
-</div>
-<div class="bg-surface-container-low rounded-2xl overflow-hidden">
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="text-xs uppercase tracking-widest text-on-surface-variant/50 border-b border-outline-variant/10">
-<th class="px-6 py-5 font-bold">Patron</th>
-<th class="px-6 py-5 font-bold">Action</th>
-<th class="px-6 py-5 font-bold">Item</th>
-<th class="px-6 py-5 font-bold">Status</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-outline-variant/10">
-<tr class="hover:bg-surface-container-highest/40 transition-colors cursor-pointer">
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-xs font-bold text-primary">EN</div>
-<span class="text-sm font-semibold">Eleanor Nguyen</span>
-</div>
-</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant">Borrowed</td>
-<td class="px-6 py-5">
-<span class="text-sm font-medium italic">The Great Gatsby</span>
-</td>
-<td class="px-6 py-5">
-<span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-black uppercase tracking-tighter rounded">In Progress</span>
-</td>
-</tr>
-<tr class="hover:bg-surface-container-highest/40 transition-colors cursor-pointer">
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-xs font-bold text-secondary">LH</div>
-<span class="text-sm font-semibold">Lâm Hoàng</span>
-</div>
-</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant">Returned</td>
-<td class="px-6 py-5">
-<span class="text-sm font-medium italic">Sapiens: A Brief History</span>
-</td>
-<td class="px-6 py-5">
-<span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-black uppercase tracking-tighter rounded">Completed</span>
-</td>
-</tr>
-<tr class="hover:bg-surface-container-highest/40 transition-colors cursor-pointer">
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-xs font-bold text-primary">PT</div>
-<span class="text-sm font-semibold">Phạm Thảo</span>
-</div>
-</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant">Requested</td>
-<td class="px-6 py-5">
-<span class="text-sm font-medium italic">Beyond the Blue Horizon</span>
-</td>
-<td class="px-6 py-5">
-<span class="px-2 py-1 bg-primary-fixed text-on-primary-fixed text-[10px] font-black uppercase tracking-tighter rounded">Pending</span>
-</td>
-</tr>
-<tr class="hover:bg-surface-container-highest/40 transition-colors cursor-pointer">
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center text-xs font-bold text-tertiary">AD</div>
-<span class="text-sm font-semibold">An Đặng</span>
-</div>
-</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant">Reserved</td>
-<td class="px-6 py-5">
-<span class="text-sm font-medium italic">Midnight's Children</span>
-</td>
-<td class="px-6 py-5">
-<span class="px-2 py-1 bg-primary-fixed text-on-primary-fixed text-[10px] font-black uppercase tracking-tighter rounded">Pending</span>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<!-- Recent Acquisitions (Visual Card Stack) -->
-<div class="space-y-6">
-<div class="flex justify-between items-center px-2">
-<h3 class="text-xl font-bold text-primary">New Arrivals</h3>
-</div>
-<div class="space-y-4">
-<!-- Book Card 1 -->
-<div class="group bg-surface-container-lowest p-4 rounded-xl flex gap-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl shadow-surface-tint/5 border-l-2 border-transparent hover:border-tertiary">
-<div class="w-16 h-24 bg-surface-container-highest rounded overflow-hidden shadow-md flex-shrink-0">
-<img alt="The Alchemist Book Cover" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Vertical close-up shot of a classic hardcover book titled The Alchemist, worn leather texture, gold leaf lettering, aesthetic library setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3tlpQ418MRyrub61S2P4w8bLQphqoczubRHkCAgC1f-ck297QKmfMhyxQeNPSSIJGQs_DQ-T6A1gqQoKk7uTUVdEPryCPkVaosvBCg7hN74kYEw-addpOI5jmuAr9e_UFaD2dy7zfSxBwI7-g_Yrt12jqiLnixkzvBrhan0-AOUWNVLsgVM90zVULFToGgFEUNSdCDAnvZIWDmhljnmirdYjkKCQ2Jvax7gQfbQuvi7XBflks0bZxemQpmsytmVv-I0RHB5Cphu9W"/>
-</div>
-<div class="flex flex-col justify-center">
-<span class="text-[10px] font-bold text-tertiary-container tracking-widest uppercase mb-1">Philosophy</span>
-<h4 class="text-sm font-bold text-primary leading-tight line-clamp-2">The Alchemist: Anniversary Edition</h4>
-<p class="text-xs text-on-surface-variant mt-1">Paulo Coelho</p>
-<p class="text-[10px] text-on-surface-variant/50 mt-2">Added 2 hours ago</p>
-</div>
-</div>
-<!-- Book Card 2 -->
-<div class="group bg-surface-container-lowest p-4 rounded-xl flex gap-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl shadow-surface-tint/5 border-l-2 border-transparent hover:border-tertiary">
-<div class="w-16 h-24 bg-surface-container-highest rounded overflow-hidden shadow-md flex-shrink-0">
-<img alt="Law Book Cover" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Stack of old dusty law books with thick bindings on a mahogany shelf, soft warm sunlight filtering through an old window" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfEVisA72hpBRyg5NmQagUVq5gb2ueUilJKo9C7tArJzSjHBXWbHP15MRyMM2w4dQESrHYmggp7ANm5DxOIzMBimMmtUO_9Iy7jLdbnOpude6qIxEO7arYbMrEqTofaBCySWhL8BeidTYtMn7OWYLaeyrkiubyg00d78dbcEcvdYIdNaqGaLcYQO0_uIFokWEHhyTNwHWX-z70MQcRHNEzeFkGifsRCv9gol8c_ICn4JSExcEmpm5HoZxO14wbtUXjSAbCN_b_YJLP"/>
-</div>
-<div class="flex flex-col justify-center">
-<span class="text-[10px] font-bold text-tertiary-container tracking-widest uppercase mb-1">Jurisprudence</span>
-<h4 class="text-sm font-bold text-primary leading-tight line-clamp-2">Principles of Modern Civil Law</h4>
-<p class="text-xs text-on-surface-variant mt-1">Dr. Julian Thorne</p>
-<p class="text-[10px] text-on-surface-variant/50 mt-2">Added 5 hours ago</p>
-</div>
-</div>
-<!-- Book Card 3 -->
-<div class="group bg-surface-container-lowest p-4 rounded-xl flex gap-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl shadow-surface-tint/5 border-l-2 border-transparent hover:border-tertiary">
-<div class="w-16 h-24 bg-surface-container-highest rounded overflow-hidden shadow-md flex-shrink-0">
-<img alt="Science Book Cover" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Cover of a book about astrophysics with high-contrast nebula imagery and elegant serif typography, clean aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQlCVkSNqAPoLhZP_rIIAJjcYlvhd7hrmzVUoCI9TAIUKzb2PcQ8uPTTs5zI28Z95_cEDgI9W0i0QJeBPGVyyGfkeLJB_BPTildNacxTgc1kYid6XwbgITKF4qmnb3W9WDpjL3R3u46lrncPBILr-RIhmIn0Q4-lOmgUyTIHdVva-56hwkxxx9PKUqG21d4UJu7WcVuxi4YZ7COXW4B9noucGFBezFpye8aFmzEU--4H-JU8FjpUA67DgUhWf1Lx8WEcHlD7MJJmWn"/>
-</div>
-<div class="flex flex-col justify-center">
-<span class="text-[10px] font-bold text-tertiary-container tracking-widest uppercase mb-1">Science</span>
-<h4 class="text-sm font-bold text-primary leading-tight line-clamp-2">The Fabric of the Cosmos</h4>
-<p class="text-xs text-on-surface-variant mt-1">Brian Greene</p>
-<p class="text-[10px] text-on-surface-variant/50 mt-2">Added Yesterday</p>
-</div>
-</div>
-</div>
-<div class="bg-primary p-6 rounded-2xl relative overflow-hidden text-on-primary">
-<div class="relative z-10">
-<h4 class="font-bold text-lg mb-2">Space Check</h4>
-<p class="text-xs text-on-primary/70 mb-4 leading-relaxed">Storage is currently at 84% capacity. Consider archiving older logs.</p>
-<div class="w-full bg-primary-container h-2 rounded-full overflow-hidden">
-<div class="bg-tertiary-fixed w-[84%] h-full"></div>
-</div>
-</div>
-<!-- Decorative element -->
-<div class="absolute -right-8 -bottom-8 w-24 h-24 bg-primary-container rounded-full opacity-20"></div>
-</div>
-</div>
-</section>
-</div>
+                    <span class="text-xs font-bold text-tertiary bg-tertiary-fixed px-2 py-1 rounded">+12%</span>
+                </div>
+                <p class="text-sm font-medium text-on-surface-variant/70 mb-1">Total Books</p>
+                <h3 class="text-3xl font-extrabold text-primary">{{ "{:,}".format(stats.total_books) if stats else "0" }}</h3>
+            </div>
+            <!-- Card 2 -->
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl hover:bg-surface-container-highest transition-all duration-300 group cursor-default">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 bg-primary/5 rounded-lg group-hover:bg-primary/10 transition-colors">
+                        <span class="material-symbols-outlined text-primary"
+                            data-icon="assignment_return">assignment_return</span>
+                    </div>
+                    <span class="text-xs font-bold text-error bg-error-container px-2 py-1 rounded">-2%</span>
+                </div>
+                <p class="text-sm font-medium text-on-surface-variant/70 mb-1">Active Loans</p>
+                <h3 class="text-3xl font-extrabold text-primary">{{ "{:,}".format(stats.active_loans) if stats else "0" }}</h3>
+            </div>
+            <!-- Card 3 -->
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl hover:bg-surface-container-highest transition-all duration-300 group cursor-default">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 bg-primary/5 rounded-lg group-hover:bg-primary/10 transition-colors">
+                        <span class="material-symbols-outlined text-primary" data-icon="person">person</span>
+                    </div>
+                    <span class="text-xs font-bold text-tertiary bg-tertiary-fixed px-2 py-1 rounded">+8%</span>
+                </div>
+                <p class="text-sm font-medium text-on-surface-variant/70 mb-1">Active Users</p>
+                <h3 class="text-3xl font-extrabold text-primary">{{ "{:,}".format(stats.total_users) if stats else "0" }}</h3>
+            </div>
+            <!-- Card 4 -->
+            <div
+                class="bg-surface-container-lowest p-6 rounded-xl hover:bg-surface-container-highest transition-all duration-300 group cursor-default">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 bg-primary/5 rounded-lg group-hover:bg-primary/10 transition-colors">
+                        <span class="material-symbols-outlined text-primary"
+                            data-icon="pending_actions">pending_actions</span>
+                    </div>
+                    <span class="text-xs font-bold text-primary-container bg-primary-fixed px-2 py-1 rounded">{{ stats.new_users_this_month if stats else "0" }}
+                        New</span>
+                </div>
+                <p class="text-sm font-medium text-on-surface-variant/70 mb-1">Pending Requests</p>
+                <h3 class="text-3xl font-extrabold text-primary">{{ "{:,}".format(stats.pending_loans) if stats else "0" }}</h3>
+            </div>
+        </section>
+        <!-- Main Insights Layout -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <!-- Recent Activity (Asymmetric Table Pattern) -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="flex justify-between items-center px-2">
+                    <h3 class="text-xl font-bold text-primary flex items-center gap-2">
+                        <span class="material-symbols-outlined" data-icon="history">history</span>
+                        Recent Activity
+                    </h3>
+                    <a class="text-sm font-semibold text-tertiary-container hover:underline" href="#">View
+                        archive</a>
+                </div>
+                <div class="bg-surface-container-low rounded-2xl overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr
+                                    class="text-xs uppercase tracking-widest text-on-surface-variant/50 border-b border-outline-variant/10">
+                                    <th class="px-6 py-5 font-bold">Patron</th>
+                                    <th class="px-6 py-5 font-bold">Action</th>
+                                    <th class="px-6 py-5 font-bold">Item</th>
+                                    <th class="px-6 py-5 font-bold">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-outline-variant/10">
+                                {% for activity in recent_activities %}
+                                <tr class="hover:bg-surface-container-highest/40 transition-colors cursor-pointer">
+                                    <td class="px-6 py-5">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-xs font-bold text-primary">
+                                                {{ activity.reader.first_name[0] }}{{ activity.reader.last_name[0] }}</div>
+                                            <span class="text-sm font-semibold">{{ activity.reader.full_name }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-5 text-sm text-on-surface-variant">{{ activity.status.value }}</td>
+                                    <td class="px-6 py-5">
+                                        <span class="text-sm font-medium italic">{{ activity.book.title }}</span>
+                                    </td>
+                                    <td class="px-6 py-5">
+                                        {% if activity.status.value == 'BORROWING' %}
+                                            <span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-black uppercase tracking-tighter rounded">In Progress</span>
+                                        {% elif activity.status.value == 'RETURNED' %}
+                                            <span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-black uppercase tracking-tighter rounded">Completed</span>
+                                        {% elif activity.status.value == 'RESERVED' %}
+                                            <span class="px-2 py-1 bg-primary-fixed text-on-primary-fixed text-[10px] font-black uppercase tracking-tighter rounded">Pending</span>
+                                        {% else %}
+                                            <span class="px-2 py-1 bg-error-container text-on-error-container text-[10px] font-black uppercase tracking-tighter rounded">{{ activity.status.value }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" class="px-6 py-5 text-center text-sm text-on-surface-variant">
+                                        No recent activities found
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Recent Acquisitions (Visual Card Stack) -->
+            <div class="space-y-6">
+                <div class="flex justify-between items-center px-2">
+                    <h3 class="text-xl font-bold text-primary">New Arrivals</h3>
+                </div>
+                <div class="space-y-4">
+                    {% for book in new_books %}
+                    <div
+                        class="group bg-surface-container-lowest p-4 rounded-xl flex gap-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl shadow-surface-tint/5 border-l-2 border-transparent hover:border-tertiary">
+                        <div
+                            class="w-16 h-24 bg-surface-container-highest rounded overflow-hidden shadow-md flex-shrink-0">
+                            <img alt="{{ book.title }} Book Cover"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                src="{{ book.image or 'https://via.placeholder.com/300x400?text=No+Cover' }}" />
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            {% if book.categories %}
+                                <span
+                                    class="text-[10px] font-bold text-tertiary-container tracking-widest uppercase mb-1">{{ book.categories[0].name if book.categories else 'General' }}</span>
+                            {% else %}
+                                <span
+                                    class="text-[10px] font-bold text-tertiary-container tracking-widest uppercase mb-1">General</span>
+                            {% endif %}
+                            <h4 class="text-sm font-bold text-primary leading-tight line-clamp-2">{{ book.title }}</h4>
+                            <p class="text-xs text-on-surface-variant mt-1">{{ book.author }}</p>
+                            <p class="text-[10px] text-on-surface-variant/50 mt-2">Added {{ book.created_at.strftime('%b %d, %Y') if book.created_at else 'Recently' }}</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-8 text-on-surface-variant">
+                        <span class="material-symbols-outlined text-4xl mb-2 block">library_books</span>
+                        <p class="text-sm">No new books available</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="bg-primary p-6 rounded-2xl relative overflow-hidden text-on-primary">
+                    <div class="relative z-10">
+                        <h4 class="font-bold text-lg mb-2">Space Check</h4>
+                        <p class="text-xs text-on-primary/70 mb-4 leading-relaxed">Storage is currently at 84%
+                            capacity. Consider archiving older logs.</p>
+                        <div class="w-full bg-primary-container h-2 rounded-full overflow-hidden">
+                            <div class="bg-tertiary-fixed w-[84%] h-full"></div>
+                        </div>
+                    </div>
+                    <!-- Decorative element -->
+                    <div class="absolute -right-8 -bottom-8 w-24 h-24 bg-primary-container rounded-full opacity-20">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 </main>
 {% endblock %}

@@ -28,7 +28,7 @@ def add_user(first_name, last_name, username, password, email, phone, gender, **
     db.session.add(user)
     db.session.flush()
 
-    reader = Reader(user_id=user.id)
+    reader = Reader(id=user.id)
     db.session.add(reader)
 
 
@@ -529,13 +529,13 @@ def admin_add_user(first_name, last_name, username, password, email, phone, gend
     db.session.flush()
 
     if role == "ADMIN":
-        admin = Admin(user_id=user.id)
+        admin = Admin(id=user.id)
         db.session.add(admin)
     elif role == "LIBRARIAN":
-        librarian = Librarian(user_id=user.id)
+        librarian = Librarian(id=user.id)
         db.session.add(librarian)
     elif role == "READER":
-        reader = Reader(user_id=user.id)
+        reader = Reader(id=user.id)
         db.session.add(reader)
 
     db.session.commit()

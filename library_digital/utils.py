@@ -329,11 +329,11 @@ def can_borrow(reader_id, book_id):
     if active_count >= book.quantity:
         return False, "Sách đã hết"
 
-    if latest_slip.status == BorrowStatus.BORROWING or latest_slip.status == BorrowStatus.RESERVED:
+    if latest_slip and (
+        latest_slip.status == BorrowStatus.BORROWING or
+        latest_slip.status == BorrowStatus.RESERVED
+    ):
         return False, "Đang mượn sách"
-
-    if not latest_slip:
-        return True, "OK"
 
     return True, "OK"
 
